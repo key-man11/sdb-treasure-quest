@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
+
   <title>SDB Treasure Quest</title>
 
   <style>
@@ -16,7 +17,7 @@
       margin: 0;
       min-height: 100vh;
       min-height: 100dvh;
-      font-family: Arial, sans-serif;
+      font-family: Arial, "Malgun Gothic", sans-serif;
       background: linear-gradient(160deg, #101e39, #253e65);
       color: white;
       display: flex;
@@ -29,6 +30,10 @@
       width: 100%;
       max-width: 420px;
       text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .logo {
@@ -67,16 +72,141 @@
       cursor: pointer;
     }
 
+    .start-button:hover {
+      background: #ffda7d;
+    }
+
+    .start-button:active {
+      transform: scale(0.98);
+    }
+
     .notice {
       margin-top: 25px;
       color: #aabbd5;
       font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* 참여자 등록 화면 */
+
+    .register-icon {
+      font-size: 55px;
+      margin: 30px 0 15px;
+    }
+
+    .register-title {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .register-description {
+      color: #c7d5ec;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 10px;
+      color: #dce5f5;
+      font-size: 14px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #526785;
+      border-radius: 12px;
+      background: #263b5c;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #f6c85f;
+    }
+
+    .input-group input::placeholder {
+      color: #aabbd5;
+    }
+
+    .back-button {
+      margin-top: 18px;
+      padding: 12px;
+      background: transparent;
+      border: none;
+      color: #c7d5ec;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .error-message {
+      min-height: 22px;
+      margin: 12px 0;
+      color: #ff9a9a;
+      font-size: 13px;
+    }
+
+    /* 참여 확인 완료 화면 */
+
+    .success-icon {
+      font-size: 75px;
+      margin: 30px 0 15px;
+    }
+
+    .success-title {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .success-description {
+      color: #c7d5ec;
+      line-height: 1.8;
+      margin-bottom: 35px;
+    }
+
+    .test-badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: rgba(246, 200, 95, 0.15);
+      color: #f6d47c;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .treasure {
+        font-size: 85px;
+      }
+
+      .register-title,
+      .success-title {
+        font-size: 25px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main class="container">
+
+  <!-- 1. 게임 시작 화면 -->
+  <main class="container" id="startScreen">
+
     <div class="logo">SDB TREASURE QUEST</div>
 
     <div class="treasure">🎁</div>
@@ -91,20 +221,221 @@
       미션을 해결해 코인을 획득하세요.
     </p>
 
-    <button class="start-button" id="startButton">
+    <button
+      type="button"
+      class="start-button"
+      id="startButton">
       탐험 시작하기
     </button>
 
     <p class="notice">
       SDB AR TREASURE HUNT · TEST VERSION
     </p>
+
   </main>
 
+
+  <!-- 2. 참여자 등록 화면 -->
+  <section class="container hidden" id="registerScreen">
+
+    <div class="logo">SDB TREASURE QUEST</div>
+
+    <div class="register-icon">🧭</div>
+
+    <h2 class="register-title">탐험가 등록</h2>
+
+    <p class="register-description">
+      참여자 정보를 입력하고<br>
+      보물찾기 탐험을 시작하세요.
+    </p>
+
+    <form id="registerForm">
+
+      <div class="input-group">
+        <label for="employeeName">이름</label>
+
+        <input
+          type="text"
+          id="employeeName"
+          placeholder="이름을 입력하세요"
+          autocomplete="off"
+          required>
+      </div>
+
+      <div class="input-group">
+        <label for="employeeId">사번</label>
+
+        <input
+          type="text"
+          id="employeeId"
+          placeholder="테스트 사번을 입력하세요"
+          autocomplete="off"
+          required>
+      </div>
+
+      <p class="error-message" id="registerError"
+         role="alert"></p>
+
+      <button type="submit" class="start-button">
+        참여 확인 후 시작하기
+      </button>
+
+    </form>
+
+    <button
+      type="button"
+      class="back-button"
+      id="backButton">
+      ← 이전 화면으로
+    </button>
+
+    <p class="notice">
+      TEST VERSION<br>
+      실제 직원 정보는 입력하지 마세요.
+    </p>
+
+  </section>
+
+
+  <!-- 3. 참여 확인 완료 화면 -->
+  <section class="container hidden" id="successScreen">
+
+    <div class="logo">SDB TREASURE QUEST</div>
+
+    <div class="success-icon">🏆</div>
+
+    <div class="test-badge">
+      TEST PARTICIPANT
+    </div>
+
+    <h2 class="success-title">
+      탐험 준비 완료!
+    </h2>
+
+    <p class="success-description">
+      <strong id="welcomeName"></strong> 탐험가님,<br>
+      SDB 보물찾기에 오신 것을 환영합니다.<br><br>
+      이제 숨겨진 보물을 찾아 떠나볼까요?
+    </p>
+
+    <button
+      type="button"
+      class="start-button"
+      id="gameButton">
+      보물찾기 시작하기
+    </button>
+
+    <button
+      type="button"
+      class="back-button"
+      id="restartButton">
+      처음으로 돌아가기
+    </button>
+
+    <p class="notice">
+      다음 단계에서 AR 게임 화면이 연결됩니다.
+    </p>
+
+  </section>
+
+
   <script>
+    // 화면 요소
+    const startScreen =
+      document.getElementById("startScreen");
+
+    const registerScreen =
+      document.getElementById("registerScreen");
+
+    const successScreen =
+      document.getElementById("successScreen");
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const registerError =
+      document.getElementById("registerError");
+
+
+    // 화면 전환 함수
+    function showScreen(screen) {
+      startScreen.classList.add("hidden");
+      registerScreen.classList.add("hidden");
+      successScreen.classList.add("hidden");
+
+      screen.classList.remove("hidden");
+    }
+
+
+    // 탐험 시작 버튼
     document.getElementById("startButton")
       .addEventListener("click", function () {
-        alert("다음 단계에서 참여자 인증 기능을 연결합니다.");
+        showScreen(registerScreen);
+      });
+
+
+    // 이전 화면 버튼
+    document.getElementById("backButton")
+      .addEventListener("click", function () {
+        registerError.textContent = "";
+        showScreen(startScreen);
+      });
+
+
+    // 참여자 등록
+    registerForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const name = document
+        .getElementById("employeeName")
+        .value.trim();
+
+      const employeeId = document
+        .getElementById("employeeId")
+        .value.trim();
+
+      registerError.textContent = "";
+
+      if (!name || !employeeId) {
+        registerError.textContent =
+          "이름과 사번을 모두 입력해주세요.";
+        return;
+      }
+
+      // 개발용 가상 계정
+      // 실제 인증은 추후 비공개 서버에서 처리
+      if (name === "테스트" && employeeId === "TEST001") {
+
+        document.getElementById("welcomeName")
+          .textContent = name;
+
+        showScreen(successScreen);
+
+      } else {
+        registerError.textContent =
+          "테스트 계정이 일치하지 않습니다.";
+      }
+    });
+
+
+    // 게임 시작 버튼
+    document.getElementById("gameButton")
+      .addEventListener("click", function () {
+        alert(
+          "참여 확인이 완료되었습니다!\n" +
+          "다음 단계에서 AR 보물찾기 화면을 연결합니다."
+        );
+      });
+
+
+    // 처음으로 돌아가기
+    document.getElementById("restartButton")
+      .addEventListener("click", function () {
+        registerForm.reset();
+        registerError.textContent = "";
+        showScreen(startScreen);
       });
   </script>
+
 </body>
 </html>
