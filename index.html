@@ -34,11 +34,12 @@
 #quizScreen .card{width:min(100%,460px)}
 .quizChoice{display:block;width:100%;padding:14px;margin:10px 0;border-radius:12px;border:1px solid #688094;background:#29495c;color:#fff;font-size:16px;text-align:left;cursor:pointer}
 .quizChoice:focus-visible{outline:3px solid #ffe8a5}
+.arEmoji{display:block;font-size:104px;line-height:1.2;filter:drop-shadow(0 5px 12px #0008)}
 </style></head><body><div class="snow"></div><div class="shell"><div class="brand">✦ SDB CHRISTMAS QUEST ✦</div>
 <section id="start" class="card center"><div class="hero" aria-hidden="true">🎅🎁</div><div class="gold">2026 CHRISTMAS EVENT · DEMO</div><h1 class="title">사라진 산타의<br>선물을 찾아라!</h1><p class="subtitle">산타가 이웃에게 전할 선물을 잃어버렸어요.<br>회사 곳곳에 숨겨진 선물을 찾고<br>따뜻한 크리스마스를 함께 완성해주세요.</p><h3 class="gold">우리가 찾은 선물이,<br>누군가의 기쁨이 됩니다.</h3><button class="btn" id="begin">산타의 부탁 들어주기</button><p class="muted">시제품 · 실제 회사 위치 및 직원 정보는 사용하지 않습니다.</p></section>
 <section id="register" class="card hidden"><div class="center hero" aria-hidden="true">🧭</div><h2 class="center">탐험가 등록</h2><p class="subtitle center">테스트 계정으로 크리스마스 탐험을 시작하세요.</p><form id="form"><label for="name">이름</label><input id="name" required autocomplete="off" placeholder="테스트"><label for="emp">사번</label><input id="emp" required autocomplete="off" placeholder="TEST001"><p class="error" id="error" role="alert"></p><button class="btn" type="submit">참여 확인 후 시작하기</button></form><button class="btn alt" id="back">이전 화면</button><p class="muted center">가상 계정: 테스트 / TEST001<br>실제 이름과 사번은 입력하지 마세요.</p></section>
 <section id="welcome" class="card center hidden"><div class="hero">🎄</div><h2>산타의 긴급 요청!</h2><p class="subtitle"><strong id="greeting"></strong> 탐험가님!<br>선물상자, 요정, 종, 루돌프를 찾아<br>산타의 선물 배달을 도와주세요.</p><p class="gold">여러분의 참여가 지역사회에 전할<br>따뜻한 마음을 더합니다.</p><button class="btn" id="enter">크리스마스 탐험 시작</button></section>
-<section id="dashboard" class="hidden"><div class="card"><div class="center">🎄 <span class="gold">CHRISTMAS GIVING</span> 🎄</div><h2 id="playerTitle">나의 크리스마스 탐험</h2><div class="stats"><div class="stat">나의 크리스마스 별<strong id="stars">0 / 5</strong></div><div class="stat">완료 미션<strong id="done">0 / 5</strong></div></div><h3>우리 함께 완성하는 선물</h3><p class="subtitle" id="giftText">시연용 공동 선물 완성률: 0%</p><div class="bar"><div class="fill" id="progress"></div></div><p class="muted">시연용 수치입니다. 실제 기부 실적이나 전 직원 참여 집계가 아닙니다. 회사의 기본 지원은 미션 달성 여부와 무관하게 별도 확정·집행합니다.</p></div><div class="card"><h2>🎁 산타의 다섯 가지 미션</h2><p class="muted">원하는 미션을 선택해 테스트해 보세요. 첫 번째 미션은 포스터 이미지 인식 AR 테스트입니다. 나머지는 시연 모드입니다.</p><div id="missions"></div></div><div class="card"><h2>✨ SECRET MISSION</h2><button class="mission" id="golden"><span class="emoji">🦌</span><span class="detail"><strong>황금 루돌프를 찾아라!</strong><small>특별 미션 · 보너스 별 1개</small></span><span class="pill" id="goldStatus">도전</span></button><p class="muted">보너스 별은 기본 5개와 별도로 집계합니다.</p></div><button class="btn alt" id="reset">테스트 진행 기록 초기화</button></section>
+<section id="dashboard" class="hidden"><div class="card"><div class="center">🎄 <span class="gold">CHRISTMAS GIVING</span> 🎄</div><h2 id="playerTitle">나의 크리스마스 탐험</h2><div class="stats"><div class="stat">나의 크리스마스 별<strong id="stars">0 / 5</strong></div><div class="stat">완료 미션<strong id="done">0 / 5</strong></div></div><h3>우리 함께 완성하는 선물</h3><p class="subtitle" id="giftText">시연용 공동 선물 완성률: 0%</p><div class="bar"><div class="fill" id="progress"></div></div><p class="muted">시연용 수치입니다. 실제 기부 실적이나 전 직원 참여 집계가 아닙니다. 회사의 기본 지원은 미션 달성 여부와 무관하게 별도 확정·집행합니다.</p></div><div class="card"><h2>🎁 산타의 다섯 가지 미션</h2><p class="muted">원하는 미션을 선택해 테스트해 보세요. 각 미션의 전용 포스터를 인식한 후 캐릭터를 터치해 별을 획득하세요. (시제품)</p><div id="missions"></div></div><div class="card"><h2>✨ SECRET MISSION</h2><button class="mission" id="golden"><span class="emoji">🦌</span><span class="detail"><strong>황금 루돌프를 찾아라!</strong><small>특별 미션 · 보너스 별 1개</small></span><span class="pill" id="goldStatus">도전</span></button><p class="muted">보너스 별은 기본 5개와 별도로 집계합니다.</p></div><button class="btn alt" id="reset">테스트 진행 기록 초기화</button></section>
 <section id="missionView" class="card hidden center"><div class="hero" id="missionIcon">🎁</div><div class="gold" id="missionNumber">MISSION 01</div><h2 id="missionTitle"></h2><p class="subtitle" id="missionMessage"></p><div class="card" style="background:#29475a" id="arNotice"><strong id="arNoticeTitle">🧪 AR 시제품 테스트</strong><p class="muted" id="arNoticeText">첫 번째 미션은 크리스마스 포스터를 인식해야 선물이 나타납니다.</p></div><button class="btn" id="openAr">📷 AR 카메라로 선물 찾기</button><button class="btn" id="complete">테스트 미션 완료 · 별 획득</button><button class="btn alt" id="missionBack">미션 목록으로</button></section>
 <section id="arScreen" class="hidden" aria-label="AR 선물 찾기"><div id="mindarContainer"></div><div class="arShade"></div><div class="arTop"><div><strong>🎄 MISSION 01</strong><div style="font-size:13px;margin-top:7px">크리스마스 포스터를 카메라로 비춰주세요!</div></div><button class="arClose" id="arClose" type="button">✕ 닫기</button></div><div class="arCenter"><button id="arGift" class="arGift" type="button" aria-label="선물상자 발견하기"><span id="arCharacter" class="giftObject"><span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span></span><span class="arGiftLabel">🎁 선물상자 터치!</span></button></div><div class="arBottom"><p id="arHint">포스터를 비추면 선물상자가 나타납니다.</p><div class="muted">이미지 인식 테스트 · 포스터 사진으로도 인식될 수 있습니다.</div></div></section>
 <section id="quizScreen" class="hidden" aria-label="요정의 수수께끼"><div class="card center"><div class="hero">🧝</div><h2>요정의 수수께끼</h2><p class="subtitle">나눌수록 더 커지고, 누군가에게 전하면 따뜻해지는 것은 무엇일까요?</p><button class="quizChoice" data-answer="0">① 선물상자</button><button class="quizChoice" data-answer="1">② 따뜻한 마음</button><button class="quizChoice" data-answer="2">③ 크리스마스트리</button><p id="quizFeedback" class="error" role="status"></p><button class="btn alt" id="quizBack" type="button">미션 화면으로 돌아가기</button></div></section><div class="footer">SDB CHRISTMAS QUEST · UI PROTOTYPE · NOT A LIVE DONATION COUNTER</div></div>
@@ -89,8 +90,8 @@ function render(){
  $('missions').replaceChildren();missions.forEach((m,i)=>{const b=document.createElement('button');b.className='mission';const e=document.createElement('span');e.className='emoji';e.textContent=m.icon;const d=document.createElement('span');d.className='detail';const strong=document.createElement('strong');strong.textContent=m.title;const small=document.createElement('small');small.textContent=m.place;d.append(strong,small);const status=document.createElement('span');status.className='pill';status.textContent=completed.has(i)?'완료':'도전';b.append(e,d,status);b.onclick=()=>openMission(i);$('missions').append(b)});
  $('goldStatus').textContent=goldDone?'완료':'도전';$('golden').disabled=goldDone;
 }
-function openMission(i){void stopCamera();giftFound=false;current=i;const m=missions[i];$('missionIcon').textContent=m.icon;$('missionNumber').textContent='MISSION '+String(i+1).padStart(2,'0');$('missionTitle').textContent=m.title;$('missionMessage').textContent=m.text;$('openAr').classList.toggle('hidden',i>1||completed.has(i));$('arNoticeTitle').textContent=i<=1?'📷 포스터 인식 AR 테스트':'🧪 다른 미션은 시연 모드';$('arNoticeText').textContent=i===0?'첫 번째 포스터를 비추고 선물을 터치하세요.':i===1?'두 번째 요정 포스터를 비추고 요정을 터치한 뒤 수수께끼를 풀어보세요.':'이 미션은 아직 카메라 기능을 연결하지 않았습니다.';$('complete').disabled=completed.has(i)||(i<=1&&!giftFound);$('complete').textContent=completed.has(i)?'이미 완료한 미션':i===0?'선물 발견 후 별 획득':i===1?'수수께끼 해결 후 별 획득':'테스트 미션 완료 · 별 획득';show('missionView')}
-$('complete').onclick=()=>{if(current<0||completed.has(current)||(current<=1&&!giftFound))return;completed.add(current);render();show('dashboard');if(completed.size===5)alert('🎄 모든 선물을 찾았습니다!\n우리의 작은 발견이 따뜻한 나눔으로 이어집니다.\n(시연용 완료 메시지)')};
+function openMission(i){void stopCamera();giftFound=false;current=i;const m=missions[i];$('missionIcon').textContent=m.icon;$('missionNumber').textContent='MISSION '+String(i+1).padStart(2,'0');$('missionTitle').textContent=m.title;$('missionMessage').textContent=m.text;$('openAr').classList.toggle('hidden',completed.has(i));$('arNoticeTitle').textContent='📷 포스터 인식 AR 미션';$('arNoticeText').textContent=i===0?'첫 번째 포스터를 비추고 선물을 터치하세요.':i===1?'두 번째 요정 포스터를 비추고 요정을 터치한 뒤 수수께끼를 풀어보세요.':'이 미션의 전용 포스터를 비추고 등장한 캐릭터를 터치하세요.';$('complete').disabled=completed.has(i)||(!giftFound);$('complete').textContent=completed.has(i)?'이미 완료한 미션':i===0?'선물 발견 후 별 획득':i===1?'수수께끼 해결 후 별 획득':'캐릭터 발견 후 별 획득';show('missionView')}
+$('complete').onclick=()=>{if(current<0||completed.has(current)||(!giftFound))return;completed.add(current);render();show('dashboard');if(completed.size===5)alert('🎄 모든 선물을 찾았습니다!\n우리의 작은 발견이 따뜻한 나눔으로 이어집니다.\n(시연용 완료 메시지)')};
 $('missionBack').onclick=()=>{void stopCamera();render();show('dashboard')};
 $('golden').onclick=()=>{if(goldDone)return;goldDone=true;render();alert('✨ 황금 루돌프 발견! 보너스 별 1개를 획득했습니다. (시연용)')};
 async function stopCamera(){
@@ -108,19 +109,19 @@ async function stopCamera(){
   $('mindarContainer').replaceChildren();
 }
 $('openAr').onclick=async()=>{
-  if(current<0||current>1||completed.has(current)||arOpening)return;
+  if(current<0||current>4||completed.has(current)||arOpening)return;
   if(!window.isSecureContext){alert('카메라는 HTTPS 환경에서만 사용할 수 있습니다.');return}
   arOpening=true;
   $('openAr').disabled=true;
   $('arGift').classList.add('hidden');
-  arMission=current; $('arHint').textContent=(current===0?'선물':'요정')+' 포스터를 화면 중앙에 비춰주세요.'; $('arCharacter').innerHTML=current===0?'<span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span>':'<span style="font-size:110px;line-height:1">🧝</span>'; $('arGift').querySelector('.arGiftLabel').textContent=current===0?'🎁 선물상자 터치!':'🧝 요정 발견하기!';
+  arMission=current; $('arScreen').querySelector('.arTop strong').textContent='🎄 MISSION '+String(current+1).padStart(2,'0'); $('arHint').textContent=missions[current].title+' 포스터를 화면 중앙에 비춰주세요.'; $('arCharacter').innerHTML=current===0?'<span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span>':'<span class="arEmoji">'+['','🧝','🔔','🦌','🎅🎁'][current]+'</span>'; $('arGift').querySelector('.arGiftLabel').textContent=['🎁 선물상자 터치!','🧝 요정 발견하기!','🔔 종 울리기!','🦌 루돌프 찾기!','🎅 마지막 선물 열기!'][current];
   $('arScreen').classList.remove('hidden');
   try{
     const MindARThree = await loadMindAR();
     if(!arOpening || $('arScreen').classList.contains('hidden')) return;
     const mindar=new MindARThree({
       container:$('mindarContainer'),
-      imageTargetSrc:current===0?'./christmas-target.mind':'./mission02-target.mind',
+      imageTargetSrc:['./christmas-target.mind','./mission02-target.mind','./mission03-target.mind','./mission04-target.mind','./mission05-target.mind'][current],
       maxTrack:1,
       uiLoading:'yes',uiScanning:'no',uiError:'yes'
     });
@@ -129,7 +130,7 @@ $('openAr').onclick=async()=>{
     anchor.onTargetFound=()=>{
       targetVisible=true;
       $('arGift').classList.remove('hidden');
-      $('arHint').textContent=arMission===0?'포스터 발견! 선물상자를 터치하세요.':'요정 발견! 요정을 터치하세요.';
+      $('arHint').textContent='포스터 발견! '+['선물상자','요정','황금 종','루돌프','마지막 선물'][arMission]+'을(를) 터치하세요.';
     };
     anchor.onTargetLost=()=>{
       targetVisible=false;
@@ -149,15 +150,17 @@ $('openAr').onclick=async()=>{
     alert('이미지 인식 카메라 실행에 실패했습니다. 카메라 권한 및 해당 미션의 .mind 파일 업로드 여부를 확인해주세요.');
   }finally{arOpening=false;$('openAr').disabled=false}
 };
+function playBell(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;const ctx=new AC();[0,0.16,0.34].forEach((delay,i)=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type='sine';osc.frequency.value=[880,1175,1320][i];gain.gain.setValueAtTime(0.0001,ctx.currentTime+delay);gain.gain.exponentialRampToValueAtTime(0.14,ctx.currentTime+delay+0.015);gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+delay+0.6);osc.connect(gain).connect(ctx.destination);osc.start(ctx.currentTime+delay);osc.stop(ctx.currentTime+delay+0.65)});setTimeout(()=>ctx.close().catch(()=>{}),1600)}catch(e){console.warn('bell sound:',e)}}
 $('arClose').onclick=()=>{void stopCamera()};
 $('arGift').onclick=()=>{
   if(!mindarRunning||!targetVisible||current!==arMission)return;
   if(current===1){void stopCamera();$('quizFeedback').textContent='';$('quizScreen').classList.remove('hidden');return;}
+  if(current===2){playBell();}
   giftFound=true;
   void stopCamera();
   $('complete').disabled=false;
-  $('arNoticeTitle').textContent='🎁 선물 발견 성공!';
-  $('arNoticeText').textContent='크리스마스 포스터에서 선물상자를 발견했습니다. 아래 버튼을 눌러 별을 획득하세요.';
+  $('arNoticeTitle').textContent=['🎁 선물 발견 성공!','','🔔 크리스마스 종을 울렸어요!','🦌 루돌프를 찾았어요!','🎅 마지막 선물 발견!'][current];
+  $('arNoticeText').textContent=['산타의 첫 번째 선물을 찾았습니다.','','산타의 썰매가 출발할 준비를 마쳤습니다.','루돌프가 산타에게 돌아갈 수 있게 되었어요.','우리가 찾은 선물이 누군가의 기쁨이 됩니다.'][current]+' 아래 버튼을 눌러 별을 획득하세요.';
   $('openAr').classList.add('hidden');
 };
 document.querySelectorAll('.quizChoice').forEach(b=>b.addEventListener('click',()=>{
