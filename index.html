@@ -32,7 +32,25 @@
 <section id="missionView" class="card hidden center"><div class="hero" id="missionIcon">🎁</div><div class="gold" id="missionNumber">MISSION 01</div><h2 id="missionTitle"></h2><p class="subtitle" id="missionMessage"></p><div class="card" style="background:#29475a" id="arNotice"><strong id="arNoticeTitle">🧪 AR 시제품 테스트</strong><p class="muted" id="arNoticeText">첫 번째 미션에서 카메라를 켜고 선물상자를 터치해 보세요. 실제 위치 인증은 아직 없습니다.</p></div><button class="btn" id="openAr">📷 AR 카메라로 선물 찾기</button><button class="btn" id="complete">테스트 미션 완료 · 별 획득</button><button class="btn alt" id="missionBack">미션 목록으로</button></section>
 <section id="arScreen" class="hidden" aria-label="AR 선물 찾기"><video id="arVideo" autoplay muted playsinline></video><div class="arShade"></div><div class="arTop"><div><strong>🎄 MISSION 01</strong><div style="font-size:13px;margin-top:7px">카메라 속 선물을 찾아보세요!</div></div><button class="arClose" id="arClose" type="button">✕ 닫기</button></div><div class="arCenter"><button id="arGift" class="arGift" type="button" aria-label="선물상자 발견하기"><span class="giftObject"><span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span></span><span class="arGiftLabel">🎁 선물상자 터치!</span></button></div><div class="arBottom"><p id="arHint">선물상자를 터치하면 발견할 수 있어요.</p><div class="muted">시연용 화면 · 위치 및 공간 추적 기능 없음</div></div></section>
 <div class="footer">SDB CHRISTMAS QUEST · UI PROTOTYPE · NOT A LIVE DONATION COUNTER</div></div>
-<script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+  import { MindARThree } from
+    "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
+
+  window.SDBMindARThree = MindARThree;
+
+  console.log("SDB MindAR module loaded");
+</script>
+
+ <script>
 'use strict';
 const $=id=>document.getElementById(id);
 const screens=['start','register','welcome','dashboard','missionView'];
