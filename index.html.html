@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SDB Christmas Quest | 테스트</title>
+<style>
+:root{font-family:Arial,'Malgun Gothic',sans-serif;color:#fff;background:#102237}*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:radial-gradient(circle at 80% 0%,#35506a 0,transparent 38%),linear-gradient(150deg,#102237,#203b50);padding:22px 14px}.shell{max-width:490px;margin:0 auto}.brand{font-size:12px;letter-spacing:2px;color:#f6d68e;font-weight:800;text-align:center;margin:15px 0}.card{background:#193449;border:1px solid #426078;border-radius:20px;padding:22px;margin:14px 0;box-shadow:0 10px 30px #07142040}.center{text-align:center}.hero{font-size:72px;margin:22px 0}.title{font-size:29px;line-height:1.3;margin:10px 0}.subtitle{color:#e4ebee;line-height:1.75;font-size:15px}.gold{color:#f6d68e}.btn{width:100%;padding:16px;background:#f5ce72;color:#1c2b39;border:0;border-radius:13px;font-weight:800;font-size:16px;cursor:pointer;margin-top:14px}.btn.alt{background:#29495c;color:white;border:1px solid #688094}.btn:focus-visible,input:focus-visible{outline:3px solid #ffe8a5;outline-offset:2px}.hidden{display:none!important}label{display:block;margin:14px 0 7px}input{width:100%;padding:14px;border:1px solid #6c8698;border-radius:11px;background:#10283b;color:white;font-size:16px}.muted{color:#bdcbd5;font-size:12px;line-height:1.6}.error{color:#ffb5b5;min-height:20px;font-size:13px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#29475a;border-radius:14px;padding:14px}.stat strong{display:block;font-size:24px;color:#f6d68e;margin-top:5px}.bar{background:#3e5968;border-radius:100px;height:12px;overflow:hidden}.fill{background:linear-gradient(90deg,#e0a748,#ffe7a0);height:100%;width:0;transition:width .2s}.mission{display:flex;align-items:center;gap:12px;background:#29475a;border:1px solid #4a697b;border-radius:14px;padding:14px;margin:10px 0;width:100%;color:white;text-align:left;cursor:pointer}.mission .emoji{font-size:30px}.mission .detail{flex:1}.mission .detail strong{display:block;margin-bottom:5px}.mission small{color:#d0dce1}.mission:disabled{opacity:.65;cursor:not-allowed}.pill{background:#3e6170;border-radius:30px;padding:5px 9px;font-size:11px}.footer{text-align:center;color:#b5c8d3;font-size:11px;margin:22px 0}h2{font-size:22px}h3{font-size:16px}.snow{position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:radial-gradient(white 1px,transparent 2px);background-size:36px 45px}.shell{position:relative}#missionMessage{white-space:pre-line}
+
+/* Mission 01 camera overlay */
+#arScreen{position:fixed;inset:0;z-index:30;background:#081522;display:flex;flex-direction:column;padding:0;color:white}
+#arVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#14283b}
+.arShade{position:absolute;inset:0;background:linear-gradient(#081522aa,transparent 35%,transparent 60%,#081522b0);pointer-events:none}
+.arTop{position:relative;z-index:2;padding:22px 18px;display:flex;justify-content:space-between;align-items:start;gap:12px}
+.arTop strong{color:#f6d68e}.arClose{border:1px solid #ffffff80;background:#172b41d9;color:white;border-radius:12px;padding:10px 14px;font-size:15px}
+.arCenter{position:relative;z-index:2;flex:1;display:flex;align-items:center;justify-content:center}
+.arGift{border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;filter:drop-shadow(0 14px 18px #0009);animation:giftFloat 2.3s ease-in-out infinite}
+.arGift:focus-visible{outline:3px solid #ffe29b;border-radius:18px}
+.giftObject{position:relative;width:136px;height:118px;transform:perspective(600px) rotateY(-12deg) rotateX(5deg)}
+.giftBox{position:absolute;bottom:0;left:13px;width:110px;height:88px;border-radius:5px 5px 12px 12px;background:linear-gradient(115deg,#ff6470,#c5213d 70%);box-shadow:inset -12px -8px 12px #81112688,0 8px 0 #8d1731}
+.giftLid{position:absolute;top:18px;left:3px;width:130px;height:30px;border-radius:7px;background:linear-gradient(110deg,#ff7680,#b71935);box-shadow:0 7px 6px #75102b77}
+.giftRibbonV{position:absolute;left:57px;top:18px;width:22px;height:100px;background:linear-gradient(90deg,#d6a23c,#ffe29b,#d9a53d)}
+.giftRibbonH{position:absolute;top:24px;left:3px;width:130px;height:16px;background:linear-gradient(#ffe7a5,#d5a33d)}
+.giftBow{position:absolute;top:-8px;left:37px;font-size:54px;line-height:1;filter:drop-shadow(0 2px 2px #0004)}
+.arGiftLabel{padding:8px 14px;border-radius:100px;background:#12283cdd;color:#fff;font-size:14px;font-weight:800}
+.arBottom{position:relative;z-index:2;padding:14px 18px 30px;text-align:center}
+.arBottom p{margin:0 0 10px;font-size:14px;color:#f4f6fa}
+.arBottom .muted{color:#d9e3ea}
+@keyframes giftFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}
+@media(prefers-reduced-motion:reduce){.arGift{animation:none}}
+</style></head><body><div class="snow"></div><div class="shell"><div class="brand">✦ SDB CHRISTMAS QUEST ✦</div>
+<section id="start" class="card center"><div class="hero" aria-hidden="true">🎅🎁</div><div class="gold">2026 CHRISTMAS EVENT · DEMO</div><h1 class="title">사라진 산타의<br>선물을 찾아라!</h1><p class="subtitle">산타가 이웃에게 전할 선물을 잃어버렸어요.<br>회사 곳곳에 숨겨진 선물을 찾고<br>따뜻한 크리스마스를 함께 완성해주세요.</p><h3 class="gold">우리가 찾은 선물이,<br>누군가의 기쁨이 됩니다.</h3><button class="btn" id="begin">산타의 부탁 들어주기</button><p class="muted">시제품 · 실제 회사 위치 및 직원 정보는 사용하지 않습니다.</p></section>
+<section id="register" class="card hidden"><div class="center hero" aria-hidden="true">🧭</div><h2 class="center">탐험가 등록</h2><p class="subtitle center">테스트 계정으로 크리스마스 탐험을 시작하세요.</p><form id="form"><label for="name">이름</label><input id="name" required autocomplete="off" placeholder="테스트"><label for="emp">사번</label><input id="emp" required autocomplete="off" placeholder="TEST001"><p class="error" id="error" role="alert"></p><button class="btn" type="submit">참여 확인 후 시작하기</button></form><button class="btn alt" id="back">이전 화면</button><p class="muted center">가상 계정: 테스트 / TEST001<br>실제 이름과 사번은 입력하지 마세요.</p></section>
+<section id="welcome" class="card center hidden"><div class="hero">🎄</div><h2>산타의 긴급 요청!</h2><p class="subtitle"><strong id="greeting"></strong> 탐험가님!<br>선물상자, 요정, 종, 루돌프를 찾아<br>산타의 선물 배달을 도와주세요.</p><p class="gold">여러분의 참여가 지역사회에 전할<br>따뜻한 마음을 더합니다.</p><button class="btn" id="enter">크리스마스 탐험 시작</button></section>
+<section id="dashboard" class="hidden"><div class="card"><div class="center">🎄 <span class="gold">CHRISTMAS GIVING</span> 🎄</div><h2 id="playerTitle">나의 크리스마스 탐험</h2><div class="stats"><div class="stat">나의 크리스마스 별<strong id="stars">0 / 5</strong></div><div class="stat">완료 미션<strong id="done">0 / 5</strong></div></div><h3>우리 함께 완성하는 선물</h3><p class="subtitle" id="giftText">시연용 공동 선물 완성률: 0%</p><div class="bar"><div class="fill" id="progress"></div></div><p class="muted">시연용 수치입니다. 실제 기부 실적이나 전 직원 참여 집계가 아닙니다. 회사의 기본 지원은 미션 달성 여부와 무관하게 별도 확정·집행합니다.</p></div><div class="card"><h2>🎁 산타의 다섯 가지 미션</h2><p class="muted">원하는 미션을 선택해 테스트해 보세요. 실제 위치 확인과 AR 카메라는 다음 단계에서 연결합니다.</p><div id="missions"></div></div><div class="card"><h2>✨ SECRET MISSION</h2><button class="mission" id="golden"><span class="emoji">🦌</span><span class="detail"><strong>황금 루돌프를 찾아라!</strong><small>특별 미션 · 보너스 별 1개</small></span><span class="pill" id="goldStatus">도전</span></button><p class="muted">보너스 별은 기본 5개와 별도로 집계합니다.</p></div><button class="btn alt" id="reset">테스트 진행 기록 초기화</button></section>
+<section id="missionView" class="card hidden center"><div class="hero" id="missionIcon">🎁</div><div class="gold" id="missionNumber">MISSION 01</div><h2 id="missionTitle"></h2><p class="subtitle" id="missionMessage"></p><div class="card" style="background:#29475a" id="arNotice"><strong id="arNoticeTitle">🧪 AR 시제품 테스트</strong><p class="muted" id="arNoticeText">첫 번째 미션에서 카메라를 켜고 선물상자를 터치해 보세요. 실제 위치 인증은 아직 없습니다.</p></div><button class="btn" id="openAr">📷 AR 카메라로 선물 찾기</button><button class="btn" id="complete">테스트 미션 완료 · 별 획득</button><button class="btn alt" id="missionBack">미션 목록으로</button></section>
+<section id="arScreen" class="hidden" aria-label="AR 선물 찾기"><video id="arVideo" autoplay muted playsinline></video><div class="arShade"></div><div class="arTop"><div><strong>🎄 MISSION 01</strong><div style="font-size:13px;margin-top:7px">카메라 속 선물을 찾아보세요!</div></div><button class="arClose" id="arClose" type="button">✕ 닫기</button></div><div class="arCenter"><button id="arGift" class="arGift" type="button" aria-label="선물상자 발견하기"><span class="giftObject"><span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span></span><span class="arGiftLabel">🎁 선물상자 터치!</span></button></div><div class="arBottom"><p id="arHint">선물상자를 터치하면 발견할 수 있어요.</p><div class="muted">시연용 화면 · 위치 및 공간 추적 기능 없음</div></div></section>
+<div class="footer">SDB CHRISTMAS QUEST · UI PROTOTYPE · NOT A LIVE DONATION COUNTER</div></div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const screens=['start','register','welcome','dashboard','missionView'];
+const missions=[
+ {icon:'🎁',title:'산타가 떨어뜨린 첫 번째 선물',text:'반짝이는 선물상자를 찾아 산타에게 돌려주세요!',place:'실내 · 가상 로비'},
+ {icon:'🧝',title:'길을 잃은 산타의 요정',text:'요정의 수수께끼를 풀고 선물 포장을 도와주세요!',place:'실내 · 가상 휴게공간'},
+ {icon:'🔔',title:'사라진 크리스마스 종',text:'마법의 종을 찾아 산타의 썰매를 준비해주세요!',place:'실내 · 가상 공용공간'},
+ {icon:'🦌',title:'숨겨진 루돌프를 찾아라!',text:'빨간 코 루돌프를 찾아 산타의 배달을 도와주세요!',place:'야외 · 가상 정원'},
+ {icon:'🎅',title:'산타의 마지막 선물',text:'마지막 선물상자를 열어 크리스마스를 완성해주세요!',place:'최종 · 가상 장소'}
+];
+let completed=new Set(),goldDone=false,current=-1,player='테스트';
+let cameraStream=null, giftFound=false;
+function show(id){screens.forEach(s=>$(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
+$('begin').onclick=()=>show('register');$('back').onclick=()=>show('start');
+$('form').onsubmit=e=>{e.preventDefault();const name=$('name').value.trim(),emp=$('emp').value.trim();if(name!=='테스트'||emp!=='TEST001'){$('error').textContent='테스트 계정이 일치하지 않습니다.';return}player=name;$('error').textContent='';$('greeting').textContent=player;show('welcome')};
+$('enter').onclick=()=>{render();show('dashboard')};
+function render(){
+ $('playerTitle').textContent=player+' 탐험가님의 크리스마스';$('stars').textContent=completed.size+' / 5';$('done').textContent=completed.size+' / 5';
+ const percent=completed.size/5*100;$('giftText').textContent='시연용 공동 선물 완성률: '+percent+'%';$('progress').style.width=percent+'%';
+ $('missions').replaceChildren();missions.forEach((m,i)=>{const b=document.createElement('button');b.className='mission';const e=document.createElement('span');e.className='emoji';e.textContent=m.icon;const d=document.createElement('span');d.className='detail';const strong=document.createElement('strong');strong.textContent=m.title;const small=document.createElement('small');small.textContent=m.place;d.append(strong,small);const status=document.createElement('span');status.className='pill';status.textContent=completed.has(i)?'완료':'도전';b.append(e,d,status);b.onclick=()=>openMission(i);$('missions').append(b)});
+ $('goldStatus').textContent=goldDone?'완료':'도전';$('golden').disabled=goldDone;
+}
+function openMission(i){stopCamera();giftFound=false;current=i;const m=missions[i];$('missionIcon').textContent=m.icon;$('missionNumber').textContent='MISSION '+String(i+1).padStart(2,'0');$('missionTitle').textContent=m.title;$('missionMessage').textContent=m.text;$('openAr').classList.toggle('hidden',i!==0||completed.has(i));$('arNoticeTitle').textContent=i===0?'📷 카메라 AR 테스트':'🧪 다른 미션은 시연 모드';$('arNoticeText').textContent=i===0?'카메라 속 선물상자를 터치하면 미션 완료 버튼이 활성화됩니다.':'이 미션은 아직 카메라 기능을 연결하지 않았습니다.';$('complete').disabled=completed.has(i)||(i===0&&!giftFound);$('complete').textContent=completed.has(i)?'이미 완료한 미션':i===0?'선물 발견 후 별 획득':'테스트 미션 완료 · 별 획득';show('missionView')}
+$('complete').onclick=()=>{if(current<0||completed.has(current)||(current===0&&!giftFound))return;completed.add(current);render();show('dashboard');if(completed.size===5)alert('🎄 모든 선물을 찾았습니다!\n우리의 작은 발견이 따뜻한 나눔으로 이어집니다.\n(시연용 완료 메시지)')};
+$('missionBack').onclick=()=>{stopCamera();render();show('dashboard')};
+$('golden').onclick=()=>{if(goldDone)return;goldDone=true;render();alert('✨ 황금 루돌프 발견! 보너스 별 1개를 획득했습니다. (시연용)')};
+function stopCamera(){if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null}const video=$('arVideo');video.pause();video.srcObject=null;$('arScreen').classList.add('hidden')}
+$('openAr').onclick=async()=>{
+ if(current!==0||completed.has(0))return;
+ if(!window.isSecureContext||!navigator.mediaDevices?.getUserMedia){alert('카메라를 사용할 수 없는 브라우저입니다. HTTPS 주소에서 Android Chrome으로 접속해주세요.');return}
+ try{
+  cameraStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'}}});
+  $('arVideo').srcObject=cameraStream;
+  $('arScreen').classList.remove('hidden');
+  $('arHint').textContent='선물상자를 터치하면 발견할 수 있어요.';
+  try{await $('arVideo').play()}catch(e){throw e}
+ }catch(err){stopCamera();const reason=err?.name==='NotAllowedError'?'카메라 접근이 거부되었습니다. Chrome의 사이트 권한에서 카메라를 허용해주세요.':err?.name==='NotFoundError'?'사용 가능한 카메라를 찾을 수 없습니다.':'카메라 실행에 실패했습니다. 다른 카메라 앱을 닫고 다시 시도해주세요.';alert(reason)}
+};
+$('arClose').onclick=stopCamera;
+$('arGift').onclick=()=>{if(!cameraStream)return;giftFound=true;stopCamera();$('complete').disabled=false;$('arNoticeTitle').textContent='🎁 선물 발견 성공!';$('arNoticeText').textContent='카메라 속 선물상자를 찾았습니다. 아래 버튼을 눌러 크리스마스 별을 획득하세요.';$('openAr').classList.add('hidden')};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&cameraStream)stopCamera()});
+window.addEventListener('pagehide',stopCamera);
+$('reset').onclick=()=>{if(!confirm('테스트 진행 기록을 초기화할까요?'))return;completed.clear();goldDone=false;render()};
+</script></body></html>
