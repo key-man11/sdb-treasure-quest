@@ -48,11 +48,31 @@
 .giving-goal{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:14px 0 8px;font-weight:700}
 .giving-goal strong{color:#f6d68e;white-space:nowrap}
 @media(max-width:350px){.stat-label,.giving-stat .label{font-size:11px}.giving-stat strong{font-size:20px}}
+
+/* Christmas greeting relay */
+.greeting-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:16px 0}
+.greeting-tab{background:#29475a;border:1px solid #527185;border-radius:10px;padding:11px 4px;color:#fff;font-size:12px;cursor:pointer}
+.greeting-tab.active{background:#f5ce72;color:#14283b;font-weight:800}
+.greeting-panel{background:#233f52;border-radius:14px;padding:14px;margin-top:10px}
+.greeting-entry{background:#29475a;border:1px solid #4c6c7c;border-radius:12px;padding:12px;margin:9px 0;line-height:1.6}
+.greeting-entry small{color:#d1dfe5}
+.greeting-search-result{width:100%;text-align:left;border:1px solid #527185;background:#29475a;border-radius:11px;color:white;padding:12px;margin:5px 0;cursor:pointer}
+.greeting-search-result.selected{border:2px solid #f5ce72}
+.greeting-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.greeting-stat{min-width:0;background:#29475a;border-radius:12px;padding:10px 5px;text-align:center}
+.greeting-stat strong{display:block;color:#f6d68e;font-size:21px;margin-top:6px}
+.greeting-stat small{font-size:11px;color:#dce5eb}
+.greeting-check{display:flex;align-items:center;gap:8px;margin:9px 0;font-size:14px}
+.greeting-check .mark{font-weight:900;color:#f6d68e}
+.greeting-help{font-size:12px;color:#dce5eb;line-height:1.6}
+#recipientResults{max-height:230px;overflow:auto}
+
 </style></head><body><div class="snow"></div><div class="shell"><div class="brand">✦ SDB CHRISTMAS QUEST ✦</div>
 <section id="start" class="card center"><div class="hero" aria-hidden="true">🎅🎁</div><div class="gold">2026 CHRISTMAS EVENT</div><h1 class="title">사라진 산타의<br>선물을 찾아라!</h1><p class="subtitle">산타가 이웃에게 전할 선물을 잃어버렸어요.<br>회사 곳곳에 숨겨진 선물을 찾고<br>따뜻한 크리스마스를 함께 완성해주세요.</p><h3 class="gold">우리가 찾은 선물이,<br>누군가의 기쁨이 됩니다.</h3><button class="btn" id="begin">산타의 부탁 들어주기</button><p class="muted">산타와 함께 크리스마스의 따뜻한 마음을 전해보세요.</p></section>
-<section id="register" class="card hidden"><div class="center hero" aria-hidden="true">🎅</div><h2 class="center">산타의 도우미 등록</h2><p class="subtitle center">산타의 선물을 찾기 위한 참여 정보를 입력해주세요.</p><form id="form"><label for="name">이름</label><input id="name" required autocomplete="off" placeholder="테스트"><label for="emp">사번</label><input id="emp" required autocomplete="off" placeholder="TEST001"><p class="error" id="error" role="alert"></p><button class="btn" type="submit">참여 확인 후 시작하기</button></form><button class="btn alt" id="back">이전 화면</button><p class="muted center">참여 정보는 현재 이 기기에서만 확인됩니다. 공식 참여 집계는 준비 중입니다.</p></section>
+<section id="register" class="card hidden"><div class="center hero" aria-hidden="true">🎅</div><h2 class="center">산타의 도우미 등록</h2><p class="subtitle center">산타의 선물을 찾기 위한 참여 정보를 입력해주세요.</p><form id="form"><label for="name">이름</label><input id="name" required autocomplete="off" placeholder="테스트"><label for="emp">사번</label><input id="emp" required autocomplete="off" placeholder="TEST001"><p class="error" id="error" role="alert"></p><button class="btn" type="submit">참여 확인 후 시작하기</button></form><button class="btn alt" id="back">이전 화면</button><p class="muted center">현재는 가상 계정(테스트 / TEST001)만 사용할 수 있습니다. 실제 직원 정보는 입력하지 마세요.</p></section>
 <section id="welcome" class="card center hidden"><div class="hero">🎄</div><h2>산타의 긴급 요청!</h2><p class="subtitle"><strong id="greeting"></strong> 산타 도우미님!<br>선물상자, 요정, 종, 루돌프를 찾아<br>산타의 선물 배달을 도와주세요.</p><p class="gold">여러분의 참여가 지역사회에 전할<br>따뜻한 마음을 더합니다.</p><button class="btn" id="enter">선물 찾기 시작</button></section>
-<section id="dashboard" class="hidden"><div class="card"><div class="center">🎄 <span class="gold">CHRISTMAS GIVING</span> 🎄</div><h2 id="playerTitle">나의 크리스마스 선물 찾기</h2><div class="stats"><div class="stat"><span class="stat-label">모은 별</span><strong id="stars">0 / 5</strong></div><div class="stat"><span class="stat-label">완료 미션</span><strong id="done">0 / 5</strong></div></div><h3>🎁 우리 함께 완성하는 선물</h3><p class="subtitle">우리가 찾은 별이 이웃에게 전할 선물을 채워갑니다.</p><div class="giving-stats"><div class="giving-stat"><span class="label">⭐ 크리스마스 별</span><strong id="totalStars">250 <small>개</small></strong></div><div class="giving-stat"><span class="label">🎁 완성한 선물</span><strong id="totalGifts">25 <small>/ 50개</small></strong></div></div><div class="giving-goal"><span>공동 목표 달성률</span><strong id="giftText">50%</strong></div><div class="bar"><div class="fill" id="progress" style="width:50%"></div></div><p class="giving-footnote">크리스마스 별 10개가 모이면 선물 1개가 완성됩니다.</p><p class="muted">현재 공동 현황은 예시 수치이며 실시간 집계가 아닙니다. 실제 선물 전달은 회사의 확정된 기부 계획에 따라 진행됩니다.</p></div><div class="card"><h2>🎁 산타의 다섯 가지 미션</h2><p class="muted">산타의 힌트를 따라 숨겨진 크리스마스 장식을 찾고, 카메라로 발견해 보세요.</p><div class="muted">미션 순서는 참여 기기에 배정되며, 완료한 기록은 이 기기에 저장됩니다.</div><div id="routeSummary" class="card" style="background:#29475a;margin:10px 0"></div><div id="missions"></div></div><div class="card"><h2>✨ SECRET MISSION</h2><button class="mission" id="golden"><span class="emoji">🦌</span><span class="detail"><strong>황금 루돌프를 찾아라!</strong><small>특별 미션 · 보너스 별 1개</small></span><span class="pill" id="goldStatus">도전</span></button><p class="muted">보너스 별은 기본 5개와 별도로 집계합니다.</p></div><button class="btn alt" id="reset">내 진행 기록 초기화</button></section>
+<section id="dashboard" class="hidden"><div class="card"><div class="center">🎄 <span class="gold">CHRISTMAS GIVING</span> 🎄</div><h2 id="playerTitle">나의 크리스마스 선물 찾기</h2><div class="stats"><div class="stat"><span class="stat-label">모은 별</span><strong id="stars">0 / 6</strong></div><div class="stat"><span class="stat-label">완료 미션</span><strong id="done">0 / 5</strong></div></div><h3>🎁 우리 함께 완성하는 선물</h3><p class="subtitle">우리가 찾은 별이 이웃에게 전할 선물을 채워갑니다.</p><div class="giving-stats"><div class="giving-stat"><span class="label">⭐ 크리스마스 별</span><strong id="totalStars">250 <small>개</small></strong></div><div class="giving-stat"><span class="label">🎁 완성한 선물</span><strong id="totalGifts">25 <small>/ 50개</small></strong></div></div><div class="giving-goal"><span>공동 목표 달성률</span><strong id="giftText">50%</strong></div><div class="bar"><div class="fill" id="progress" style="width:50%"></div></div><p class="giving-footnote">크리스마스 별 10개가 모이면 선물 1개가 완성됩니다.</p><p class="muted">공동 현황은 예시 수치이며 실시간 집계가 아닙니다. 실제 선물 전달은 회사의 확정된 기부 계획에 따라 진행됩니다.</p></div><div class="card"><h2>🎁 산타의 다섯 가지 미션</h2><p class="muted">산타의 힌트를 따라 숨겨진 크리스마스 장식을 찾고, 카메라로 발견해 보세요.</p><div class="muted">미션 순서는 참여 기기에 배정되며, 완료한 기록은 이 기기에 저장됩니다.</div><div id="routeSummary" class="card" style="background:#29475a;margin:10px 0"></div><div id="missions"></div></div><div class="card"><h2>✨ SECRET MISSION</h2><button class="mission" id="golden"><span class="emoji">🦌</span><span class="detail"><strong>황금 루돌프의 크리스마스 인사</strong><small>다른 사업장에 인사 보내기 + 인사 받기 · 별 1개</small></span><span class="pill" id="goldStatus">도전</span></button><p class="muted">따뜻한 인사를 주고받으면 보너스 별을 획득합니다.</p></div><button class="btn alt" id="reset">내 진행 기록 초기화</button></section>
+<section id="greetingScreen" class="card hidden"><div class="center"><div class="hero">🦌💌</div><div class="gold">SECRET MISSION</div><h2>황금 루돌프의 크리스마스 인사</h2><p class="subtitle">다른 사업장 동료에게 따뜻한 인사를 전하고, 인사도 받아보세요.</p></div><div class="greeting-grid"><div class="greeting-stat"><small>보낸 인사</small><strong id="gSentCount">0건</strong></div><div class="greeting-stat"><small>받은 인사</small><strong id="gReceivedCount">0건</strong></div><div class="greeting-stat"><small>남은 기회</small><strong id="gRemaining">1회</strong></div></div><div class="greeting-panel"><strong>🦌 황금 루돌프 달성 조건</strong><div class="greeting-check"><span class="mark" id="gSentMark">○</span>다른 사업장에 인사 1회 이상 보내기</div><div class="greeting-check"><span class="mark" id="gReceivedMark">○</span>다른 사업장에서 인사 1회 이상 받기</div><p id="gRewardMessage" class="gold" role="status">두 조건을 모두 달성하면 별 1개를 받습니다.</p></div><div class="greeting-tabs"><button type="button" class="greeting-tab active" data-gtab="received">받은 인사</button><button type="button" class="greeting-tab" data-gtab="sent">보낸 인사</button><button type="button" class="greeting-tab" data-gtab="relay">인사 릴레이</button></div><div id="greetingReceivedPanel"><h3>💌 나에게 도착한 인사</h3><div id="gReceivedList"></div></div><div id="greetingSentPanel" class="hidden"><h3>🎄 크리스마스 인사 보내기</h3><label for="gRecipientSearch">다른 사업장 동료 찾기</label><input id="gRecipientSearch" placeholder="가상 이름 검색 (예: 홍길동)" autocomplete="off" maxlength="30"><div id="recipientResults"></div><label for="gMessageSelect">인사말 선택</label><select id="gMessageSelect" style="width:100%;padding:13px;border-radius:10px;background:#10283b;color:#fff;border:1px solid #6c8698"><option value="0">따뜻한 연말 인사</option><option value="1">서로를 응원하는 인사</option><option value="2">나눔을 전하는 인사</option></select><p id="gMessagePreview" class="greeting-panel"></p><button type="button" class="btn" id="gSendButton">크리스마스 인사 보내기</button><p class="greeting-help">가상 직원에게만 전송되는 화면 시뮬레이션입니다.</p><h3>내가 보낸 인사</h3><div id="gSentList"></div></div><div id="greetingRelayPanel" class="hidden"><h3>❤️ 우리 사업장 간 인사 릴레이</h3><div class="greeting-grid"><div class="greeting-stat"><small>전달된 인사</small><strong id="gRelayTotal">0건</strong></div><div class="greeting-stat"><small>연결 사업장</small><strong id="gRelaySites">0곳</strong></div><div class="greeting-stat"><small>나의 보너스</small><strong id="gRelayBonus">0개</strong></div></div><div id="gRelayList"></div><p class="greeting-help">이 화면의 내역은 이 기기의 가상 데이터이며, 실제 전사 인사 현황이 아닙니다.</p></div><div class="greeting-panel"><strong>기능 체험</strong><p class="greeting-help">실제 직원 간 송수신은 아직 연결되지 않았습니다. 아래 버튼은 가상의 다른 사업장 동료에게 인사를 받는 상황을 재현합니다.</p><button type="button" class="btn alt" id="gSimReceive">가상 인사 1건 받기</button></div><button type="button" class="btn alt" id="gBack">선물 찾기 화면으로</button></section>
 <section id="missionView" class="card hidden center"><div class="hero" id="missionIcon">🎁</div><div class="gold" id="missionNumber">MISSION 01</div><h2 id="missionTitle"></h2><p class="subtitle" id="missionMessage"></p><div class="card" style="background:#29475a" id="arNotice"><strong id="arNoticeTitle">🎄 크리스마스 AR 미션</strong><p class="muted" id="arNoticeText">첫 번째 미션은 크리스마스 포스터를 인식해야 선물이 나타납니다.</p></div><div id="locationClue" class="card" style="background:#233f52"></div><button class="btn alt" id="extraHint" type="button">💡 추가 힌트 보기</button><button class="btn" id="openAr">📷 AR 카메라로 선물 찾기</button><button class="btn" id="complete">미션 완료 · 별 획득</button><button class="btn alt" id="missionBack">미션 목록으로</button></section>
 <section id="arScreen" class="hidden" aria-label="AR 선물 찾기"><div id="mindarContainer"></div><div class="arShade"></div><div class="arTop"><div><strong>🎄 MISSION 01</strong><div style="font-size:13px;margin-top:7px">크리스마스 포스터를 카메라로 비춰주세요!</div></div><button class="arClose" id="arClose" type="button">✕ 닫기</button></div><div class="arCenter"><button id="arGift" class="arGift" type="button" aria-label="선물상자 발견하기"><span id="arCharacter" class="giftObject"><span class="giftBox"></span><span class="giftLid"></span><span class="giftRibbonV"></span><span class="giftRibbonH"></span><span class="giftBow">🎀</span></span><span class="arGiftLabel">🎁 선물상자 터치!</span></button></div><div class="arBottom"><p id="arHint">포스터를 비추면 선물상자가 나타납니다.</p><div class="muted">장식 이미지를 화면 중앙에 비추고 선물을 찾아보세요.</div></div></section>
 <section id="quizScreen" class="hidden" aria-label="요정의 수수께끼"><div class="card center"><div class="hero">🧝</div><h2>요정의 수수께끼</h2><p class="subtitle">나눌수록 더 커지고, 누군가에게 전하면 따뜻해지는 것은 무엇일까요?</p><button class="quizChoice" data-answer="0">① 선물상자</button><button class="quizChoice" data-answer="1">② 따뜻한 마음</button><button class="quizChoice" data-answer="2">③ 크리스마스트리</button><p id="quizFeedback" class="error" role="status"></p><button class="btn alt" id="quizBack" type="button">미션 화면으로 돌아가기</button></div></section><div class="footer">SDB CHRISTMAS QUEST · 함께 찾고, 함께 나누는 크리스마스</div></div>
@@ -81,7 +101,7 @@ function loadMindAR(){
 }
 
 const $=id=>document.getElementById(id);
-const screens=['start','register','welcome','dashboard','missionView'];
+const screens=['start','register','welcome','dashboard','missionView','greetingScreen'];
 const missions=[
  {icon:'🎁',title:'산타가 떨어뜨린 첫 번째 선물',text:'반짝이는 선물상자를 찾아 산타에게 돌려주세요!',place:'실내 · 가상 로비'},
  {icon:'🧝',title:'길을 잃은 산타의 요정',text:'요정의 수수께끼를 풀고 선물 포장을 도와주세요!',place:'실내 · 가상 휴게공간'},
@@ -121,7 +141,7 @@ $('form').onsubmit=e=>{e.preventDefault();const name=$('name').value.trim(),emp=
 $('enter').onclick=()=>{render();show('dashboard')};
 function render(){
  $('playerTitle').textContent=player+'님의 크리스마스 선물 찾기';
- $('stars').textContent=completed.size+' / 5';$('done').textContent=completed.size+' / 5';
+ $('stars').textContent=(completed.size+(goldDone?1:0))+' / 6';$('done').textContent=completed.size+' / 5';
  const exampleStars=250, giftGoal=50, starsPerGift=10;
  const exampleGifts=Math.min(giftGoal,Math.floor(exampleStars/starsPerGift));
  const percent=Math.round(exampleGifts/giftGoal*100);
@@ -141,7 +161,7 @@ function render(){
    d.append(strong,small);const status=document.createElement('span');status.className='pill';status.textContent=finished?'완료':unlocked?'도전':'잠김';
    b.append(e,d,status);if(unlocked)b.onclick=()=>openMission(i);$('missions').append(b);
  });
- $('goldStatus').textContent=goldDone?'완료':'도전';$('golden').disabled=goldDone;
+ $('goldStatus').textContent=goldDone?'완료':'도전';$('golden').disabled=false;
 }
 function openMission(i){
  if(i!==nextMission())return;
@@ -164,7 +184,7 @@ $('complete').onclick=()=>{
  if(completed.size===5)alert('🎄 산타의 선물 찾기 완료!\n크리스마스 별 5개를 모두 모았습니다.\n여러분의 작은 발견이 이웃에게 전할 따뜻한 마음으로 이어집니다.\n함께해 주셔서 감사합니다!');
 };
 $('missionBack').onclick=()=>{void stopCamera();render();show('dashboard')};
-$('golden').onclick=()=>{if(goldDone)return;goldDone=true;saveProgress();render();alert('✨ 황금 루돌프 발견! 보너스 별 1개를 획득했습니다.')};
+$('golden').onclick=()=>{renderGreetings();show('greetingScreen')};
 async function stopCamera(){
   arOpening=false;
   $('arScreen').classList.add('hidden');
@@ -245,5 +265,105 @@ document.querySelectorAll('.quizChoice').forEach(b=>b.addEventListener('click',(
 $('quizBack').onclick=()=>{$('quizScreen').classList.add('hidden')};
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&mindarThree)void stopCamera()});
 window.addEventListener('pagehide',()=>{if(mindarThree)void stopCamera()});
-$('reset').onclick=()=>{if(!confirm('이 기기에 저장된 진행 기록을 초기화할까요?'))return;completed.clear();goldDone=false;saveProgress();render()};
+$('reset').onclick=()=>{if(!confirm('이 기기에 저장된 진행 기록과 가상 인사 내역을 초기화할까요?'))return;completed.clear();goldDone=false;greetingData={sent:[],received:[]};localStorage.removeItem(GREETING_KEY);saveProgress();render()};
+
+// Golden Rudolph greeting relay: local-only demonstration, NOT real messaging.
+const GREETING_KEY='sdb_christmas_greetings_demo_v1';
+const DEMO_PEOPLE=[
+ {id:'P01',name:'홍길동',site:'수원',team:'연구지원팀'},
+ {id:'P02',name:'김민지',site:'서울',team:'마케팅팀'},
+ {id:'P03',name:'이서준',site:'오송',team:'생산관리팀'},
+ {id:'P04',name:'박서연',site:'증평',team:'품질지원팀'},
+ {id:'P05',name:'정하늘',site:'평택',team:'시설지원팀'},
+ {id:'P06',name:'최유진',site:'기흥',team:'경영지원팀'}
+];
+const MY_DEMO_SITE='기흥';
+const GREETING_MESSAGES=[
+ '올 한 해도 수고 많으셨습니다. 따뜻하고 행복한 크리스마스 보내세요! 🎄',
+ '멀리 있어도 늘 응원하고 있습니다. 메리 크리스마스! 🎁',
+ '우리의 작은 마음이 이웃에게 큰 기쁨이 되길 바랍니다. ✨'
+];
+let greetingData={sent:[],received:[]};
+try{
+ const savedGreetings=JSON.parse(localStorage.getItem(GREETING_KEY)||'{}');
+ if(Array.isArray(savedGreetings.sent)&&Array.isArray(savedGreetings.received)){
+   greetingData={sent:savedGreetings.sent,received:savedGreetings.received};
+ }
+}catch(e){console.warn('Greeting demo storage reset',e)}
+let selectedRecipient=null;
+function greetingCapacity(){return Math.min(3,1+greetingData.received.length)}
+function remainingGreetingSends(){return Math.max(0,greetingCapacity()-greetingData.sent.length)}
+function persistGreetings(){localStorage.setItem(GREETING_KEY,JSON.stringify(greetingData))}
+function maskGreetingName(name){return name.length<=1?'○':name[0]+'○'.repeat(Math.max(1,name.length-1))}
+function safeGreetingEntry(title,subtitle,message){
+ const box=document.createElement('div');box.className='greeting-entry';
+ const head=document.createElement('strong');head.textContent=title;
+ const sub=document.createElement('small');sub.textContent=' · '+subtitle;
+ const body=document.createElement('div');body.textContent=message;
+ box.append(head,sub,body);return box;
+}
+function fillGreetingList(id,items,emptyMessage,mode){
+ const el=$(id);el.replaceChildren();
+ if(!items.length){const p=document.createElement('p');p.className='muted';p.textContent=emptyMessage;el.append(p);return}
+ [...items].reverse().forEach(g=>el.append(safeGreetingEntry(
+   mode==='received'?g.fromName:g.toName,
+   (mode==='received'?g.fromSite:g.toSite)+' · '+g.date,
+   g.message
+ )));
+}
+function renderRecipientResults(){
+ const query=$('gRecipientSearch').value.trim();const list=$('recipientResults');list.replaceChildren();
+ if(!query)return;
+ const matches=DEMO_PEOPLE.filter(p=>p.name.includes(query)&&p.site!==MY_DEMO_SITE).slice(0,8);
+ if(!matches.length){const p=document.createElement('p');p.className='muted';p.textContent='검색된 가상 직원이 없습니다.';list.append(p);return}
+ matches.forEach(p=>{
+   const b=document.createElement('button');b.type='button';b.className='greeting-search-result'+(selectedRecipient===p.id?' selected':'');
+   b.textContent=p.name+' · '+p.site+' · '+p.team;
+   b.onclick=()=>{selectedRecipient=p.id;renderRecipientResults()};list.append(b);
+ });
+}
+function renderGreetings(){
+ const sent=greetingData.sent.length,received=greetingData.received.length;
+ const valid=sent>0&&received>0;
+ if(valid&&!goldDone){goldDone=true;saveProgress();render();}
+ $('gSentCount').textContent=sent+'건';$('gReceivedCount').textContent=received+'건';$('gRemaining').textContent=remainingGreetingSends()+'회';
+ $('gSentMark').textContent=sent?'✓':'○';$('gReceivedMark').textContent=received?'✓':'○';
+ $('gRewardMessage').textContent=valid?'✨ 황금 루돌프 발견! 크리스마스 별 1개 획득':'두 조건을 모두 달성하면 별 1개를 받습니다.';
+ fillGreetingList('gReceivedList',greetingData.received,'아직 도착한 인사가 없습니다.','received');
+ fillGreetingList('gSentList',greetingData.sent,'아직 보낸 인사가 없습니다.','sent');
+ $('gMessagePreview').textContent=GREETING_MESSAGES[Number($('gMessageSelect').value)];
+ $('gSendButton').disabled=!selectedRecipient||remainingGreetingSends()<=0||greetingData.sent.some(g=>g.toId===selectedRecipient);
+ renderRecipientResults();
+ const relay=$('gRelayList');relay.replaceChildren();
+ const pairs=[...greetingData.sent.map(g=>({from:g.fromName,fromSite:g.fromSite,to:g.toName,toSite:g.toSite})),...greetingData.received.map(g=>({from:g.fromName,fromSite:g.fromSite,to:g.toName,toSite:g.toSite}))];
+ $('gRelayTotal').textContent=pairs.length+'건';
+ $('gRelaySites').textContent=new Set(pairs.flatMap(g=>[g.fromSite,g.toSite])).size+'곳';
+ $('gRelayBonus').textContent=(goldDone?1:0)+'개';
+ if(!pairs.length){const p=document.createElement('p');p.className='muted';p.textContent='아직 이 기기에 기록된 인사가 없습니다.';relay.append(p)}
+ pairs.slice().reverse().forEach(g=>relay.append(safeGreetingEntry(maskGreetingName(g.from)+' ('+g.fromSite+')','→ '+maskGreetingName(g.to)+' ('+g.toSite+')','따뜻한 크리스마스 인사가 전달되었습니다.')));
+}
+document.querySelectorAll('[data-gtab]').forEach(b=>b.onclick=()=>{
+ const tab=b.dataset.gtab;
+ document.querySelectorAll('[data-gtab]').forEach(x=>x.classList.toggle('active',x===b));
+ ['received','sent','relay'].forEach(t=>{$('greeting'+t[0].toUpperCase()+t.slice(1)+'Panel').classList.toggle('hidden',t!==tab)});
+});
+$('gRecipientSearch').oninput=()=>{selectedRecipient=null;renderGreetings()};
+$('gMessageSelect').onchange=renderGreetings;
+$('gSendButton').onclick=()=>{
+ const person=DEMO_PEOPLE.find(p=>p.id===selectedRecipient);
+ if(!person||person.site===MY_DEMO_SITE||remainingGreetingSends()<=0)return;
+ if(greetingData.sent.some(g=>g.toId===person.id)){alert('같은 동료에게는 한 번만 인사를 보낼 수 있습니다.');return}
+ greetingData.sent.push({toId:person.id,toName:person.name,toSite:person.site,fromName:player,fromSite:MY_DEMO_SITE,message:GREETING_MESSAGES[Number($('gMessageSelect').value)],date:new Date().toLocaleDateString('ko-KR')});
+ persistGreetings();selectedRecipient=null;$('gRecipientSearch').value='';renderGreetings();
+ alert('가상 인사 발송을 기록했습니다. 실제 상대방에게 전송되지는 않습니다.');
+};
+$('gSimReceive').onclick=()=>{
+ const people=DEMO_PEOPLE.filter(p=>p.site!==MY_DEMO_SITE);
+ const sender=people[greetingData.received.length%people.length];
+ greetingData.received.push({fromName:sender.name,fromSite:sender.site,toName:player,toSite:MY_DEMO_SITE,message:GREETING_MESSAGES[greetingData.received.length%GREETING_MESSAGES.length],date:new Date().toLocaleDateString('ko-KR')});
+ persistGreetings();renderGreetings();
+ alert('다른 사업장 동료에게 가상 인사를 받았습니다.');
+};
+$('gBack').onclick=()=>{render();show('dashboard')};
+
 </script></body></html>
