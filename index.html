@@ -44,11 +44,20 @@
 }
 </script>
 
-<script type="module">
-import { MindARThree } from "https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js";
-window.SDBMindARThree = MindARThree;
-
+<script>
 'use strict';
+let mindarLoader = null;
+function loadMindAR(){
+  if (!mindarLoader) {
+    mindarLoader = import("https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js")
+      .then(mod => {
+        if (!mod.MindARThree) throw new Error("MindARThree export not found");
+        return mod.MindARThree;
+      }).catch(err => { mindarLoader = null; throw err; });
+  }
+  return mindarLoader;
+}
+
 const $=id=>document.getElementById(id);
 const screens=['start','register','welcome','dashboard','missionView'];
 const missions=[
@@ -76,6 +85,7 @@ $('complete').onclick=()=>{if(current<0||completed.has(current)||(current===0&&!
 $('missionBack').onclick=()=>{void stopCamera();render();show('dashboard')};
 $('golden').onclick=()=>{if(goldDone)return;goldDone=true;render();alert('✨ 황금 루돌프 발견! 보너스 별 1개를 획득했습니다. (시연용)')};
 async function stopCamera(){
+  arOpening=false;
   $('arScreen').classList.add('hidden');
   $('arGift').classList.add('hidden');
   targetVisible=false;
@@ -91,14 +101,15 @@ async function stopCamera(){
 $('openAr').onclick=async()=>{
   if(current!==0||completed.has(0)||arOpening)return;
   if(!window.isSecureContext){alert('카메라는 HTTPS 환경에서만 사용할 수 있습니다.');return}
-  if(!window.SDBMindARThree){alert('이미지 인식 모듈을 불러오지 못했습니다. 인터넷 연결 및 브라우저를 확인해주세요.');return}
   arOpening=true;
   $('openAr').disabled=true;
   $('arGift').classList.add('hidden');
   $('arHint').textContent='크리스마스 포스터를 화면 중앙에 비춰주세요.';
   $('arScreen').classList.remove('hidden');
   try{
-    const mindar=new window.SDBMindARThree({
+    const MindARThree = await loadMindAR();
+    if(!arOpening || $('arScreen').classList.contains('hidden')) return;
+    const mindar=new MindARThree({
       container:$('mindarContainer'),
       imageTargetSrc:'./christmas-target.mind',
       maxTrack:1,
