@@ -243,7 +243,7 @@ function startHintActivity(i){
  stopHintTicker();const host=$('hintActivity');host.replaceChildren();const st=hintFor(i);
  if(i===1){host.append(hintElement('h3','🧝 요정의 수수께끼'));host.append(hintElement('p','요정 이미지를 AR 카메라로 발견하고 터치하면 기존 수수께끼가 시작됩니다. 정답을 맞히면 별을 획득할 수 있습니다.'));return}
  if(st.unlocked){host.append(hintElement('h3','✨ 추가 힌트 획득 완료'));host.append(hintReveal(i));return}
- if([0,2,3].includes(i)){
+ if(i===0){
   if(!Number.isFinite(st.startedAt)){st.startedAt=Date.now();saveHints()}
   host.append(hintElement('h3','⏳ 1분 후 추가 힌트 공개'));
   const status=hintElement('p');host.append(status);
