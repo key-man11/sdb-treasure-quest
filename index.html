@@ -284,21 +284,62 @@ function renderFindHint(host,st){
  b.onclick=()=>{if(n===6){st.unlocked=true;saveHints();startHintActivity(3)}else{b.textContent='❄️';b.disabled=true}}});
 }
 function renderScratchHint(host,st){
- host.append(hintElement('h3','🔔 마법의 스크래치 카드'));
- host.append(hintElement('p','카드의 은색 영역을 손가락으로 문질러 추가 힌트를 확인해 보세요.'));
- const wrap=hintElement('div',undefined,'hint-scratch');const under=hintElement('div','🔔 '+clues[2][1],'under');wrap.append(under);
- const canvas=document.createElement('canvas');wrap.append(canvas);host.append(wrap);
- const ctx=canvas.getContext('2d');if(!ctx){const b=hintElement('button','힌트 공개');b.onclick=()=>{st.unlocked=true;saveHints();startHintActivity(2)};host.append(b);return}
- const width=Math.max(200,Math.round(wrap.getBoundingClientRect().width)),height=132,dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.width=width*dpr;canvas.height=height*dpr;ctx.scale(dpr,dpr);ctx.fillStyle='#9aaab5';ctx.fillRect(0,0,width,height);
- ctx.fillStyle='#173044';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillText('손가락으로 문질러 주세요',width/2,height/2);
- let drawing=false;const cells=new Set();
- const rub=e=>{if(!drawing)return;e.preventDefault();const r=canvas.getBoundingClientRect();const x=(e.clientX-r.left)*width/r.width,y=(e.clientY-r.top)*height/r.height;
- ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(x,y,24,0,Math.PI*2);ctx.fill();
- for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){const xx=Math.floor(x/20)+dx,yy=Math.floor(y/20)+dy;if(xx>=0&&yy>=0&&xx<Math.ceil(width/20)&&yy<Math.ceil(height/20))cells.add(xx+','+yy)}
- if(cells.size>=Math.ceil(width/20)*Math.ceil(height/20)*.4){drawing=false;st.unlocked=true;saveHints();startHintActivity(2)}};
- canvas.addEventListener('pointerdown',e=>{drawing=true;canvas.setPointerCapture(e.pointerId);rub(e)});
- canvas.addEventListener('pointermove',rub);canvas.addEventListener('pointerup',()=>drawing=false);canvas.addEventListener('pointercancel',()=>drawing=false);
+  host.append(hintElement('h3','🔔 마법의 스크래치 카드'));
+  host.append(hintElement('p','은색 영역을 손가락으로 충분히 문질러 주세요. 약 65%를 긁으면 추가 힌트가 완전히 공개됩니다.'));
+  const wrap=hintElement('div',undefined,'hint-scratch');
+  const under=hintElement('div','🔔 '+clues[2][1],'under');wrap.append(under);
+  const canvas=document.createElement('canvas');wrap.append(canvas);host.append(wrap);
+  const progress=hintElement('p','긁기 진행률 0% / 목표 65%');progress.setAttribute('role','status');host.append(progress);
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  if(!ctx){const b=hintElement('button','힌트 공개');b.onclick=()=>{st.unlocked=true;saveHints();startHintActivity(2)};host.append(b);return}
+  const width=Math.max(200,Math.round(wrap.getBoundingClientRect().width));
+  const height=132,dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+  ctx.setTransform(canvas.width/width,0,0,canvas.height/height,0,0);
+  ctx.fillStyle='#9aaab5';ctx.fillRect(0,0,width,height);
+  ctx.fillStyle='#173044';ctx.font='bold 16px sans-serif';ctx.textAlign='center';
+  ctx.fillText('손가락으로 문질러 주세요',width/2,height/2);
+  const threshold=0.65,brushRadius=12;
+  let drawing=false,last=null,lastCheck=0,finished=false;
+  function measure(){
+    if(finished)return;
+    const data=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let clear=0,total=0;
+    // 실제 투명 픽셀을 균일 간격으로 샘플링하여 중복 긁기를 제외합니다.
+    const stride=4;
+    for(let y=0;y<canvas.height;y+=stride){
+      for(let x=0;x<canvas.width;x+=stride){
+        total++;if(data[(y*canvas.width+x)*4+3]<128)clear++;
+      }
+    }
+    const fraction=clear/total;
+    progress.textContent='긁기 진행률 '+Math.round(fraction*100)+'% / 목표 65%';
+    if(fraction>=threshold){
+      finished=true;drawing=false;
+      st.unlocked=true;saveHints();startHintActivity(2);
+    }
+  }
+  function point(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)*width/r.width,y:(e.clientY-r.top)*height/r.height}}
+  function scratch(e){
+    if(!drawing||finished)return;
+    e.preventDefault();const p=point(e);
+    ctx.globalCompositeOperation='destination-out';
+    ctx.lineWidth=brushRadius*2;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(last?last.x:p.x,last?last.y:p.y);ctx.lineTo(p.x,p.y);ctx.stroke();
+    ctx.beginPath();ctx.arc(p.x,p.y,brushRadius,0,Math.PI*2);ctx.fill();
+    last=p;
+    if(performance.now()-lastCheck>120){lastCheck=performance.now();measure()}
+  }
+  canvas.addEventListener('pointerdown',e=>{
+    if(finished)return;drawing=true;last=null;
+    try{canvas.setPointerCapture(e.pointerId)}catch(err){}
+    scratch(e);
+  });
+  canvas.addEventListener('pointermove',scratch);
+  function end(){if(drawing){drawing=false;last=null;measure()}}
+  canvas.addEventListener('pointerup',end);
+  canvas.addEventListener('pointercancel',end);
+  canvas.addEventListener('lostpointercapture',end);
 }
 
 $('complete').onclick=()=>{
