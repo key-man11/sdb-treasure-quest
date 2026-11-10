@@ -67,6 +67,7 @@ function render(){if(!session)return;$('totalStars').textContent=snapshot.stars;
   people.forEach((p,i)=>lanes[i%3].push(p));
   lanes.forEach((members,row)=>{
    const lane=document.createElement('div');lane.className='ticker-lane';
+   if(members.length===0){lane.classList.add('ticker-lane-empty');ticker.append(lane);return;}
    const track=document.createElement('div');track.className='ticker-track';
    const group=document.createElement('div');group.className='ticker-group';
    // Keep short lists moving smoothly without excessive whitespace.
