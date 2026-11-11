@@ -34,7 +34,17 @@
 @keyframes sleigh-flight{0%{transform:translate(-150px,30px)}50%{transform:translate(30px,-13px)}100%{transform:translate(160px,25px)}}
 @media(prefers-reduced-motion:reduce){.tree-art .twinkle,.tree-art .sleigh-flight{animation:none!important}}
 @media(max-width:480px){.greeting-page{height:330px}.greeting-view{min-height:310px}}
- .demo-label{margin:0;font-size:13px;align-self:center}.demo-tools select{width:auto;min-width:155px;flex:1}.demo-tools button{flex:1 1 145px}@media(max-width:480px){.demo-tools select{width:100%}} </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p></header>
+ .demo-label{margin:0;font-size:13px;align-self:center}.demo-tools select{width:auto;min-width:155px;flex:1}.demo-tools button{flex:1 1 145px}@media(max-width:480px){.demo-tools select{width:100%}} 
+/* V5.2: bulbs shimmer from the first 10-person milestone. */
+.tree-art .bulb.on.twinkle{animation:twinkle-glow 5.8s ease-in-out infinite}
+.tree-art .bulb-halo.twinkle{animation:halo-breathe 5.8s ease-in-out infinite}
+@keyframes halo-breathe{0%,100%{opacity:.06}50%{opacity:.25}}
+.tree-art .topper-lit{filter:drop-shadow(0 0 7px #ffe27a) drop-shadow(0 0 13px #ffd15d);animation:topper-shine 4.8s ease-in-out infinite}
+@keyframes topper-shine{0%,100%{opacity:.85}50%{opacity:1;filter:drop-shadow(0 0 13px #ffe27a) drop-shadow(0 0 21px #ffcd55)}}
+.tree-art .falling-flake{animation:snow-fall var(--flake-duration,12s) linear infinite;animation-delay:var(--flake-delay,0s);opacity:0;fill:#fff;paint-order:stroke fill}
+@keyframes snow-fall{0%{transform:translate(0px,-25px);opacity:0}12%{opacity:.95}72%{opacity:.9}100%{transform:translate(var(--flake-drift,0px),420px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.tree-art .bulb.on.twinkle,.tree-art .bulb-halo.twinkle,.tree-art .topper-lit,.tree-art .falling-flake{animation:none!important}.tree-art .falling-flake{opacity:.65;transform:translateY(220px)}}
+</style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><label>사업장<select id="site" required><option value="">선택하세요</option><option>기흥</option><option>수원</option><option>서울</option><option>오창</option><option>오송</option><option>증평</option><option>평택</option><option>기타</option></select></label><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit">입장하기</button></form></section>
 <section id="guide" class="card hidden"><h2>⭐Mission!산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서</b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
@@ -121,7 +131,7 @@ $('greetingView').addEventListener('touchend',e=>{if(!greetingTouchStart)return;
    });
    track.append(group);
    const clone=group.cloneNode(true);clone.setAttribute('aria-hidden','true');track.append(clone);
-   track.style.setProperty('--ticker-duration',Math.max(24,Math.min(140,members.length*2.6))+'s');
+   track.style.setProperty('--ticker-duration',Math.max(38,Math.min(220,members.length*3.8))+'s');
    track.style.animationDelay=(-row*8)+'s';
    lane.append(track);ticker.append(lane);
   });
@@ -130,9 +140,9 @@ const NS='http://www.w3.org/2000/svg';
 function node(tag,attrs={},parent=$('treeDecor')){const el=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));parent.appendChild(el);return el}
 function drawTree(lit,participantCount){
  const root=$('treeDecor');root.replaceChildren();
- const count=Math.max(0,Number(participantCount)||0),stage=Math.min(10,Math.floor(count/50));
- // Decorative scenery is deliberately separate from participant-controlled lights.
- for(let i=0;i<45;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?2.1:1.1,fill:'#d9eaff',opacity:.45+(i%3)*.12});
+ const count=Math.max(0,Number(participantCount)||0);
+ // Background: subdued snowy village. Animated snow begins at 130 participants.
+ for(let i=0;i<35;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?1.7:1,fill:'#e4f2ff',opacity:.35+(i%3)*.1});
  for(const [x,y] of [[20,355],[405,350],[455,375]]){
   node('rect',{x,y,width:63,height:65,rx:4,fill:'#855e64'});
   node('path',{d:`M${x-9} ${y+4} L${x+31} ${y-28} L${x+72} ${y+4} Z`,fill:'#e4eff4'});
@@ -146,7 +156,6 @@ function drawTree(lit,participantCount){
   node('path',{d:`M250 ${y-51} C${250-w*.3} ${y+3} ${250-w*.75} ${y+10} ${250-w} ${y+24} Q250 ${y+45} ${250+w} ${y+24} C${250+w*.75} ${y+10} ${250+w*.3} ${y+3} 250 ${y-51}Z`,fill:i%2?'#246f53':'url(#foliage)',stroke:'#13513f','stroke-width':2});
   node('path',{d:`M${250-w} ${y+24} Q250 ${y+42} ${250+w} ${y+24}`,fill:'none',stroke:'#b8e5d9','stroke-width':5,'stroke-linecap':'round',opacity:.65});
  }
- // Garlands and unlit ornaments are intentionally muted at the beginning.
  for(let i=0;i<5;i++){
   const y=188+i*45,w=63+i*21;
   node('path',{d:`M${250-w} ${y} Q250 ${y+46} ${250+w} ${y}`,fill:'none',stroke:count>=80?'#dfbc72':'#527e70','stroke-width':2.5,'stroke-dasharray':'5 6',opacity:count>=80?1:.48});
@@ -155,39 +164,51 @@ function drawTree(lit,participantCount){
   const row=Math.floor(i/5),x=250+Math.sin(i*2.37)*(48+row*27),y=157+row*47+(i%5)*6;
   node('circle',{cx:x,cy:y,r:5.3,fill:count>=200?['#c95c65','#d8b85b','#9bbbd3','#d49bbb'][i%4]:'#426d60',opacity:count>=200?.95:.6});
  }
- // Deterministic shuffled positions: new bulbs appear across top/bottom/left/right.
+ // Fixed pseudo-random bulb sequence. Every 10 participants lights exactly one new bulb.
  const spots=[];
- for(let row=0;row<5;row++)for(let col=0;col<10;col++){
-  spots.push({x:250+(col-4.5)*(10+row*4.2),y:167+row*45+(col%2)*9});
- }
- const order=Array.from({length:50},(_,i)=>i);
- let seed=20261120;
+ for(let row=0;row<5;row++)for(let col=0;col<10;col++)spots.push({x:250+(col-4.5)*(10+row*4.2),y:167+row*45+(col%2)*9});
+ const order=Array.from({length:50},(_,i)=>i);let seed=20261120;
  for(let i=order.length-1;i>0;i--){seed=(seed*1664525+1013904223)>>>0;const j=seed%(i+1);[order[i],order[j]]=[order[j],order[i]];}
  order.forEach((idx,i)=>{
   const pos=spots[idx],on=i<lit;
-  if(on)node('circle',{cx:pos.x,cy:pos.y,r:10,fill:'#ffe18b',opacity:.14});
-  node('circle',{cx:pos.x,cy:pos.y,r:on?5.2:3.4,class:'bulb '+(on?'on':'off')+(on&&count>=200?' twinkle':''),stroke:on?'#fff4c2':'#376453','stroke-width':on?1.5:.7});
+  if(on)node('circle',{cx:pos.x,cy:pos.y,r:10,fill:'#ffe18b',opacity:.12,class:'bulb-halo twinkle',style:`animation-delay:${-(i%9)*.47}s`});
+  node('circle',{cx:pos.x,cy:pos.y,r:on?5.2:3.4,class:'bulb '+(on?'on twinkle':'off'),style:on?`animation-delay:${-(i%9)*.47}s`:'',stroke:on?'#fff4c2':'#376453','stroke-width':on?1.5:.7});
  });
- node('path',{d:'M250 31 L258 50 L279 51 L263 65 L268 86 L250 75 L232 86 L237 65 L221 51 L242 50Z',fill:count>=300?'#ffe48d':'#9c926a',stroke:count>=300?'#fff1ba':'#b4a67c','stroke-width':2});
- const presents=[[116,420,42,34,'#bb4954'],[158,439,36,31,'#e3ac51'],[302,424,46,36,'#bf4b58'],[348,445,38,29,'#408b75'],[209,449,34,25,'#cf6658']];
- presents.forEach(([x,y,w,h,c])=>{node('rect',{x,y,width:w,height:h,rx:4,fill:c,stroke:'#f5d9a8','stroke-width':1});node('rect',{x:x+w*.43,y,width:w*.14,height:h,fill:'#f5d57e'});node('rect',{x,y:y+h*.32,width:w,height:5,fill:'#f5d57e'});});
- // Milestones designed for realistic participation, independent of 10-person bulb count.
- function emoji(x,y,symbol,size=31,parent=root){const t=node('text',{x,y,'font-size':size,'text-anchor':'middle','dominant-baseline':'middle'},parent);t.textContent=symbol;return t;}
- if(count>=30)emoji(76,385,'🦌',43);
- if(count>=50)emoji(338,130,'🔔',32);
- if(count>=80)emoji(111,223,'🍬',35);
- if(count>=100)emoji(405,265,'🧝',39);
- if(count>=130){emoji(98,310,'⛄',39);for(let i=0;i<10;i++)emoji(40+(i*73)%430,50+(i*47)%320,'❄',14+(i%3)*5);}
- if(count>=150)emoji(416,390,'🎅',46);
- if(count>=200){for(const [x,y] of [[83,118],[390,188],[310,95],[142,300]])emoji(x,y,'✦',22);}
- if(count>=250){emoji(143,370,'🎁',30);emoji(355,371,'🎁',30);}
- if(count>=300){emoji(250,113,'✨',36);emoji(438,89,'🎉',32);}
- if(count>=400){for(const [x,y,symbol,size] of [[51,220,'🔔',26],[450,303,'⛄',30],[42,420,'🦌',31],[360,202,'🍬',26],[85,80,'✦',23],[446,145,'❄',24],[185,435,'🎁',25],[393,450,'🎁',25]])emoji(x,y,symbol,size);}
- if(count>=500){
-  const flight=node('g',{'class':'sleigh-flight'});
-  emoji(170,67,'🦌',28,flight);emoji(200,67,'🛷',36,flight);emoji(218,53,'🎅',27,flight);
+ // Existing five-point topper stays dark until the 300-person milestone.
+ node('path',{d:'M250 31 L258 50 L279 51 L263 65 L268 86 L250 75 L232 86 L237 65 L221 51 L242 50Z',class:count>=300?'topper-lit':'topper-unlit',fill:count>=300?'#ffe48d':'#877f69',stroke:count>=300?'#fff1ba':'#9c947c','stroke-width':2});
+ function present(x,y,w,h,c){
+  node('rect',{x,y,width:w,height:h,rx:4,fill:c,stroke:'#f5d9a8','stroke-width':1});
+  node('rect',{x:x+w*.43,y,width:w*.14,height:h,fill:'#f5d57e'});
+  node('rect',{x,y:y+h*.32,width:w,height:5,fill:'#f5d57e'});
+  node('path',{d:`M${x+w/2} ${y} q-13 -15 -13 -3 q8 6 13 3 q13 -15 13 -3 q-8 6 -13 3`,fill:'none',stroke:'#ffe6aa','stroke-width':2.5});
  }
-
+ // Ground-level gift pile; additional gifts cluster around existing boxes.
+ [[116,420,42,34,'#bb4954'],[158,439,36,31,'#e3ac51'],[302,424,46,36,'#bf4b58'],[348,445,38,29,'#408b75'],[209,449,34,25,'#cf6658']].forEach(v=>present(...v));
+ function emoji(x,y,symbol,size=31,parent=root){const t=node('text',{x,y,'font-size':size,'text-anchor':'middle','dominant-baseline':'middle'},parent);t.textContent=symbol;return t;}
+ if(count>=30)emoji(78,443,'🦌',44); // Rudolph stands on the snowy ground.
+ if(count>=50)emoji(318,222,'🔔',32); // Ornaments hang within the fir branches.
+ if(count>=80)emoji(188,266,'🍬',34);
+ if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
+ if(count>=130){
+  emoji(424,442,'⛄',43);
+  // White snowflakes drift from the top, fading out above the gifts.
+  const flakes=node('g',{'class':'falling-snow-layer','aria-hidden':'true'});
+  for(let i=0;i<18;i++){
+   const x=24+(i*73)%455;
+   const f=node('text',{x,y:0,'font-size':15+(i%4)*3,fill:'#ffffff',stroke:'#e6f5ff','stroke-width':'.35','text-anchor':'middle',class:'falling-flake',style:`--flake-delay:${-((i*1.37)%12).toFixed(2)}s;--flake-duration:${(10+(i%5)*1.5).toFixed(1)}s;--flake-drift:${((i%5)-2)*11}px`},flakes);
+   f.textContent='❄';
+  }
+ }
+ if(count>=150)emoji(387,411,'🎅',45);
+ if(count>=200){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]])emoji(x,y,'✦',20);}
+ if(count>=250){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
+ if(count>=400){
+  emoji(55,422,'🦌',33);emoji(455,438,'⛄',32);
+  emoji(155,194,'🔔',27);emoji(339,334,'🍬',29);
+  for(const [x,y] of [[115,150],[380,240],[286,326]])emoji(x,y,'✦',18);
+  present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');
+ }
+ if(count>=500){const flight=node('g',{'class':'sleigh-flight'});emoji(170,67,'🦌',28,flight);emoji(200,67,'🛷',36,flight);emoji(218,53,'🎅',27,flight);}
 }
 $('begin').onclick=()=>screen('login');$('loginForm').onsubmit=async e=>{e.preventDefault();const s={id:$('emp').value.trim(),name:$('name').value.trim(),site:$('site').value};if(!s.id||!s.name||!s.site)return;session=s;try{await api('login',s);localStorage.setItem(KEY,JSON.stringify(s));await refresh();screen(snapshot.people.find(p=>p.id===s.id)?.arDone?'square':'guide')}catch(err){alert(err.message)}};
 $('goSquare').onclick=async()=>{await refresh();screen('square')};$('backAr').onclick=()=>screen('guide');$('newGreeting').onclick=()=>{selected=null;$('chosen').textContent='받는 동료를 선택해 주세요.';$('search').value='';$('message').value='';$('results').replaceChildren();screen('compose')};$('cancel').onclick=()=>screen('square');
