@@ -67,7 +67,7 @@
 .greeting-scroll-group{display:flex;flex-direction:column;flex:none}
 .greeting-scroll-group .entry{flex:none;margin:5px 0;padding:10px 12px}
 .greeting-scroll-group .entry p{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;white-space:pre-wrap!important;line-height:1.55}
-.greeting-view:hover .greeting-scroll-track,.greeting-view:active .greeting-scroll-track,.greeting-view:focus-within .greeting-scroll-track{animation-play-state:paused}
+.greeting-view.is-paused .greeting-scroll-track{animation-play-state:paused}
 .greeting-empty{text-align:center;padding:35px 10px}
 @keyframes greeting-credits{from{transform:translateY(var(--greeting-start,400px))}to{transform:translateY(var(--greeting-end,-600px))}}
 @media(max-width:480px){.greeting-view{height:min(65vh,550px);min-height:370px}.greeting-scroll-group .entry{margin:5px 0;padding:10px 11px}}
@@ -88,12 +88,18 @@
 .login-loading-card p{font-size:13px;color:#d1e0e5;margin:10px 0 0}
 @keyframes login-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.login-spinner{animation-duration:2s}}
+/* Private message lists are static; only the company-wide feed scrolls. */
+.greeting-view.static-list{height:auto!important;min-height:0!important;max-height:none!important;mask-image:none!important;-webkit-mask-image:none!important;overflow:visible!important}
+.greeting-view.static-list .greeting-page{height:auto!important;overflow:visible!important;padding:0}
+.greeting-view.static-list .entry{margin:8px 0}
+.greeting-view:not(.static-list){touch-action:pan-y}
+.admin-preview{border:1px solid #d9b95b;background:#203f4c}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
 <section id="guide" class="card hidden"><h2>⭐Mission!산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서</b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
 <section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 함께 밝히는 크리스마스 트리</h2></div><p class="muted">신규 참여자 10명마다 트리 조명이 하나씩 켜집니다. 트리 아래에는 참여자 명단이 순서대로 흐릅니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 크리스마스 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">참여자 이름이 3줄로 왼쪽으로 이동합니다. 마우스를 올리거나 터치하면 잠시 멈춥니다.</p></div><div class="tree-progress"><span id="treeLabel">0명 참여 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted">500개 별은 기부 공동 목표 예시이며, 실제 기부 집행은 회사 확정 계획에 따릅니다.</p></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
-<section id="greetings" class="hidden"><div class="card"><button type="button" class="btn secondary" id="returnTree" style="width:100%">🎄 크리스마스 트리로 돌아가기</button></div><div class="card"><h2>💌 크리스마스 인사 광장</h2><div id="demoPanel" class="notice"><b>화면 미리보기</b><p class="muted">예시 참여자와 인사말을 불러와 발신·수신 화면을 확인할 수 있습니다. 예시 데이터는 이 브라우저에만 저장됩니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 지팡이</option><option value="100">100명 · 요정</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 집 창문 점등</option><option value="200">200명 · 반짝이는 조명</option><option value="250">250명 · 선물상자</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 꼭대기 별 점등</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div><div class="buttons"><button class="btn" id="newGreeting">인사 보내기</button></div><div class="tabs" id="tabs"><button class="active" data-tab="all">전사 인사말</button><button data-tab="sent">내가 보낸 인사</button><button data-tab="received">내가 받은 인사</button></div><div class="greeting-view" id="greetingView"><div id="messageList" class="greeting-page" aria-live="off"></div></div><p class="greeting-help">인사말이 아래에서 위로 흐릅니다. 누르고 있으면 잠시 멈춥니다.</p></div></section>
+<section id="greetings" class="hidden"><div class="card"><button type="button" class="btn secondary" id="returnTree" style="width:100%">🎄 크리스마스 트리로 돌아가기</button></div><div class="card"><h2>💌 크리스마스 인사 광장</h2><div id="demoPanel" class="notice admin-preview"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 지팡이</option><option value="100">100명 · 요정</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 집 창문 점등</option><option value="200">200명 · 반짝이는 조명</option><option value="250">250명 · 선물상자</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 꼭대기 별 점등</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div><div class="buttons"><button class="btn" id="newGreeting">인사 보내기</button></div><div class="tabs" id="tabs"><button class="active" data-tab="all">전사 인사말</button><button data-tab="sent">내가 보낸 인사</button><button data-tab="received">내가 받은 인사</button></div><div class="greeting-view" id="greetingView"><div id="messageList" class="greeting-page" aria-live="off"></div></div><p class="greeting-help" id="greetingHelp">전사 인사말은 아래에서 위로 흐릅니다. 터치하면 5초간 멈춘 뒤 다시 재생됩니다.</p></div></section>
 <section id="compose" class="card hidden"><div id="arGreetingPrompt" class="compose-prompt hidden"><strong>🎁 선물 찾기 성공!</strong><p>동료에게 따뜻한 크리스마스 인사를 전해 주세요.<br>인사말을 보내면 크리스마스 광장에서 함께 모은 별과 트리를 확인할 수 있어요.</p></div><h2>💌 동료에게 크리스마스 인사 보내기</h2><p class="muted">인사말 발송 횟수에는 제한이 없습니다. 상대방의 첫 AR 미션 완료에 따른 추가 별 보상은 중복 없이 지급됩니다.</p><label>받는 동료 검색<input id="search" placeholder="이름 또는 사업장" autocomplete="off"></label><div id="results" class="search-results"></div><p id="chosen" class="gold">받는 동료를 선택해 주세요.</p><label>인사말 예시 선택<select id="greetingPreset"><option value="">직접 작성하기</option><option value="올 한 해도 정말 수고 많으셨습니다. 따뜻한 크리스마스 보내세요!">한 해의 수고에 감사</option><option value="함께 일할 수 있어 든든했습니다. 내년에도 좋은 일 가득하시길 바랍니다!">동료에게 감사</option><option value="멀리 떨어져 있어도 마음만은 가까이! 행복한 연말 보내세요.">다른 사업장 동료에게</option></select></label><label>인사말<textarea id="message" maxlength="300" placeholder="직접 작성한 따뜻한 인사를 전해주세요."></textarea></label><div class="buttons"><button class="btn" id="send">인사 보내기</button><button class="btn secondary" id="cancel">광장으로 돌아가기</button></div><p id="sendStatus" class="muted"></p></section></div>
 <div id="loginLoading" class="login-loading hidden" role="status" aria-live="polite" aria-label="임직원 정보 확인 중"><div class="login-loading-card"><div class="login-spinner" aria-hidden="true"></div><strong>임직원 정보를 확인하고 있습니다</strong><p>명부와 참여 기록을 조회 중입니다.<br>잠시만 기다려 주세요.</p></div></div>
 <section id="arScreen" class="ar hidden"><div id="arHost" class="arhost"></div><div class="ar-top"><div class="row"><b>🎁 크리스마스 트리 선물 찾기</b><button class="btn secondary" id="closeAr">닫기</button></div><p>트리 주변을 비춰주세요.</p></div><button id="gift" class="gift hidden" aria-label="선물 획득">🎁</button><div class="ar-bottom" id="arHint">포스터를 카메라 중앙에 비춰주세요.</div></section>
@@ -105,6 +111,31 @@ const $=id=>document.getElementById(id), SCREENS=['welcome','login','guide','squ
 const KEY='sdb_christmas_2026_v2';
 let session=JSON.parse(localStorage.getItem(KEY)||'null'),snapshot={people:[],messages:[],stars:0},selected=null,tab='all',messagePage=0,ar=null,arFound=false,arStarting=false;
 const localKey='sdb_christmas_demo_shared_v2';
+// TEST-ONLY administrator preview: replace ADMIN_TEST with a dedicated test employee ID
+// present in Employees. This is a UI convenience, NOT secure authorization.
+const ADMIN_PREVIEW_IDS=['ADMIN_TEST'];
+let baseSnapshot=null,previewCount=0,greetingResumeTimer=null;
+function isPreviewAdmin(){return !!session&&ADMIN_PREVIEW_IDS.includes(String(session.id))}
+function previewSnapshot(base,count){
+ const people=[...(base.people||[])], messages=[...(base.messages||[])];
+ const n=Math.max(0,count-people.length);
+ for(let i=0;i<n;i++)people.push({id:'PREVIEW'+i,name:'예시직원 '+(i+1),site:DEMO_SITES[i%DEMO_SITES.length],arDone:true,sample:true});
+ const mock=people.filter(p=>String(p.id).startsWith('PREVIEW'));
+ const num=Math.min(36,mock.length);
+ for(let i=0;i<num;i++){const a=mock[i],b=mock[(i+3)%mock.length];if(a&&b&&a!==b)messages.push({id:'PREVIEW_MSG_'+i,fromId:a.id,toId:b.id,fromName:a.name,toName:b.name,message:DEMO_TEXTS[i%DEMO_TEXTS.length],sample:true});}
+ return {...base,people,messages,stars:Number(base.stars||0)+num+n};
+}
+function updateAdminPreview(){
+ $('demoPanel').classList.toggle('hidden',!isPreviewAdmin());
+ $('demoState').textContent=previewCount?'관리자 미리보기 '+previewCount+'명 · 실제 시트 미반영':'실제 데이터 표시 중 · 미리보기 미적용';
+}
+function pauseGreetingFiveSeconds(){
+ if(tab!=='all')return;
+ const view=$('greetingView');view.classList.add('is-paused');
+ clearTimeout(greetingResumeTimer);
+ greetingResumeTimer=setTimeout(()=>view.classList.remove('is-paused'),5000);
+}
+
 const greetingPendingKey='sdb_christmas_greeting_pending_v1';
 let greetingPending=localStorage.getItem(greetingPendingKey)===session?.id;
 function openGreeting(afterAR=false){
@@ -127,7 +158,7 @@ $('logoutBtn').onclick=async()=>{
  if(!confirm('로그아웃하고 다른 계정으로 접속하시겠습니까? 구글시트에 저장된 참여 기록은 유지됩니다.'))return;
  if(!$('arScreen').classList.contains('hidden'))await stopAR();
  localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);
- session=null;greetingPending=false;selected=null;tab='all';snapshot={people:[],messages:[],stars:0};
+ session=null;greetingPending=false;selected=null;tab='all';previewCount=0;baseSnapshot=null;snapshot={people:[],messages:[],stars:0};
  $('loginForm').reset();$('search').value='';$('message').value='';$('results').replaceChildren();
  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
  $('messageList').replaceChildren();$('messageList').removeAttribute('data-signature');
@@ -143,50 +174,47 @@ async function api(action,data={}){
  }
  const requestId=(action==='send'||action==='complete')?crypto.randomUUID():undefined;const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,data,requestId}),redirect:'follow'});if(!res.ok)throw Error('서버 응답 오류: '+res.status);const result=await res.json();if(!result.ok)throw Error(result.error||'서버 오류');return result;
 }
-async function refresh(){const r=await api('snapshot');snapshot=r;render();}
+async function refresh(){const r=await api('snapshot');baseSnapshot=r;snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(r,previewCount):r;render();}
 function myStarCount(){return (snapshot.people.find(p=>p.id===session?.id)?.arDone?1:0)+snapshot.messages.filter(m=>m.fromId===session?.id).length+snapshot.messages.filter(m=>m.fromId===session?.id&&m.referralPaid).length}
 function render(){if(!session)return;$('totalStars').textContent=snapshot.stars;$('totalPeople').textContent=snapshot.people.length+'명';$('totalMessages').textContent=snapshot.messages.length+'건';$('myStars').textContent=myStarCount()+'개';$('treeLabel').textContent=snapshot.people.length+'명 참여 · '+Math.floor(snapshot.people.length/10)+'단계 점등';$('giftLabel').textContent='별 '+snapshot.stars.toLocaleString('ko-KR')+'개 / 목표 500개'+(snapshot.stars>500?' · '+(snapshot.stars-500).toLocaleString('ko-KR')+'개 초과 달성':'');$('goalBar').style.width=Math.min(100,snapshot.stars/5)+'%';
  drawTree(Math.min(50,Math.floor(snapshot.people.length/10)),snapshot.people.length);
  renderNameTicker(snapshot.people);
- $('demoPanel').classList.toggle('hidden',!!API_URL);$('demoState').textContent=demo().sampleLoaded?'테스트 데이터 적용 중 · 실제 등록 인원과 구분되는 가상 참여자입니다.':'원하는 인원을 선택하면 트리 장식과 명단을 미리 볼 수 있습니다.';
+ updateAdminPreview();
  renderGreetingPage();
 }
 
 function renderGreetingPage(){
- const list=$('messageList');
+ const list=$('messageList'),view=$('greetingView');
  const seen=new Set();
- const messages=snapshot.messages.filter(m=>tab==='all'||(tab==='sent'?m.fromId===session.id:m.toId===session.id)).filter(m=>{const id=String(m.id??m.GreetingID??'');if(!id)return true;if(seen.has(id))return false;seen.add(id);return true}).slice().reverse();
- // Keep the current animation position during the 20-second polling refresh.
- const signature=tab+'|'+messages.map(m=>String(m.id)+'@'+String(m.message)).join('~');
+ const messages=(snapshot.messages||[]).filter(m=>tab==='all'||(tab==='sent'?m.fromId===session.id:m.toId===session.id)).filter(m=>{
+  const id=String(m.id??m.GreetingID??'');if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;
+ }).slice().reverse();
+ const signature=tab+'|'+messages.map(m=>String(m.id??m.GreetingID)+'@'+String(m.message)).join('~');
+ view.classList.toggle('static-list',tab!=='all');
+ $('greetingHelp').textContent=tab==='all'?'전사 인사말은 아래에서 위로 흐릅니다. 터치하면 5초간 멈춘 뒤 다시 재생됩니다.':'보낸·받은 인사말을 시간순으로 모두 확인할 수 있습니다.';
  if(list.dataset.signature===signature)return;
- list.dataset.signature=signature;
- list.replaceChildren();
+ list.dataset.signature=signature;list.replaceChildren();
  if(!messages.length){const e=document.createElement('p');e.className='muted greeting-empty';e.textContent='아직 등록된 인사말이 없습니다.';list.append(e);return;}
- const track=document.createElement('div');track.className='greeting-scroll-track';
- function makeGroup(hidden){
-  const group=document.createElement('div');group.className='greeting-scroll-group';
-  if(hidden)group.setAttribute('aria-hidden','true');
-  messages.forEach(m=>{
-   const e=document.createElement('article');e.className='entry';
-   const name=tab==='all'?m.fromName+' → '+m.toName:tab==='sent'?'받는 사람: '+m.toName:'보낸 사람: '+m.fromName;
-   e.innerHTML='<div class="entry-head"><b>'+esc(name)+'</b></div><p>'+esc(m.message)+'</p>';
-   group.append(e);
-  });
-  return group;
+ function makeEntry(m){
+  const e=document.createElement('article');e.className='entry';
+  const name=tab==='all'?m.fromName+' → '+m.toName:tab==='sent'?'받는 사람: '+m.toName:'보낸 사람: '+m.fromName;
+  e.innerHTML='<div class="entry-head"><b>'+esc(name)+'</b></div><p>'+esc(m.message)+'</p>';return e;
  }
- track.append(makeGroup(false));list.append(track);
- // The scroll distance is one full group, so the loop has no visual jump.
- const speed=24; // pixels per second: calm, credit-like movement
+ if(tab!=='all'){messages.forEach(m=>list.append(makeEntry(m)));return;}
+ const track=document.createElement('div');track.className='greeting-scroll-track';
+ const group=document.createElement('div');group.className='greeting-scroll-group';
+ messages.forEach(m=>group.append(makeEntry(m)));
+ track.append(group);list.append(track);
  requestAnimationFrame(()=>{
   if(!track.isConnected)return;
-  const group=track.firstElementChild;
   const height=group.getBoundingClientRect().height;
   const viewport=list.getBoundingClientRect().height;
-  // A single message must still scroll smoothly rather than rapidly repeat.
   track.style.setProperty('--greeting-distance',height+'px');
-  track.style.setProperty('--greeting-duration',Math.max(18,(height+viewport)/speed)+'s');
+  track.style.setProperty('--greeting-duration',Math.max(18,(height+viewport)/24)+'s');
  });
 }
+$('greetingView').addEventListener('pointerdown',pauseGreetingFiveSeconds);
+$('greetingView').addEventListener('click',pauseGreetingFiveSeconds);
  function laneWidthForTicker(){return Math.max(200,Math.min(window.innerWidth-40,970));}
  // Names are split into three lanes; short lanes show each name only once.
  function renderNameTicker(people){
@@ -356,31 +384,17 @@ $('greetingPreset').onchange=()=>{if($('greetingPreset').value)$('message').valu
 const DEMO_NAMES=['김하늘','박지민','이서연','최도윤','정유진','오지훈','한수빈','윤서준','강민서','임도현','서지우','신유정','조하린','문태윤','배하준','유다은','남예린','권소윤','백서아','홍지훈'];
 const DEMO_SITES=['기흥','수원','서울','오창','오송','증평','평택'];
 const DEMO_TEXTS=['올 한 해 함께해 주셔서 감사합니다. 행복한 크리스마스 보내세요!','멀리 있어도 늘 응원하고 있습니다. 따뜻한 연말 되세요.','올해도 정말 고생 많으셨어요. 새해에는 좋은 일만 가득하시길 바랍니다!','함께 일할 수 있어 든든했습니다. 내년에도 잘 부탁드려요.','우리의 작은 인사가 더 따뜻한 크리스마스를 만들기를 바랍니다.'];
-$('loadDemo').onclick=async()=>{
- if(API_URL)return;
- const target=Number($('demoCount').value),d=demo();
- // Replace only sample data. Preserve actual local test accounts and greetings.
- d.people=d.people.filter(p=>!p.sample);
- d.messages=d.messages.filter(m=>!m.sample);
- const existing=d.people.length,add=Math.max(0,target-existing),now=Date.now();
- for(let i=0;i<add;i++){
-  const name=DEMO_NAMES[i%DEMO_NAMES.length];
-  d.people.push({id:'DEMO'+String(i+1).padStart(4,'0'),name:name+'(예시'+(i+1)+')',site:DEMO_SITES[i%DEMO_SITES.length],arDone:i%5!==0,created:now-(add-i)*60000,sample:true});
- }
- const candidates=d.people.filter(p=>p.sample);
- const messageCount=Math.min(36,Math.max(0,candidates.length));
- for(let i=0;i<messageCount;i++){
-  const from=candidates[i%candidates.length],to=candidates[(i+3)%candidates.length];
-  if(!from||!to||from.id===to.id)continue;
-  d.messages.push({id:'SAMPLE'+i,fromId:from.id,fromName:from.name,fromSite:from.site,toId:to.id,toName:to.name,message:DEMO_TEXTS[i%DEMO_TEXTS.length],created:now-(messageCount-i)*3600000,reward:true,referralPaid:i<Math.floor(messageCount/3),sample:true});
- }
- d.sampleLoaded=true;saveDemo(d);messagePage=0;await refresh();
- $('demoState').textContent='미리보기: 총 '+d.people.length+'명 · 조명 '+Math.floor(d.people.length/10)+'개 (실제 등록 '+existing+'명 포함)';
+$('loadDemo').onclick=()=>{
+ if(!isPreviewAdmin())return;
+ previewCount=Number($('demoCount').value)||0;
+ snapshot=previewSnapshot(baseSnapshot||snapshot,previewCount);
+ render();
 };
-$('clearDemo').onclick=async()=>{
- if(API_URL)return;
- const d=demo();d.people=d.people.filter(p=>!p.sample);d.messages=d.messages.filter(m=>!m.sample);d.sampleLoaded=false;
- saveDemo(d);messagePage=0;await refresh();
+$('clearDemo').onclick=()=>{
+ if(!isPreviewAdmin())return;
+ previewCount=0;
+ snapshot=baseSnapshot||snapshot;
+ render();
 };
 $('send').onclick=async()=>{const message=$('message').value.trim();if(!selected)return alert('받는 동료를 선택하세요.');if(!message||message.length>300)return alert('인사말은 1~300자로 작성하세요.');$('send').disabled=true;try{await api('send',{toId:selected.id,message});await refresh();greetingPending=false;localStorage.removeItem(greetingPendingKey);$('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');alert('인사말을 보냈습니다. 크리스마스 광장에서 현황을 확인하세요!');screen('square')}catch(err){alert(err.message)}finally{$('send').disabled=false}};
 let mindarLoader;async function loadMindAR(){if(!mindarLoader)mindarLoader=import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js').then(m=>m.MindARThree);return mindarLoader}
