@@ -174,12 +174,28 @@ function drawTree(lit,participantCount){
   const row=Math.floor(i/5),x=250+Math.sin(i*2.37)*(48+row*27),y=157+row*47+(i%5)*6;
   node('circle',{cx:x,cy:y,r:5.3,fill:count>=200?['#c95c65','#d8b85b','#9bbbd3','#d49bbb'][i%4]:'#426d60',opacity:count>=200?.95:.6});
  }
- // Fixed left-bottom-to-top lighting sequence. Every 10 participants lights exactly one new bulb.
+ // All 50 unlit bulbs are visible from the start. Lights travel from the
+ // bottom-left to the top, finishing immediately below the five-point star.
+ // Row widths follow the silhouette of the fir tree, preventing a top gap.
+ const rowCounts=[2,4,6,7,8,8,8,7]; // top to bottom, 50 bulbs total
+ const rowYs=[105,140,179,219,261,302,343,383];
+ const rowHalfWidths=[12,27,46,66,85,107,129,150];
  const spots=[];
- for(let row=0;row<5;row++)for(let col=0;col<10;col++)spots.push({x:250+(col-4.5)*(10+row*4.2),y:167+row*45+(col%2)*9});
- // Start at the lower-left, proceed across each row, then move upward.
- const order=[];
- for(let row=4;row>=0;row--)for(let col=0;col<10;col++)order.push(row*10+col);
+ rowCounts.forEach((n,row)=>{
+  for(let col=0;col<n;col++){
+   const x=250+(n===1?0:(col/(n-1)*2-1)*rowHalfWidths[row]);
+   const y=rowYs[row]+((col%2)===0?-3:3);
+   spots.push({x,y});
+  }
+ });
+ // Left-to-right on each row, beginning with the lowest row.
+ const order=spots.map((_,i)=>i).reverse();
+ // Reversing alone would start on the right. Reverse each row's traversal instead.
+ order.length=0;
+ for(let row=rowCounts.length-1;row>=0;row--){
+  const start=rowCounts.slice(0,row).reduce((a,b)=>a+b,0);
+  for(let col=0;col<rowCounts[row];col++)order.push(start+col);
+ }
  order.forEach((idx,i)=>{
   const pos=spots[idx],on=i<lit;
   if(!on)node('circle',{cx:pos.x,cy:pos.y,r:7.3,fill:'none',stroke:'#a5c8bb','stroke-width':.65,opacity:.7});
@@ -198,7 +214,7 @@ function drawTree(lit,participantCount){
  [[116,420,42,34,'#bb4954'],[158,439,36,31,'#e3ac51'],[302,424,46,36,'#bf4b58'],[348,445,38,29,'#408b75'],[209,449,34,25,'#cf6658']].forEach(v=>present(...v));
  function emoji(x,y,symbol,size=31,parent=root){const t=node('text',{x,y,'font-size':size,'text-anchor':'middle','dominant-baseline':'middle'},parent);t.textContent=symbol;return t;}
  if(count>=30)emoji(78,443,'🦌',44); // Rudolph stands on the snowy ground.
- if(count>=50)emoji(250,370,'🔔',31); // Bell hangs near the lowest central branches. // Ornaments hang within the fir branches.
+ if(count>=50)emoji(313,199,'🔔',30); // First bell: right side of the third branch from the top.
  if(count>=80)emoji(188,266,'🍬',34);
  if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
  if(count>=130){
