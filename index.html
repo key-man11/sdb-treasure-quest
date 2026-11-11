@@ -71,7 +71,11 @@
 .compose-prompt{background:linear-gradient(135deg,#285a60,#21445d);border:1px solid #e5c57b;border-radius:14px;padding:15px;margin:0 0 16px;text-align:center}
 .compose-prompt strong{display:block;color:#ffe6a2;font-size:18px;margin-bottom:6px}
 .compose-prompt p{margin:0;font-size:13px;line-height:1.6}
-</style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p></header>
+/* Navigation controls for returning to start and switching accounts */
+.header-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.header-actions .btn{font-size:13px;padding:9px 14px;min-height:38px}
+@media(max-width:480px){.header-actions .btn{flex:1 1 120px;max-width:190px}}
+</style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃 / 계정 변경</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit">입장하기</button></form></section>
 <section id="guide" class="card hidden"><h2>⭐Mission!산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서</b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
@@ -100,7 +104,20 @@ function openGreeting(afterAR=false){
 function demo(){try{return JSON.parse(localStorage.getItem(localKey))||{people:[],messages:[]}}catch{return {people:[],messages:[]}}}
 function saveDemo(d){localStorage.setItem(localKey,JSON.stringify(d))}
 function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function screen(id){SCREENS.forEach(s=>$(s).classList.toggle('hidden',s!==id));window.scrollTo(0,0)}
+function updateNav(){ $('logoutBtn').classList.toggle('hidden',!session); }
+function screen(id){SCREENS.forEach(s=>$(s).classList.toggle('hidden',s!==id));updateNav();window.scrollTo(0,0)}
+// Home only changes the screen; logout clears local login/progress state, not Sheets records.
+$('homeBtn').onclick=async()=>{if(!$('arScreen').classList.contains('hidden'))await stopAR();screen('welcome')};
+$('logoutBtn').onclick=async()=>{
+ if(!confirm('로그아웃하고 다른 계정으로 접속하시겠습니까? 구글시트에 저장된 참여 기록은 유지됩니다.'))return;
+ if(!$('arScreen').classList.contains('hidden'))await stopAR();
+ localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);
+ session=null;greetingPending=false;selected=null;tab='all';snapshot={people:[],messages:[],stars:0};
+ $('loginForm').reset();$('search').value='';$('message').value='';$('results').replaceChildren();
+ $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
+ $('messageList').replaceChildren();$('messageList').removeAttribute('data-signature');
+ screen('welcome');
+};
 async function api(action,data={}){
  if(!API_URL){const d=demo(),id=session?.id;
   if(action==='login'){const p=d.people.find(p=>p.id===data.id);if(p&&p.name!==data.name)throw Error('등록된 사번과 이름이 일치하지 않습니다.');if(!p)d.people.push({id:data.id,name:data.name,site:data.site,arDone:false,created:Date.now()});saveDemo(d);return {ok:true}}
