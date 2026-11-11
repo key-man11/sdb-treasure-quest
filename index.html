@@ -113,7 +113,7 @@ let session=JSON.parse(localStorage.getItem(KEY)||'null'),snapshot={people:[],me
 const localKey='sdb_christmas_demo_shared_v2';
 // TEST-ONLY administrator preview: replace ADMIN_TEST with a dedicated test employee ID
 // present in Employees. This is a UI convenience, NOT secure authorization.
-const ADMIN_PREVIEW_IDS=['ADMIN_TEST'];
+const ADMIN_PREVIEW_IDS=['999'];
 let baseSnapshot=null,previewCount=0,greetingResumeTimer=null;
 function isPreviewAdmin(){return !!session&&ADMIN_PREVIEW_IDS.includes(String(session.id))}
 function previewSnapshot(base,count){
