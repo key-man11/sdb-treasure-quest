@@ -126,6 +126,8 @@
 @keyframes village-glow{from{opacity:.55}to{opacity:1}}
 @keyframes gift-shimmer{0%,85%,100%{opacity:.7}90%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.tree-art .village-deer,.tree-art .deer-leg-front,.tree-art .deer-leg-back,.tree-art .deer-head,.tree-art .bell-swing,.tree-art .roof-santa,.tree-art .sleigh-flight,.tree-art .village-twinkle,.tree-art .gift-bow{animation:none!important}.tree-art .sleigh-flight{display:none}.tree-art .flight-bob,.tree-art .flight-deer-leg{animation:none!important}}
+
+.tree-art .illustrated-asset{pointer-events:none;filter:drop-shadow(0 3px 4px #071c2b99)}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
@@ -291,6 +293,12 @@ function node(tag,attrs={},parent=$('treeDecor')){const el=document.createElemen
 function drawTree(lit,participantCount){
  const root=$('treeDecor');root.replaceChildren();
  const count=Math.max(0,Number(participantCount)||0);
+ // High-quality image assets generated for this event. No external image host required.
+ function artImage(name,x,y,w,h){
+  const image=node('image',{x,y,width:w,height:h,preserveAspectRatio:'xMidYMid meet',class:'illustrated-asset'});
+  image.setAttribute('href','./images/'+name+'.webp');
+  return image;
+ }
  // Background: subdued snowy village. Animated snow begins at 130 participants.
  for(let i=0;i<35;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?1.7:1,fill:'#e4f2ff',opacity:.35+(i%3)*.1});
  for(const [x,y] of [[20,355],[405,350],[455,375]]){
@@ -455,10 +463,10 @@ function drawTree(lit,participantCount){
   // Small bell on harness.
   node('circle',{cx:28,cy:-28,r:3.5,fill:'#ffd66f'},d);
  }
- if(count>=30)deer(77,466,.65);
+ if(count>=30)artImage('rudolph',20,347,127,135);
  if(count>=50)bell(313,184,.95);
  if(count>=80)cane(188,264,.8);
- if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
+ if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');artImage('gifts',170,420,160,45);}
  if(count>=130){
   // Snowflakes fade as they approach the ground.
   const flakes=node('g',{'class':'falling-snow-layer','aria-hidden':'true'});
@@ -467,21 +475,13 @@ function drawTree(lit,participantCount){
    const f=node('text',{x,y:0,'font-size':15+(i%4)*3,fill:'#ffffff',stroke:'#e6f5ff','stroke-width':'.35','text-anchor':'middle',class:'falling-flake',style:`--flake-delay:${-((i*1.37)%12).toFixed(2)}s;--flake-duration:${(10+(i%5)*1.5).toFixed(1)}s;--flake-drift:${((i%5)-2)*11}px`},flakes);
    f.textContent='❄';
   }
-  // Snowman drawn as layered snow with scarf and hat.
-  const snowman=group('','translate(428 453)');
-  node('ellipse',{cx:0,cy:0,rx:19,ry:6,fill:'#1c4054',opacity:.3},snowman);
-  node('circle',{cx:0,cy:-14,r:17,fill:'#f2f9fa',stroke:'#c4dce5','stroke-width':2},snowman);
-  node('circle',{cx:0,cy:-39,r:12,fill:'#fff',stroke:'#c4dce5','stroke-width':1.5},snowman);
-  node('path',{d:'M-15 -49 H15 M-10 -49 V-64 H10 V-49',fill:'#293b50',stroke:'#293b50','stroke-width':4},snowman);
-  node('path',{d:'M-12 -27 Q0 -20 12 -27',stroke:'#c94b50','stroke-width':6,fill:'none'},snowman);
-  node('path',{d:'M0 -39 L12 -36 L0 -35Z',fill:'#e6a64e'},snowman);
-  node('circle',{cx:-4,cy:-43,r:1.5,fill:'#27343c'},snowman);node('circle',{cx:4,cy:-43,r:1.5,fill:'#27343c'},snowman);
+  artImage('snowman',391,359,89,109);
  }
  if(count>=200){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]]){const st=node('text',{x,y,'font-size':19,'text-anchor':'middle',fill:'#ffe6a0',class:'village-twinkle'});st.textContent='✦';}}
  if(count>=250){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
- if(count>=300)santa(435,349,.66);
- if(count>=400){deer(51,460,.42);bell(292,370,.72);cane(337,330,.65);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
- if(count>=500)sleigh();
+ if(count>=300)artImage('santa',401,288,74,77);
+ if(count>=400){artImage('rudolph',5,397,70,82);bell(292,370,.72);cane(337,330,.65);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
+ if(count>=500)artImage('sleigh',280,68,204,90);
 
 }
 let loginBusy=false;
