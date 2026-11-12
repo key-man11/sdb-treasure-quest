@@ -128,16 +128,16 @@
 /* V14: centered entry actions and celebratory sky fireworks */
 #welcome #begin{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
 #login #loginSubmit{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
-.tree-art .firework-ray{transform-box:fill-box;transform-origin:center;animation:firework-burst 2.8s ease-out infinite;animation-delay:var(--burst-delay,0s)}
-.tree-art .firework-spark{animation:firework-sparkle 2.8s ease-in-out infinite;animation-delay:var(--burst-delay,0s)}
-@keyframes firework-burst{0%,10%{opacity:0;transform:scale(.12)}28%,65%{opacity:1;transform:scale(1)}95%,100%{opacity:0;transform:scale(1.15)}}
-@keyframes firework-sparkle{0%,15%,100%{opacity:0}30%,70%{opacity:1}}
+.tree-art .firework-ray{transform-box:fill-box;transform-origin:center;animation:firework-burst var(--burst-period,9s) ease-out infinite;animation-delay:var(--burst-delay,0s)}
+.tree-art .firework-spark{animation:firework-sparkle var(--burst-period,9s) ease-in-out infinite;animation-delay:var(--burst-delay,0s)}
+@keyframes firework-burst{0%,2%{opacity:0;transform:scale(.15)}7%,18%{opacity:1;transform:scale(1)}29%,100%{opacity:0;transform:scale(1.18)}}28%,65%{opacity:1;transform:scale(1)}95%,100%{opacity:0;transform:scale(1.15)}}
+@keyframes firework-sparkle{0%,3%,30%,100%{opacity:0}9%,19%{opacity:1}}30%,70%{opacity:1}}
 @media(prefers-reduced-motion:reduce){.tree-art .firework-ray,.tree-art .firework-spark{animation:none!important;opacity:.9}}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
 <section id="guide" class="card hidden"><h2>⭐Mission! 산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서 </b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
-<section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 크리스마스 트리 함께 완성하기</h2></div><p class="muted">신규 참여자 10명마다 트리 조명이 하나씩 켜지고, 더 따뜻하고 빛나는 크리스마스 트리로 완성됩니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">마우스를 올리거나 터치하면 잠시 멈춥니다.</p></div><div class="tree-progress"><span id="treeLabel">0명 참여 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted">500개 별은 기부 공동 목표 이며, 참여할수록 아이들의 크리스마스가 더욱 풍성해 집니다! (별 5개당 선물 1개)</p></div><div id="adminPreviewSlot" class="admin-preview-slot"><div id="demoPanel" class="notice admin-preview hidden"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 빨간 리본 장식</option><option value="100">100명 · 선물상자</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 별 장식</option><option value="200">200명 · 오른쪽 집 조명·선물</option><option value="250">250명 · 가운데 집 조명</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 별 점등·폭죽</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
+<section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 크리스마스 트리 함께 완성하기</h2></div><p class="muted">신규 참여자 10명마다 트리 조명이 하나씩 켜지고, 더 따뜻하고 빛나는 크리스마스 트리로 완성됩니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">마우스를 올리거나 터치하면 잠시 멈춥니다.</p></div><div class="tree-progress"><span id="treeLabel">0명 참여 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted">500개 별은 기부 공동 목표 이며, 참여할수록 아이들의 크리스마스가 더욱 풍성해 집니다! (별 5개당 선물 1개)</p></div><div id="adminPreviewSlot" class="admin-preview-slot"><div id="demoPanel" class="notice admin-preview hidden"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 크리스마스 리본</option><option value="100">100명 · 선물상자</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 별 장식</option><option value="200">200명 · 오른쪽 집 조명·선물</option><option value="250">250명 · 가운데 집 조명·양말</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 별 점등·폭죽</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
 <section id="greetings" class="hidden"><div class="card"><button type="button" class="btn secondary" id="returnTree" style="width:100%">🎄 크리스마스 트리로 돌아가기</button></div><div class="card"><h2>💌 크리스마스 인사 광장</h2><div class="buttons"><button class="btn" id="newGreeting">인사 보내기</button></div><div class="tabs" id="tabs"><button class="active" data-tab="all">전사 인사말</button><button data-tab="sent">내가 보낸 인사</button><button data-tab="received">내가 받은 인사</button></div><div class="greeting-view" id="greetingView"><div id="messageList" class="greeting-page" aria-live="off"></div></div><p class="greeting-help" id="greetingHelp">동료에게 한 해의 수고와 감사의 마음을 담아 따뜻한 인사를 주고 받아보세요. (터치하면 5초간 멈춘 뒤 다시 재생)</p></div></section>
 <section id="compose" class="card hidden"><div id="arGreetingPrompt" class="compose-prompt hidden"><strong>🎁 선물 찾기 성공!</strong><p>동료에게 따뜻한 크리스마스 인사를 전해 주세요.<br>인사말을 보내면 크리스마스 광장에서 함께 모은 별과 트리를 확인할 수 있어요.</p></div><h2>💌 크리스마스·연말 인사 보내기</h2><p class="muted">인사말 발송 횟수에는 제한이 없습니다. 상대방이 이벤트에 참여하면, 별 1개가 추가로 지급됩니다.(중복 적용 안됨)</p><label>받을 동료 검색<input id="search" placeholder="이름 또는 사업장" autocomplete="off"></label><div id="results" class="search-results"></div><p id="chosen" class="gold">받을 동료를 선택해 주세요.</p><label>인사말 예시 선택<select id="greetingPreset"><option value="">직접 작성하기</option><option value="올 한 해도 정말 수고 많으셨습니다. 따뜻한 크리스마스 보내세요!">한 해의 수고에 감사</option><option value="함께 일할 수 있어 든든했습니다. 내년에도 좋은 일 가득하시길 바랍니다!">동료에게 감사</option><option value="멀리 떨어져 있어도 마음만은 가까이! 행복한 연말 보내세요.">다른 사업장 동료에게</option></select></label><label>인사말<textarea id="message" maxlength="100" placeholder="직접 작성한 따뜻한 인사를 전해주세요."></textarea><div id="messageCounter" class="message-counter" aria-live="polite">0 / 100자 (공백 포함)</div></label><div class="buttons"><button class="btn" id="send">인사 보내기</button><button class="btn secondary" id="cancel">광장으로 돌아가기</button></div><p id="sendStatus" class="muted"></p></section></div>
 <div id="giftSaving" class="gift-saving hidden" role="status" aria-live="polite" aria-label="선물 획득 기록 저장 중"><div class="gift-saving-card"><div class="login-spinner" aria-hidden="true"></div><strong>🎁 선물을 찾았습니다!</strong><p>참여 기록과 별 적립 현황을 저장하고 있습니다.<br>잠시만 기다려 주세요.</p></div></div>
@@ -306,11 +306,11 @@ function drawTree(lit,participantCount){
  }
  // Background: subdued snowy village. Animated snow begins at 130 participants.
  for(let i=0;i<35;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?1.7:1,fill:'#e4f2ff',opacity:.35+(i%3)*.1});
- for(const [x,y,windowAt] of [[20,355,100],[405,350,250],[455,375,200]]){
-  node('rect',{x,y,width:63,height:65,rx:4,fill:'#855e64'});
-  node('path',{d:`M${x-9} ${y+4} L${x+31} ${y-28} L${x+72} ${y+4} Z`,fill:'#e4eff4'});
-  node('rect',{x:x+13,y:y+15,width:14,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
-  node('rect',{x:x+37,y:y+15,width:14,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
+ for(const [x,y,windowAt] of [[20,355,100],[383,350,250],[445,375,200]]){
+  node('rect',{x,y,width:53,height:65,rx:4,fill:'#855e64'});
+  node('path',{d:`M${x-9} ${y+4} L${x+26} ${y-28} L${x+62} ${y+4} Z`,fill:'#e4eff4'});
+  node('rect',{x:x+9,y:y+15,width:12,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
+  node('rect',{x:x+31,y:y+15,width:12,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
  }
  node('ellipse',{cx:250,cy:476,rx:350,ry:60,fill:'#e3f2f6'});
  node('rect',{x:238,y:383,width:25,height:81,rx:4,fill:'#6e4531'});
@@ -409,11 +409,15 @@ function drawTree(lit,participantCount){
  if(count>=30)deer(88,438,.9); // Static, single-piece Rudolph
  if(count>=50)bell(313,184,.95);
  if(count>=80){
-  // Red ribbon tied to the tree branch (80-person milestone).
-  const bow=group('', 'translate(188 264) rotate(-12)');
-  node('path',{d:'M-5 -2 C-29 -25 -36 -4 -12 5 L-5 1 C-21 22 -30 31 -21 34 L-1 11 L4 11 L20 34 C30 31 20 19 8 1 L13 5 C37 -4 29 -25 5 -2Z',fill:'#c9384d',stroke:'#ff9c9d','stroke-width':1.5},bow);
-  node('path',{d:'M-5 4 Q-22 11 -23 29 M6 4 Q23 12 22 29',fill:'none',stroke:'#f27d81','stroke-width':2},bow);
-  node('ellipse',{cx:0,cy:2,rx:7,ry:6,fill:'#e85460',stroke:'#ffd3c4','stroke-width':1},bow);
+  // Festive satin bow: dimensional loops, knotted center and flowing tails.
+  const bow=group('','translate(187 260) rotate(-10)');
+  node('path',{d:'M-3 6 C-18 18 -24 30 -26 44 L-12 39 L-6 47 Q-3 27 5 12Z',fill:'#a91e39',stroke:'#f78d9b','stroke-width':1.3},bow);
+  node('path',{d:'M5 7 C16 20 26 28 27 43 L15 39 L9 47 Q5 29 -2 12Z',fill:'#cb2945',stroke:'#ff9da9','stroke-width':1.3},bow);
+  node('path',{d:'M-2 1 C-18 -17 -42 -18 -37 2 Q-32 19 -7 11 L-1 5Z',fill:'#d82e4b',stroke:'#ffb3bd','stroke-width':2},bow);
+  node('path',{d:'M2 1 C18 -17 42 -18 37 2 Q32 19 7 11 L1 5Z',fill:'#d82e4b',stroke:'#ffb3bd','stroke-width':2},bow);
+  node('path',{d:'M-30 -1 Q-22 -10 -9 3 M30 -1 Q22 -10 9 3',stroke:'#ffabb4','stroke-width':3,fill:'none','stroke-linecap':'round',opacity:.85},bow);
+  node('ellipse',{cx:0,cy:6,rx:9,ry:8,fill:'#f14b62',stroke:'#ffd0cb','stroke-width':2},bow);
+  node('path',{d:'M-3 1 Q3 4 3 11',stroke:'#ffb7b7','stroke-width':2,fill:'none'},bow);
  }
  if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
  if(count>=130){
@@ -436,26 +440,46 @@ function drawTree(lit,participantCount){
  }
  if(count>=150){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]]){const st=node('text',{x,y,'font-size':19,'text-anchor':'middle',fill:'#ffe6a0',class:'village-twinkle'});st.textContent='✦';}}
  if(count>=200){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
+ if(count>=250){
+  // Christmas stocking hanging from the lowest fir branch, near the trunk.
+  const sock=group('','translate(267 378) rotate(12)');
+  node('path',{d:'M-9 -7 H11 V14 Q11 24 0 26 L-12 32 Q-22 34 -26 24 Q-28 17 -19 14 L-9 10Z',fill:'#bf3046',stroke:'#f3a1a0','stroke-width':1.5},sock);
+  node('rect',{x:-12,y:-12,width:26,height:9,rx:3,fill:'#f5f3e8',stroke:'#d8e5e5','stroke-width':1.2},sock);
+  node('path',{d:'M-19 14 Q-11 15 -9 24 L-14 28 Q-24 30 -26 24 Q-28 17 -19 14Z',fill:'#f4f0e8'},sock);
+  node('path',{d:'M10 -11 Q18 -18 19 -8',fill:'none',stroke:'#f7e1ac','stroke-width':2},sock);
+ }
  if(count>=300){
   // Santa illustration, standing on the snowy roof without a chimney.
-  artImage('santa',402,282,77,76);
+  artImage('santa',389,293,72,73);
  }
  if(count>=400){deer(45,455,.58);bell(292,370,.72);candy(337,330,.65);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
  if(count>=500){
-  // Fireworks in the sky on both sides of the tree, away from the topper.
-  function fireworks(cx,cy,color,delay){
+  // Three distinctive, staggered fireworks: gold rays, pink blossom, cyan ring.
+  function burst(cx,cy,kind,color,delay){
    const g=group('fireworks','translate('+cx+' '+cy+')');
-   for(let i=0;i<12;i++){
-    const angle=(i*30)*Math.PI/180,inner=11,outer=34;
-    const x1=Math.cos(angle)*inner,y1=Math.sin(angle)*inner;
-    const x2=Math.cos(angle)*outer,y2=Math.sin(angle)*outer;
-    node('line',{x1:x1.toFixed(2),y1:y1.toFixed(2),x2:x2.toFixed(2),y2:y2.toFixed(2),stroke:color,'stroke-width':3,'stroke-linecap':'round',class:'firework-ray',style:'--burst-delay:'+delay+'s'},g);
-    node('circle',{cx:(Math.cos(angle)*39).toFixed(2),cy:(Math.sin(angle)*39).toFixed(2),r:2.5,fill:'#fff0b7',class:'firework-spark',style:'--burst-delay:'+delay+'s'},g);
+   const common='--burst-delay:'+delay+'s;--burst-period:9s';
+   if(kind==='rays'){
+    for(let i=0;i<12;i++){
+     const a=i*Math.PI/6;
+     node('line',{x1:(Math.cos(a)*11).toFixed(1),y1:(Math.sin(a)*11).toFixed(1),x2:(Math.cos(a)*37).toFixed(1),y2:(Math.sin(a)*37).toFixed(1),stroke:color,'stroke-width':i%2?2:3,'stroke-linecap':'round',class:'firework-ray',style:common},g);
+    }
+   }else if(kind==='petals'){
+    for(let i=0;i<9;i++){
+     const a=i*Math.PI*2/9;
+     node('ellipse',{cx:(Math.cos(a)*27).toFixed(1),cy:(Math.sin(a)*27).toFixed(1),rx:5,ry:10,fill:color,opacity:.9,transform:'rotate('+(a*180/Math.PI+90)+' '+(Math.cos(a)*27).toFixed(1)+' '+(Math.sin(a)*27).toFixed(1)+')',class:'firework-ray',style:common},g);
+    }
+   }else{
+    node('circle',{cx:0,cy:0,r:29,fill:'none',stroke:color,'stroke-width':3,'stroke-dasharray':'3 7',class:'firework-ray',style:common},g);
+    for(let i=0;i<8;i++){
+     const a=i*Math.PI/4;
+     node('circle',{cx:(Math.cos(a)*36).toFixed(1),cy:(Math.sin(a)*36).toFixed(1),r:3,fill:color,class:'firework-spark',style:common},g);
+    }
    }
-   node('circle',{cx:0,cy:0,r:4,fill:'#fff2bc',class:'firework-spark',style:'--burst-delay:'+delay+'s'},g);
+   node('circle',{cx:0,cy:0,r:4,fill:'#fff3ce',class:'firework-spark',style:common},g);
   }
-  fireworks(96,115,'#ffcf74',0);
-  fireworks(411,121,'#f69ac1',1.2);
+  burst(86,76,'rays','#ffd275',0);
+  burst(125,173,'petals','#ff91b7',3);
+  burst(421,108,'ring','#9be8f5',6);
  }
 
 
