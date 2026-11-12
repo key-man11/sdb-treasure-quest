@@ -101,6 +101,26 @@
 .gift-saving-card strong{display:block;color:#ffe29d;font-size:19px;line-height:1.5}
 .gift-saving-card p{font-size:14px;color:#d1e0e5;margin:10px 0 0;line-height:1.7}
 .admin-preview-slot:has(.hidden){display:none}.admin-preview-slot .admin-preview{margin:12px 0 0}.admin-preview-slot .demo-tools{align-items:end}@media(max-width:480px){.admin-preview-slot .demo-tools{display:grid;grid-template-columns:1fr 1fr}.admin-preview-slot .demo-label,.admin-preview-slot .demo-tools select{grid-column:1/-1}.admin-preview-slot .demo-tools button{min-width:0;font-size:12px;padding:11px 6px}}
+
+/* V7: layered, illustrated animated Christmas village */
+.tree-art .village-deer{transform-box:fill-box;transform-origin:center bottom;animation:deer-stroll 13s ease-in-out infinite}
+.tree-art .deer-leg-front{transform-box:fill-box;transform-origin:top center;animation:deer-step 1.4s ease-in-out infinite alternate}
+.tree-art .deer-leg-back{transform-box:fill-box;transform-origin:top center;animation:deer-step 1.4s ease-in-out -.7s infinite alternate-reverse}
+.tree-art .deer-head{transform-box:fill-box;transform-origin:bottom center;animation:deer-nod 4s ease-in-out infinite}
+.tree-art .bell-swing{transform-box:fill-box;transform-origin:top center;animation:bell-swing 3.4s ease-in-out infinite}
+.tree-art .roof-santa{transform-box:fill-box;transform-origin:bottom center;animation:santa-wave 3.2s ease-in-out infinite}
+.tree-art .sleigh-flight{animation:sleigh-fly 18s linear infinite;filter:drop-shadow(0 4px 4px #071a2a80)}
+.tree-art .village-twinkle{animation:village-glow 4s ease-in-out infinite alternate}
+.tree-art .gift-bow{transform-box:fill-box;transform-origin:center;animation:gift-shimmer 5s ease-in-out infinite}
+@keyframes deer-stroll{0%,8%{transform:translateX(-8px)}40%,55%{transform:translateX(17px)}85%,100%{transform:translateX(-8px)}}
+@keyframes deer-step{from{transform:rotate(-9deg)}to{transform:rotate(10deg)}}
+@keyframes deer-nod{0%,75%,100%{transform:rotate(0)}83%{transform:rotate(6deg)}}
+@keyframes bell-swing{0%,55%,100%{transform:rotate(0)}65%{transform:rotate(10deg)}78%{transform:rotate(-8deg)}90%{transform:rotate(4deg)}}
+@keyframes santa-wave{0%,65%,100%{transform:rotate(0)}73%,88%{transform:rotate(7deg)}}
+@keyframes sleigh-fly{0%{transform:translate(-200px,12px)}48%{transform:translate(200px,-16px)}100%{transform:translate(720px,-45px)}}
+@keyframes village-glow{from{opacity:.55}to{opacity:1}}
+@keyframes gift-shimmer{0%,85%,100%{opacity:.7}90%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.tree-art .village-deer,.tree-art .deer-leg-front,.tree-art .deer-leg-back,.tree-art .deer-head,.tree-art .bell-swing,.tree-art .roof-santa,.tree-art .sleigh-flight,.tree-art .village-twinkle,.tree-art .gift-bow{animation:none!important}.tree-art .sleigh-flight{display:none}}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
@@ -327,31 +347,97 @@ function drawTree(lit,participantCount){
  }
  // Ground-level gift pile; additional gifts cluster around existing boxes.
  [[116,420,42,34,'#bb4954'],[158,439,36,31,'#e3ac51'],[302,424,46,36,'#bf4b58'],[348,445,38,29,'#408b75'],[209,449,34,25,'#cf6658']].forEach(v=>present(...v));
- function emoji(x,y,symbol,size=31,parent=root){const t=node('text',{x,y,'font-size':size,'text-anchor':'middle','dominant-baseline':'middle'},parent);t.textContent=symbol;return t;}
- if(count>=30)emoji(78,443,'🦌',44); // Rudolph stands on the snowy ground.
- if(count>=50)emoji(313,199,'🔔',30); // First bell: right side of the third branch from the top.
- if(count>=80)emoji(188,266,'🍬',34);
+ // Premium SVG scene elements. Every character is vector artwork, not an OS-dependent emoji.
+ function group(cls,transform='',parent=root){return node('g',{class:cls,transform},parent)}
+ function deer(x,y,scale=1){
+  const outer=group('',`translate(${x} ${y}) scale(${scale})`);const g=group('village-deer','',outer);
+  node('ellipse',{cx:0,cy:2,rx:35,ry:5,fill:'#123348',opacity:.3},g);
+  node('ellipse',{cx:0,cy:-26,rx:29,ry:17,fill:'#b97948',stroke:'#f0c59a','stroke-width':1.5},g);
+  node('ellipse',{cx:-8,cy:-28,rx:16,ry:9,fill:'#d89d68',opacity:.65},g);
+  for(const [x,cls] of [[-17,'deer-leg-back'],[15,'deer-leg-front']]){
+   const leg=group(cls,`translate(${x} -17)`,g);
+   node('path',{d:'M0 0 L-2 21 L5 22 L6 0Z',fill:'#8c5238'},leg);
+   node('path',{d:'M-3 21 H7 V25 H-4Z',fill:'#563b32'},leg);
+  }
+  node('path',{d:'M-27 -28 Q-42 -41 -35 -48',stroke:'#b97948','stroke-width':7,fill:'none','stroke-linecap':'round'},g);
+  const h=group('deer-head','',g);
+  node('path',{d:'M17 -30 Q27 -40 26 -55 L38 -68 L51 -59 L49 -43 Q49 -30 36 -26Z',fill:'#b97948',stroke:'#e9b989','stroke-width':1.4},h);
+  node('ellipse',{cx:47,cy:-43,rx:11,ry:8,fill:'#e9bc91'},h);
+  node('circle',{cx:56,cy:-43,r:5,fill:'#db4d52'},h);
+  node('circle',{cx:42,cy:-52,r:2.3,fill:'#27343c'},h);
+  node('path',{d:'M35 -61 L28 -80 M28 -80 L20 -86 M28 -74 L36 -83 M42 -61 L48 -82 M48 -82 L56 -89 M48 -76 L40 -86',stroke:'#e5bb81','stroke-width':3,fill:'none','stroke-linecap':'round'},h);
+  node('path',{d:'M33 -66 Q22 -72 25 -58Z',fill:'#e4a27b'},h);
+  node('path',{d:'M22 -39 Q34 -34 45 -35',stroke:'#d34c52','stroke-width':5,fill:'none'},h);
+  return g;
+ }
+ function bell(x,y,scale=1){
+  const outer=group('',`translate(${x} ${y}) scale(${scale})`);const g=group('bell-swing','',outer);
+  node('path',{d:'M0 0 V9',stroke:'#d9b26c','stroke-width':3},g);
+  node('path',{d:'M-13 28 Q-10 24 -10 16 Q-10 7 0 7 Q10 7 10 16 Q10 24 13 28Z',fill:'#e9b849',stroke:'#fff0ad','stroke-width':1.5},g);
+  node('path',{d:'M-15 29 Q0 34 15 29',stroke:'#b7812d','stroke-width':4,fill:'none'},g);
+  node('circle',{cx:0,cy:34,r:4,fill:'#f6d279'},g);
+  node('path',{d:'M-3 6 Q-13 -5 -17 3 Q-17 12 -3 9 M3 6 Q13 -5 17 3 Q17 12 3 9',fill:'#c64f56'},g);
+ }
+ function cane(x,y,scale=1){const outer=group('',`translate(${x} ${y}) rotate(-17) scale(${scale})`);const g=group('village-twinkle','',outer);
+  node('path',{d:'M0 40 V-20 C0 -43 30 -43 30 -22',stroke:'#fff4e7','stroke-width':13,fill:'none','stroke-linecap':'round'},g);
+  node('path',{d:'M0 40 V-20 C0 -43 30 -43 30 -22',stroke:'#cc4e55','stroke-width':5,'stroke-dasharray':'10 12',fill:'none','stroke-linecap':'round'},g);
+ }
+ function santa(x,y,scale=1){const outer=group('',`translate(${x} ${y}) scale(${scale})`);const g=group('roof-santa','',outer);
+  node('ellipse',{cx:0,cy:0,rx:17,ry:4,fill:'#162b40',opacity:.4},g);
+  node('path',{d:'M-16 -3 L-17 -30 Q-14 -43 0 -43 Q14 -43 17 -30 L16 -3Z',fill:'#c9444d',stroke:'#f4c3b4','stroke-width':1},g);
+  node('path',{d:'M-17 -28 H17 M-16 -4 H16',stroke:'#f7f0e5','stroke-width':7},g);
+  node('ellipse',{cx:0,cy:-48,rx:14,ry:14,fill:'#f2c3a4'},g);
+  node('path',{d:'M-14 -52 Q-15 -69 0 -70 Q13 -70 15 -52Z',fill:'#d3484d'},g);
+  node('path',{d:'M-15 -53 Q0 -57 15 -53',stroke:'#fff7ef','stroke-width':6},g);
+  node('circle',{cx:16,cy:-69,r:5,fill:'#fff7ef'},g);
+  node('path',{d:'M-12 -43 Q0 -26 12 -43 Q0 -33 -12 -43Z',fill:'#fff5ec'},g);
+  node('circle',{cx:-5,cy:-49,r:1.5,fill:'#3e3a3a'},g);node('circle',{cx:5,cy:-49,r:1.5,fill:'#3e3a3a'},g);
+  node('path',{d:'M15 -30 L26 -44',stroke:'#d3484d','stroke-width':7,'stroke-linecap':'round'},g);
+  node('circle',{cx:28,cy:-47,r:5,fill:'#fff1df'},g);
+  return g;
+ }
+ function sleigh(){
+  const g=group('sleigh-flight','',root);
+  node('path',{d:'M-90 80 Q-40 55 -5 72 L45 65 Q62 70 62 90 Q36 111 -17 100 L-65 95Z',fill:'#bb394a',stroke:'#f4c572','stroke-width':3},g);
+  node('path',{d:'M-60 105 Q0 124 58 101 M-40 96 L-35 112 M39 93 L35 111',stroke:'#f6cb6b','stroke-width':4,fill:'none','stroke-linecap':'round'},g);
+  node('rect',{x:-55,y:50,width:24,height:24,rx:3,fill:'#4b9b79'},g);
+  node('path',{d:'M-43 50 V74 M-55 60 H-31',stroke:'#f6db8a','stroke-width':4},g);
+  const person=group('','translate(14 75) scale(.55)',g);
+  node('circle',{cx:0,cy:-38,r:19,fill:'#f2c5a6'},person);
+  node('path',{d:'M-24 -44 Q-18 -78 8 -75 L27 -45Z',fill:'#c7444d'},person);
+  node('path',{d:'M-24 -43 H22',stroke:'#fff5ed','stroke-width':8},person);
+  node('path',{d:'M-17 -25 Q0 -6 17 -25',fill:'#fff6ec'},person);
+  node('path',{d:'M-23 1 Q-24 -25 0 -23 Q24 -25 23 1',fill:'#cb434c'},person);
+  node('path',{d:'M-23 0 H23',stroke:'#fff5ed','stroke-width':7},person);
+  for(let i=0;i<2;i++){const dx=-117-i*45;node('ellipse',{cx:dx,cy:87,rx:18,ry:9,fill:'#b97948'},g);node('path',{d:`M${dx+8} 81 L${dx+23} 67 M${dx+23} 67 L${dx+17} 57 M${dx+23} 67 L${dx+30} 56`,stroke:'#d4aa7b','stroke-width':3,fill:'none'},g);node('circle',{cx:dx+19,cy:88,r:4,fill:'#dc5355'},g);}
+ }
+ if(count>=30)deer(77,466,.65);
+ if(count>=50)bell(313,184,.95);
+ if(count>=80)cane(188,264,.8);
  if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
  if(count>=130){
-  emoji(424,442,'⛄',43);
-  // White snowflakes drift from the top, fading out above the gifts.
+  // Snowflakes fade as they approach the ground.
   const flakes=node('g',{'class':'falling-snow-layer','aria-hidden':'true'});
   for(let i=0;i<18;i++){
    const x=24+(i*73)%455;
    const f=node('text',{x,y:0,'font-size':15+(i%4)*3,fill:'#ffffff',stroke:'#e6f5ff','stroke-width':'.35','text-anchor':'middle',class:'falling-flake',style:`--flake-delay:${-((i*1.37)%12).toFixed(2)}s;--flake-duration:${(10+(i%5)*1.5).toFixed(1)}s;--flake-drift:${((i%5)-2)*11}px`},flakes);
    f.textContent='❄';
   }
+  // Snowman drawn as layered snow with scarf and hat.
+  const snowman=group('','translate(428 453)');
+  node('ellipse',{cx:0,cy:0,rx:19,ry:6,fill:'#1c4054',opacity:.3},snowman);
+  node('circle',{cx:0,cy:-14,r:17,fill:'#f2f9fa',stroke:'#c4dce5','stroke-width':2},snowman);
+  node('circle',{cx:0,cy:-39,r:12,fill:'#fff',stroke:'#c4dce5','stroke-width':1.5},snowman);
+  node('path',{d:'M-15 -49 H15 M-10 -49 V-64 H10 V-49',fill:'#293b50',stroke:'#293b50','stroke-width':4},snowman);
+  node('path',{d:'M-12 -27 Q0 -20 12 -27',stroke:'#c94b50','stroke-width':6,fill:'none'},snowman);
+  node('path',{d:'M0 -39 L12 -36 L0 -35Z',fill:'#e6a64e'},snowman);
+  node('circle',{cx:-4,cy:-43,r:1.5,fill:'#27343c'},snowman);node('circle',{cx:4,cy:-43,r:1.5,fill:'#27343c'},snowman);
  }
- // At 150 participants, house windows glow; Santa arrives at 300.
- if(count>=200){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]])emoji(x,y,'✦',20);}
+ if(count>=200){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]]){const st=node('text',{x,y,'font-size':19,'text-anchor':'middle',fill:'#ffe6a0',class:'village-twinkle'});st.textContent='✦';}}
  if(count>=250){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
- if(count>=300)emoji(435,319,'🎅',35); // On the roof of the left of the two right-hand houses.
- if(count>=400){
-  emoji(55,422,'🦌',33);emoji(455,438,'⛄',32);
-  emoji(292,385,'🔔',27);emoji(339,334,'🍬',29);
-  for(const [x,y] of [[115,150],[380,240],[286,326]])emoji(x,y,'✦',18);
-  present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');
- }
+ if(count>=300)santa(435,349,.66);
+ if(count>=400){deer(51,460,.42);bell(292,370,.72);cane(337,330,.65);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
+ if(count>=500)sleigh();
 
 }
 let loginBusy=false;
