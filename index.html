@@ -128,14 +128,22 @@
 /* V16: centered entry actions; no sky fireworks */
 #welcome #begin{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
 #login #loginSubmit{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
-@media(prefers-reduced-motion:reduce){.tree-art .firework-ray,</style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
+@media(prefers-reduced-motion:reduce){.tree-art .firework-ray,
+/* V18: non-blocking navigation and confirmed send feedback */
+.sync-status{position:sticky;top:8px;z-index:20;margin:8px 0;padding:9px 13px;border-radius:10px;background:#244a5a;border:1px solid #648495;color:#e5f2f4;font-size:12px;text-align:center}
+.sync-status.error{border-color:#d8a27a;color:#ffe1bd}
+.send-overlay{position:fixed;inset:0;z-index:260;background:#061925d9;display:flex;align-items:center;justify-content:center;padding:18px}
+.send-overlay-card{max-width:360px;width:100%;border:1px solid #d8bd7b;background:#193b4b;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 18px 55px #0008}
+.send-overlay-card strong{display:block;color:#ffe29d;font-size:18px;margin:10px 0}
+.send-overlay-card p{color:#d1e0e5;font-size:13px;line-height:1.6}
+</style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
 <section id="guide" class="card hidden"><h2>⭐Mission! 산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서 </b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
-<section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 크리스마스 트리 함께 완성하기</h2></div><p class="muted">신규 참여자 10명마다 트리 조명이 하나씩 켜지고, 더 따뜻하고 빛나는 크리스마스 트리로 완성됩니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">마우스를 올리거나 터치하면 잠시 멈춥니다.</p></div><div class="tree-progress"><span id="treeLabel">0명 참여 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted">500개 별은 기부 공동 목표 이며, 참여할수록 아이들의 크리스마스가 더욱 풍성해 집니다! (별 5개당 선물 1개)</p></div><div id="adminPreviewSlot" class="admin-preview-slot"><div id="demoPanel" class="notice admin-preview hidden"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 크리스마스 리본</option><option value="100">100명 · 선물상자</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 별 장식</option><option value="200">200명 · 오른쪽 집 조명·선물</option><option value="250">250명 · 가운데 집 조명·양말</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 별 점등·폭죽</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
+<div id="syncStatus" class="sync-status hidden" role="status" aria-live="polite"></div><section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 크리스마스 트리 함께 완성하기</h2></div><p class="muted">신규 참여자 10명마다 트리 조명이 하나씩 켜지고, 더 따뜻하고 빛나는 크리스마스 트리로 완성됩니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">마우스를 올리거나 터치하면 잠시 멈춥니다.</p></div><div class="tree-progress"><span id="treeLabel">0명 참여 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted">500개 별은 기부 공동 목표 이며, 참여할수록 아이들의 크리스마스가 더욱 풍성해 집니다! (별 5개당 선물 1개)</p></div><div id="adminPreviewSlot" class="admin-preview-slot"><div id="demoPanel" class="notice admin-preview hidden"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 참여 인원 선택</label><select id="demoCount" aria-label="테스트 참여 인원"><option value="10">10명 · 첫 조명</option><option value="30">30명 · 루돌프</option><option value="50">50명 · 종</option><option value="80">80명 · 크리스마스 리본</option><option value="100">100명 · 선물상자</option><option value="130">130명 · 눈사람·눈꽃</option><option value="150">150명 · 별 장식</option><option value="200">200명 · 오른쪽 집 조명·선물</option><option value="250">250명 · 가운데 집 조명·양말</option><option value="300">300명 · 산타 등장</option><option value="400">400명 · 추가 장식</option><option value="500">500명 · 별 점등·폭죽</option></select><button class="btn secondary" id="loadDemo">선택 인원으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
 <section id="greetings" class="hidden"><div class="card"><button type="button" class="btn secondary" id="returnTree" style="width:100%">🎄 크리스마스 트리로 돌아가기</button></div><div class="card"><h2>💌 크리스마스 인사 광장</h2><div class="buttons"><button class="btn" id="newGreeting">인사 보내기</button></div><div class="tabs" id="tabs"><button class="active" data-tab="all">전사 인사말</button><button data-tab="sent">내가 보낸 인사</button><button data-tab="received">내가 받은 인사</button></div><div class="greeting-view" id="greetingView"><div id="messageList" class="greeting-page" aria-live="off"></div></div><p class="greeting-help" id="greetingHelp">동료에게 한 해의 수고와 감사의 마음을 담아 따뜻한 인사를 주고 받아보세요. (터치하면 5초간 멈춘 뒤 다시 재생)</p></div></section>
 <section id="compose" class="card hidden"><div id="arGreetingPrompt" class="compose-prompt hidden"><strong>🎁 선물 찾기 성공!</strong><p>동료에게 따뜻한 크리스마스 인사를 전해 주세요.<br>인사말을 보내면 크리스마스 광장에서 함께 모은 별과 트리를 확인할 수 있어요.</p></div><h2>💌 크리스마스·연말 인사 보내기</h2><p class="muted">인사말 발송 횟수에는 제한이 없습니다. 상대방이 이벤트에 참여하면, 별 1개가 추가로 지급됩니다.(중복 적용 안됨)</p><label>받을 동료 검색<input id="search" placeholder="이름 또는 사업장" autocomplete="off"></label><div id="results" class="search-results"></div><p id="chosen" class="gold">받을 동료를 선택해 주세요.</p><label>인사말 예시 선택<select id="greetingPreset"><option value="">직접 작성하기</option><option value="올 한 해도 정말 수고 많으셨습니다. 따뜻한 크리스마스 보내세요!">한 해의 수고에 감사</option><option value="함께 일할 수 있어 든든했습니다. 내년에도 좋은 일 가득하시길 바랍니다!">동료에게 감사</option><option value="멀리 떨어져 있어도 마음만은 가까이! 행복한 연말 보내세요.">다른 사업장 동료에게</option></select></label><label>인사말<textarea id="message" maxlength="100" placeholder="직접 작성한 따뜻한 인사를 전해주세요."></textarea><div id="messageCounter" class="message-counter" aria-live="polite">0 / 100자 (공백 포함)</div></label><div class="buttons"><button class="btn" id="send">인사 보내기</button><button class="btn secondary" id="cancel">광장으로 돌아가기</button></div><p id="sendStatus" class="muted"></p></section></div>
-<div id="giftSaving" class="gift-saving hidden" role="status" aria-live="polite" aria-label="선물 획득 기록 저장 중"><div class="gift-saving-card"><div class="login-spinner" aria-hidden="true"></div><strong>🎁 선물을 찾았습니다!</strong><p>참여 기록과 별 적립 현황을 저장하고 있습니다.<br>잠시만 기다려 주세요.</p></div></div>
+<div id="sendOverlay" class="send-overlay hidden" role="status" aria-live="polite"><div class="send-overlay-card"><div class="login-spinner" aria-hidden="true"></div><strong>💌 따뜻한 인사를 전달하고 있습니다</strong><p id="sendOverlayMessage">인사말 저장과 별 적립을 확인 중입니다.<br>잠시만 기다려 주세요.</p></div></div><div id="giftSaving" class="gift-saving hidden" role="status" aria-live="polite" aria-label="선물 획득 기록 저장 중"><div class="gift-saving-card"><div class="login-spinner" aria-hidden="true"></div><strong>🎁 선물을 찾았습니다!</strong><p>참여 기록과 별 적립 현황을 저장하고 있습니다.<br>잠시만 기다려 주세요.</p></div></div>
 <div id="loginLoading" class="login-loading hidden" role="status" aria-live="polite" aria-label="임직원 정보 확인 중"><div class="login-loading-card"><div class="login-spinner" aria-hidden="true"></div><strong>임직원 정보를 확인하고 있습니다</strong><p>명부와 참여 기록을 조회 중입니다.<br>잠시만 기다려 주세요.</p></div></div>
 <section id="arScreen" class="ar hidden"><div id="arHost" class="arhost"></div><div class="ar-top"><div class="row"><b>🎁 크리스마스 트리 선물 찾기</b><button class="btn secondary" id="closeAr">닫기</button></div><p>트리 주변을 살펴보세요.</p></div><button id="gift" class="gift hidden" aria-label="선물 획득">🎁</button><div class="ar-bottom" id="arHint">포스터를 카메라 중앙에 비춰주세요.</div></section>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/"}}</script><script>
@@ -199,7 +207,7 @@ $('logoutBtn').onclick=async()=>{
  $('messageList').replaceChildren();$('messageList').removeAttribute('data-signature');
  screen('welcome');
 };
-async function api(action,data={}){
+async function api(action,data={},options={}){
  if(!API_URL){const d=demo(),id=session?.id;
   if(action==='login'){const p=d.people.find(p=>p.id===data.id);if(p&&p.name!==data.name)throw Error('등록된 사번과 이름이 일치하지 않습니다.');if(!p)d.people.push({id:data.id,name:data.name,site:data.site,arDone:false,created:Date.now()});saveDemo(d);return {ok:true}}
   if(action==='snapshot'){const stars=d.people.filter(p=>p.arDone).length+d.messages.filter(m=>m.reward).length+d.messages.filter(m=>m.referralPaid).length;return {people:d.people,messages:d.messages,stars}}
@@ -207,9 +215,24 @@ async function api(action,data={}){
   if(action==='send'){if(!d.people.some(p=>p.id===data.toId))throw Error('수신자를 찾을 수 없습니다.');if(id===data.toId)throw Error('본인에게는 발송할 수 없습니다.');const p=d.people.find(p=>p.id===id);d.messages.push({id:crypto.randomUUID(),fromId:id,fromName:p.name,fromSite:p.site,toId:data.toId,toName:d.people.find(x=>x.id===data.toId).name,message:data.message,created:Date.now(),reward:true,referralPaid:false});saveDemo(d);return {ok:true}}
   throw Error('지원하지 않는 요청입니다.');
  }
- const requestId=(action==='send'||action==='complete')?crypto.randomUUID():undefined;const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,data,requestId}),redirect:'follow'});if(!res.ok)throw Error('서버 응답 오류: '+res.status);const result=await res.json();if(!result.ok)throw Error(result.error||'서버 오류');return result;
+ const requestId=options.requestId||((action==='send'||action==='complete')?crypto.randomUUID():undefined);const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,data,requestId}),redirect:'follow'});if(!res.ok)throw Error('서버 응답 오류: '+res.status);const result=await res.json();if(!result.ok)throw Error(result.error||'서버 오류');return result;
 }
-async function refresh(){const r=await api('snapshot');baseSnapshot=r;snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(r,previewCount):r;render();}
+let refreshPromise=null,refreshOwner=null,syncSeq=0;
+function syncMessage(message='',error=false){const el=$('syncStatus');el.textContent=message;el.classList.toggle('hidden',!message);el.classList.toggle('error',error);}
+async function refresh(){
+ if(refreshPromise&&refreshOwner===session?.id)return refreshPromise;
+ const owner=session?.id;
+ const promise=(async()=>{const r=await api('snapshot');if(owner!==session?.id)return; baseSnapshot=r;snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(r,previewCount):r;render();})();
+ refreshOwner=owner;refreshPromise=promise;
+ try{return await promise}finally{if(refreshPromise===promise){refreshPromise=null;refreshOwner=null}}
+}
+function backgroundRefresh(){
+ const seq=++syncSeq;syncMessage('최신 참여 현황을 불러오는 중입니다…');
+ refresh().then(()=>{if(seq!==syncSeq)return;syncMessage('최신 데이터가 반영되었습니다.');setTimeout(()=>{if(seq===syncSeq)syncMessage('')},1700)})
+ .catch(err=>{if(seq!==syncSeq)return;console.warn('Background refresh failed:',err);syncMessage('새 데이터 조회에 실패했습니다. 이전 현황을 표시 중입니다.',true)});
+}
+function navigateSquare(id){screen(id);backgroundRefresh();}
+
 function myStarCount(){return (snapshot.people.find(p=>p.id===session?.id)?.arDone?1:0)+snapshot.messages.filter(m=>m.fromId===session?.id).length+snapshot.messages.filter(m=>m.fromId===session?.id&&m.referralPaid).length}
 function render(){if(!session)return;$('totalStars').textContent=snapshot.stars;$('totalPeople').textContent=snapshot.people.length+'명';$('totalMessages').textContent=snapshot.messages.length+'건';$('myStars').textContent=myStarCount()+'개';$('treeLabel').textContent=snapshot.people.length+'명 참여 · '+Math.floor(snapshot.people.length/10)+'단계 점등';$('giftLabel').textContent='별 '+snapshot.stars.toLocaleString('ko-KR')+'개 / 목표 500개'+(snapshot.stars>500?' · '+(snapshot.stars-500).toLocaleString('ko-KR')+'개 초과 달성':'');$('goalBar').style.width=Math.min(100,snapshot.stars/5)+'%';
  drawTree(Math.min(50,Math.floor(snapshot.people.length/10)),snapshot.people.length);
@@ -502,7 +525,7 @@ $('loginForm').onsubmit=async e=>{
   alert('임직원 정보 확인 실패: '+err.message);
  }finally{setLoginBusy(false)}
 };
-$('goSquare').onclick=async()=>{await refresh();screen('square')};$('openGreetings').onclick=async()=>{await refresh();screen('greetings')};$('returnTree').onclick=async()=>{await refresh();screen('square')};$('newGreeting').onclick=()=>openGreeting(false);$('cancel').onclick=()=>screen('square');
+$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>openGreeting(false);$('cancel').onclick=()=>screen('square');
 $('tabs').onclick=e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;messagePage=0;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()};
 let employeeSearchSeq=0;
 $('search').oninput=async()=>{const q=$('search').value.trim(),seq=++employeeSearchSeq,results=$('results');results.replaceChildren();selected=null;if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}results.textContent='직원 검색 중…';try{const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};if(seq!==employeeSearchSeq)return;results.replaceChildren();(result.people||[]).forEach(p=>{const b=document.createElement('button');b.className='btn secondary';b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');b.onclick=()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site};results.append(b)});if(!results.children.length)results.textContent='검색 결과가 없습니다.';}catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}};
@@ -524,7 +547,36 @@ $('clearDemo').onclick=()=>{
  snapshot=baseSnapshot||snapshot;
  render();
 };
-$('send').onclick=async()=>{const message=$('message').value.trim();if(!selected)return alert('받는 동료를 선택하세요.');if(!message||$('message').value.length>100)return alert('인사말은 공백 포함 1~100자로 작성하세요.');$('send').disabled=true;try{await api('send',{toId:selected.id,message});await refresh();greetingPending=false;localStorage.removeItem(greetingPendingKey);$('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');alert('인사말을 보냈습니다. 크리스마스 광장에서 현황을 확인하세요!');screen('square')}catch(err){alert(err.message)}finally{$('send').disabled=false}};
+const SEND_PENDING_KEY='sdb_christmas_pending_send_v18';
+let sending=false;
+function pendingSend(){try{return JSON.parse(localStorage.getItem(SEND_PENDING_KEY)||'null')}catch{return null}}
+function sendOverlay(show,message){$('sendOverlay').classList.toggle('hidden',!show);if(message)$('sendOverlayMessage').textContent=message;}
+$('send').onclick=async()=>{
+ if(sending)return;
+ const message=$('message').value.trim();
+ if(!selected)return alert('받는 동료를 선택하세요.');
+ if(!message||$('message').value.length>100)return alert('인사말은 공백 포함 1~100자로 작성하세요.');
+ const existing=pendingSend();
+ if(existing&&existing.employeeId===session?.id&&(existing.toId!==selected.id||existing.message!==message)){
+  alert('이전 발송 결과가 확인되지 않았습니다. 중복 발송을 방지하기 위해 같은 내용을 다시 시도하거나, 구글시트 기록을 확인한 후 재접속해 주세요.');return;
+ }
+ const request=existing&&existing.employeeId===session?.id?existing:{employeeId:session.id,toId:selected.id,message,requestId:crypto.randomUUID()};
+ localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(request));
+ sending=true;$('send').disabled=true;sendOverlay(true,'인사말 저장과 별 적립을 확인 중입니다. 잠시만 기다려 주세요.');
+ const slow=setTimeout(()=>sendOverlay(true,'서버 응답이 지연되고 있습니다. 버튼을 다시 누르지 말고 잠시 기다려 주세요.'),4500);
+ try{
+  await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});
+  localStorage.removeItem(SEND_PENDING_KEY);
+  greetingPending=false;localStorage.removeItem(greetingPendingKey);
+  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
+  screen('square');backgroundRefresh();
+  alert('인사말 발송이 확인되었습니다! 크리스마스 광장에서 현황을 확인하세요.');
+ }catch(err){
+  console.error('Greeting send status unknown:',err);
+  alert('발송 결과를 확인하지 못했습니다. 저장되었을 수도 있습니다. 구글시트의 Greetings를 확인하거나 같은 내용으로 재시도해 주세요. 재시도 시 동일 요청번호를 사용합니다.\n'+err.message);
+ }finally{clearTimeout(slow);sendOverlay(false);sending=false;$('send').disabled=false}
+};
+
 let mindarLoader;async function loadMindAR(){if(!mindarLoader)mindarLoader=import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js').then(m=>m.MindARThree);return mindarLoader}
 async function stopAR(){arStarting=false;$('arScreen').classList.add('hidden');$('gift').classList.add('hidden');arFound=false;const old=ar;ar=null;if(old){try{old.renderer.setAnimationLoop(null);await old.stop();old.renderer.dispose()}catch(e){console.warn(e)}}$('arHost').replaceChildren()}
 $('closeAr').onclick=()=>void stopAR();$('launchAr').onclick=async()=>{if(arStarting)return;if(!window.isSecureContext)return alert('AR 카메라는 HTTPS 환경에서만 작동합니다.');arStarting=true;$('arScreen').classList.remove('hidden');$('arHint').textContent='선물을 찾고 있습니다…';try{const MindARThree=await loadMindAR();if(!arStarting)return;const m=new MindARThree({container:$('arHost'),imageTargetSrc:'./christmas-target.mind',maxTrack:1,uiLoading:'yes',uiScanning:'no',uiError:'yes'});ar=m;const anchor=m.addAnchor(0);anchor.onTargetFound=()=>{arFound=true;$('gift').classList.remove('hidden');$('arHint').textContent='선물을 찾았습니다! 선물상자를 터치하세요.'};anchor.onTargetLost=()=>{arFound=false;$('gift').classList.add('hidden');$('arHint').textContent='선물을 다시 비춰주세요.'};await m.start();if(ar!==m){await m.stop();return}m.renderer.setClearColor(0x000000,0);m.renderer.setAnimationLoop(()=>m.renderer.render(m.scene,m.camera))}catch(err){console.error(err);await stopAR();alert('AR 실행 실패: 카메라 권한, HTTPS, 포스터 및 .mind 파일을 확인하세요.')}finally{arStarting=false}};
@@ -551,6 +603,6 @@ $('gift').onclick=async()=>{
   giftSavingBusy=false;
  }
 };
-if(session){$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else screen(snapshot.people.find(p=>p.id===session.id)?.arDone?'square':'guide')}).catch(()=>screen('login'))}
+if(session){const pending=pendingSend();if(pending&&pending.employeeId===session.id)console.warn('Unconfirmed greeting send request remains; retry with identical request ID.');$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else screen(snapshot.people.find(p=>p.id===session.id)?.arDone?'square':'guide')}).catch(()=>screen('login'))}
 setInterval(()=>{if(session&&(!$('square').classList.contains('hidden')||!$('greetings').classList.contains('hidden')))refresh().catch(console.warn)},20000);
 </script></body></html>
