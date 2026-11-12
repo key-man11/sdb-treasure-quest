@@ -352,14 +352,29 @@ function drawTree(lit,participantCount){
  });
  // Existing five-point topper stays dark until the 500-person milestone.
  node('path',{d:'M250 31 L258 50 L279 51 L263 65 L268 86 L250 75 L232 86 L237 65 L221 51 L242 50Z',class:count>=500?'topper-lit':'topper-unlit',fill:count>=500?'#ffe48d':'#877f69',stroke:count>=500?'#fff1ba':'#9c947c','stroke-width':2});
- function present(x,y,w,h,c){
+ function paintPresent(x,y,w,h,c){
   node('rect',{x,y,width:w,height:h,rx:4,fill:c,stroke:'#f5d9a8','stroke-width':1});
   node('rect',{x:x+w*.43,y,width:w*.14,height:h,fill:'#f5d57e'});
   node('rect',{x,y:y+h*.32,width:w,height:5,fill:'#f5d57e'});
   node('path',{d:`M${x+w/2} ${y} q-13 -15 -13 -3 q8 6 13 3 q13 -15 13 -3 q-8 6 -13 3`,fill:'none',stroke:'#ffe6aa','stroke-width':2.5});
  }
- // Ground-level gift pile; additional gifts cluster around existing boxes.
- [[116,420,42,34,'#bb4954'],[158,439,36,31,'#e3ac51'],[302,424,46,36,'#bf4b58'],[348,445,38,29,'#408b75'],[209,449,34,25,'#cf6658']].forEach(v=>present(...v));
+ // Gift progression: empty at first; add two on the right at 30,
+ // three on the left at 80, and preserve later milestones.
+ // At 500, use one deliberate arrangement instead of stacking overlapping boxes.
+ const finalGiftLayout=[
+  [113,431,36,31,'#bb4954'],[152,417,34,30,'#d9a44e'],
+  [189,433,32,29,'#478c78'],[136,458,29,23,'#bd6779'],
+  [172,462,32,22,'#e3ac51'],[209,449,30,25,'#cf6658'],
+  [279,435,31,28,'#438b78'],[315,417,39,34,'#c75a6b'],
+  [359,428,36,32,'#498b8c'],[397,450,29,24,'#b95564'],
+  [300,464,31,22,'#d3a24f'],[337,464,31,22,'#4d9b89'],
+  [240,455,27,22,'#bd6a78'],[373,465,27,20,'#b88d43']
+ ];
+ // Later calls still execute but do not add overlapping gifts at the 500 milestone.
+ function present(x,y,w,h,c){if(count<500)paintPresent(x,y,w,h,c)}
+ if(count>=500)finalGiftLayout.forEach(v=>paintPresent(...v));
+ if(count>=30){present(326,435,38,33,'#bb4954');present(367,448,32,27,'#408b75');}
+ if(count>=80){present(121,436,35,30,'#d9a44e');present(159,449,31,27,'#cf6658');present(194,440,30,28,'#498b8c');}
  // Premium SVG scene elements. Every character is vector artwork, not an OS-dependent emoji.
  function group(cls,transform='',parent=root){return node('g',{class:cls,transform},parent)}
  function deer(x,y,scale=1){
