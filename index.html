@@ -207,7 +207,7 @@ $('homeBtn').onclick=async()=>{if(!$('arScreen').classList.contains('hidden'))aw
 $('logoutBtn').onclick=async()=>{
  if(!confirm('로그아웃하고 다른 계정으로 접속하시겠습니까? 구글시트에 저장된 참여 기록은 유지됩니다.'))return;
  if(!$('arScreen').classList.contains('hidden'))await stopAR();
- localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);
+ localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);localStorage.removeItem(LEGACY_SEND_PENDING_KEY);
  session=null;greetingPending=false;selected=null;tab='all';previewCount=0;baseSnapshot=null;lastTreeAt=0;lastGreetingsAt=0;snapshot={people:[],messages:[],stars:0};
  $('loginForm').reset();$('search').value='';$('message').value='';$('results').replaceChildren();
  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
@@ -641,16 +641,23 @@ $('clearDemo').onclick=()=>{
  snapshot=baseSnapshot||snapshot;
  render();
 };
-const SEND_PENDING_KEY='sdb_christmas_pending_send_v18';
+const SEND_PENDING_KEY='sdb_christmas_pending_send_v27';
+const LEGACY_SEND_PENDING_KEY='sdb_christmas_pending_send_v18';
+// Old V18/V26 pending state is not trusted to block unrelated recipients.
+const pendingByRecipient=()=>{try{return JSON.parse(localStorage.getItem(SEND_PENDING_KEY)||'{}')}catch{return {}}};
+function pendingKey(toId){return String(session?.id||'')+'|'+String(toId||'')}
+function savePendingFor(toId,request){const all=pendingByRecipient();all[pendingKey(toId)]=request;localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(all));}
+function clearPendingFor(toId){const all=pendingByRecipient();delete all[pendingKey(toId)];localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(all));}
+
 let sending=false;
-function pendingSend(){try{return JSON.parse(localStorage.getItem(SEND_PENDING_KEY)||'null')}catch{return null}}
+function pendingSend(toId){return pendingByRecipient()[pendingKey(toId)]||null}
 function sendOverlay(show,message){$('sendOverlay').classList.toggle('hidden',!show);if(message)$('sendOverlayMessage').textContent=message;}
 async function checkStoredSend(request){
- try {const result=await api('checkSendStatus',{requestId:request.requestId});return result.status==='SENT'?'SENT':result.status==='NOT_FOUND'?'NOT_FOUND':'UNKNOWN';}
+ try {const result=await api('checkSendStatus',{requestId:request.requestId,toId:request.toId,message:request.message});return result.status==='SENT'?'SENT':result.status==='NOT_FOUND'?'NOT_FOUND':'UNKNOWN';}
  catch(err){console.warn('Send status lookup unavailable',err);return 'UNKNOWN';}
 }
-async function finishConfirmedSend(){
- localStorage.removeItem(SEND_PENDING_KEY);
+async function finishConfirmedSend(toId){
+ clearPendingFor(toId);
  greetingPending=false;localStorage.removeItem(greetingPendingKey);
  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
  lastTreeAt=0;lastGreetingsAt=0;screen('square');backgroundRefresh();
@@ -661,40 +668,39 @@ $('send').onclick=async()=>{
  const message=$('message').value.trim();
  if(!selected)return alert('받는 동료를 선택하세요.');
  if(!message||$('message').value.length>100)return alert('인사말은 공백 포함 1~100자로 작성하세요.');
+ const toId=String(selected.id);
  sending=true;$('send').disabled=true;
  sendOverlay(true,'인사말 발송 상태를 확인하고 있습니다.');
  let slow;
  try{
-  let previous=pendingSend();
-  if(previous&&previous.employeeId===session.id){
+  let previous=pendingSend(toId);
+  // A pending request for another employee must never block this recipient.
+  if(previous){
    const status=await checkStoredSend(previous);
-   if(status==='SENT'){
-    localStorage.removeItem(SEND_PENDING_KEY);
-    if(previous.toId===selected.id){await finishConfirmedSend();return;}
-    previous=null;
-   }else if(status==='UNKNOWN'){
-    alert('이전 발송 결과를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요.');return;
-   }else if(previous.toId!==selected.id||previous.message!==message){
-    // A previous request is not recorded; avoid switching identities until confirmed.
-    alert('이전 인사말 발송 결과를 아직 확인하지 못했습니다. 동일 내용으로 다시 시도해 주세요.');return;
+   if(status==='SENT'){await finishConfirmedSend(toId);return;}
+   if(previous.message!==message){
+    alert('이 동료에게 보낸 이전 인사말의 처리 상태가 확인되지 않았습니다. 동일 수신자에게 중복 발송되지 않도록 잠시 후 다시 확인해 주세요.');return;
    }
   }
-  const recipient=await api('checkRecipient',{toId:selected.id});
+  // The server remains the authority on the one-greeting-per-recipient rule.
+  const recipient=await api('checkRecipient',{toId});
   if(recipient.alreadySent){
-   localStorage.removeItem(SEND_PENDING_KEY);
+   clearPendingFor(toId);
    selected=null;$('chosen').textContent='이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.';
    alert('이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.');return;
   }
-  const request=previous&&previous.employeeId===session.id?previous:{employeeId:session.id,toId:selected.id,message,requestId:crypto.randomUUID()};
-  localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(request));
+  const request=previous||{employeeId:session.id,toId,message,requestId:crypto.randomUUID()};
+  savePendingFor(toId,request);
   sendOverlay(true,'인사말 저장과 별 적립을 확인 중입니다. 잠시만 기다려 주세요.');
   slow=setTimeout(()=>sendOverlay(true,'서버 응답이 지연되고 있습니다. 발송 상태를 확인 중입니다.'),4500);
-  try{await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});await finishConfirmedSend();}
-  catch(err){
+  try{
+   await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});
+   await finishConfirmedSend(toId);
+  }catch(err){
    const status=await checkStoredSend(request);
-   if(status==='SENT'){await finishConfirmedSend();return;}
+   if(status==='SENT'){await finishConfirmedSend(toId);return;}
    console.warn('Send unconfirmed',err);
-   alert(status==='NOT_FOUND'?'인사말 발송을 완료하지 못했습니다. 잠시 후 같은 내용으로 다시 시도해 주세요.':'서버 응답을 확인하지 못했습니다. 잠시 후 같은 내용으로 다시 시도해 주세요.');
+   alert(status==='NOT_FOUND'?'인사말 저장을 확인하지 못했습니다. 잠시 후 같은 동료에게 동일한 내용으로 재시도해 주세요.':'서버 응답을 확인하지 못했습니다. 같은 동료에게 동일한 내용으로 다시 확인해 주세요.');
   }
  }catch(err){
   console.warn('Send preflight failed',err);
@@ -728,6 +734,6 @@ $('gift').onclick=async()=>{
   giftSavingBusy=false;
  }
 };
-if(session){const pending=pendingSend();if(pending&&pending.employeeId===session.id)console.warn('Unconfirmed greeting send request remains; retry with identical request ID.');$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else {const me=snapshot.people.find(p=>p.id===session.id);if(me?.missionDone)screen('square');else if(me?.arDone)openGreeting(true);else screen('guide')}}).catch(()=>screen('login'))}
+if(session){localStorage.removeItem(LEGACY_SEND_PENDING_KEY);$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else {const me=snapshot.people.find(p=>p.id===session.id);if(me?.missionDone)screen('square');else if(me?.arDone)openGreeting(true);else screen('guide')}}).catch(()=>screen('login'))}
 setInterval(()=>{if(!session||document.hidden)return;if(!$('square').classList.contains('hidden'))refreshTree().catch(console.warn);else if(!$('greetings').classList.contains('hidden'))refreshGreetings().catch(console.warn)},30000);
 </script></body></html>
