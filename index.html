@@ -220,6 +220,7 @@ async function api(action,data={},options={}){
   if(action==='snapshot'){const stars=d.people.filter(p=>p.missionDone).length+d.people.filter(p=>p.bonus).length;return {people:d.people,messages:d.messages,stars,myStarsById:Object.fromEntries(d.people.map(p=>[p.id,Number(!!p.missionDone)+Number(!!p.bonus)]))}}
   if(action==='treeSummary'){const r=await api('snapshot');return {people:r.people,stars:r.stars,messageCount:r.messages.length,myStarsById:r.myStarsById}}
   if(action==='greetingsFeed'){const r=await api('snapshot');return {messages:r.messages,messageCount:r.messages.length}}
+  if(action==='checkARStatus'){const p=d.people.find(p=>p.id===id);return {ok:true,arDone:!!p?.arDone,missionDone:!!p?.missionDone}}
   if(action==='complete'){const p=d.people.find(p=>p.id===id);if(!p)throw Error('참여자 정보가 없습니다.');p.arDone=true;saveDemo(d);return {ok:true}}
   if(action==='send'){if(!d.people.some(p=>p.id===data.toId))throw Error('수신자를 찾을 수 없습니다.');if(id===data.toId)throw Error('본인에게는 발송할 수 없습니다.');const p=d.people.find(p=>p.id===id);if(!p?.arDone)throw Error('AR 미션을 먼저 완료하세요.');if(d.messages.some(m=>m.fromId===id&&m.toId===data.toId))throw Error('이미 인사말을 보낸 동료입니다.');d.messages.push({id:crypto.randomUUID(),fromId:id,fromName:p.name,fromSite:p.site,toId:data.toId,toName:d.people.find(x=>x.id===data.toId).name,message:data.message,created:Date.now()});p.missionDone=true;const target=d.people.find(x=>x.id===data.toId);if(target.missionDone)p.bonus=true;d.messages.filter(m=>m.toId===id).forEach(m=>{const sender=d.people.find(x=>x.id===m.fromId);if(sender?.missionDone)sender.bonus=true});saveDemo(d);return {ok:true}}
   throw Error('지원하지 않는 요청입니다.');
@@ -619,7 +620,15 @@ $('loginForm').onsubmit=async e=>{
   alert('임직원 정보 확인 실패: '+err.message);
  }finally{setLoginBusy(false)}
 };
-$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>openGreeting(false);$('cancel').onclick=()=>screen('square');
+$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>void openGreetingWithARCheck();$('cancel').onclick=()=>screen('square');
+async function openGreetingWithARCheck(){
+ try{
+  const status=await api('checkARStatus');
+  if(!status.arDone){alert('먼저 AR 선물 찾기를 완료해 주세요. 선물을 찾은 뒤 인사말을 보내면 미션이 완료됩니다.');screen('guide');return;}
+  openGreeting(false);
+ }catch(err){alert('AR 완료 여부를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.\n'+err.message);}
+}
+
 $('tabs').onclick=e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;messagePage=0;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()};
 let employeeSearchSeq=0;
 $('search').oninput=async()=>{const q=$('search').value.trim(),seq=++employeeSearchSeq,results=$('results');results.replaceChildren();selected=null;if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}results.textContent='직원 검색 중…';try{const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};if(seq!==employeeSearchSeq)return;results.replaceChildren();(result.people||[]).forEach(p=>{const b=document.createElement('button');b.className='btn secondary';b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');b.onclick=async()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site;const recipientId=p.id;try{const r=await api('checkRecipient',{toId:recipientId});if(selected?.id!==recipientId)return;if(r.alreadySent){selected=null;$('chosen').textContent='이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.';}}catch(e){console.warn('Recipient check unavailable',e);}};results.append(b)});if(!results.children.length)results.textContent='검색 결과가 없습니다.';}catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}};
@@ -682,6 +691,12 @@ $('send').onclick=async()=>{
     alert('이 동료에게 보낸 이전 인사말의 처리 상태가 확인되지 않았습니다. 동일 수신자에게 중복 발송되지 않도록 잠시 후 다시 확인해 주세요.');return;
    }
   }
+  // Validate AR completion on the server before attempting a send.
+  const arStatus=await api('checkARStatus');
+  if(!arStatus.arDone){
+   alert('AR 선물 찾기가 아직 완료되지 않았습니다. 먼저 AR 미션을 진행해 주세요.');
+   screen('guide');return;
+  }
   // The server remains the authority on the one-greeting-per-recipient rule.
   const recipient=await api('checkRecipient',{toId});
   if(recipient.alreadySent){
@@ -704,7 +719,7 @@ $('send').onclick=async()=>{
   }
  }catch(err){
   console.warn('Send preflight failed',err);
-  alert('발송 준비 중 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+  alert('발송 전 확인 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.\n'+err.message);
  }finally{clearTimeout(slow);sendOverlay(false);sending=false;$('send').disabled=false;}
 };
 
