@@ -139,7 +139,7 @@
 
 /* V20: milestone lettering appears only at 500 participants. */
 .tree-art .christmas-lettering{opacity:0;animation:christmas-letter-reveal 2.6s ease-out 1s forwards;pointer-events:none}
-.tree-art .christmas-lettering text{paint-order:stroke fill;stroke:#2b533f;stroke-width:1.4px;stroke-linejoin:round;filter:drop-shadow(0 0 3px #ffdb80) drop-shadow(0 0 7px #f3bd58)}
+.tree-art .christmas-lettering text{paint-order:stroke fill;stroke:#fffdf1;stroke-width:2.2px;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #173b35) drop-shadow(0 0 4px #fff4d0)}
 @keyframes christmas-letter-reveal{0%{opacity:0;filter:brightness(.5)}100%{opacity:1;filter:brightness(1)}}
 @media(prefers-reduced-motion:reduce){.tree-art .christmas-lettering{animation:none;opacity:1}}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
@@ -486,7 +486,7 @@ function drawTree(lit,participantCount){
   node('ellipse',{cx:0,cy:6,rx:9,ry:8,fill:'#f14b62',stroke:'#ffd0cb','stroke-width':2},bow);
   node('path',{d:'M-3 1 Q3 4 3 11',stroke:'#ffb7b7','stroke-width':2,fill:'none'},bow);
  }
- if(count>=80)ribbon(187,260,.5);
+ if(count>=80)ribbon(208,318,.5);
  if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
  if(count>=130){
   // Snowflakes fade as they approach the ground.
@@ -497,7 +497,7 @@ function drawTree(lit,participantCount){
    f.textContent='❄';
   }
   // Snowman drawn as layered snow with scarf and hat.
-  const snowman=group('','translate(428 453)');
+  const snowman=group('','translate(405 488)');
   node('ellipse',{cx:0,cy:0,rx:19,ry:6,fill:'#1c4054',opacity:.3},snowman);
   node('circle',{cx:0,cy:-14,r:17,fill:'#f2f9fa',stroke:'#c4dce5','stroke-width':2},snowman);
   node('circle',{cx:0,cy:-39,r:12,fill:'#fff',stroke:'#c4dce5','stroke-width':1.5},snowman);
@@ -510,7 +510,7 @@ function drawTree(lit,participantCount){
  if(count>=200){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
  if(count>=250){
   // Christmas stocking beside the snowman on the right-hand snowy ground.
-  const sock=group('','translate(471 422) rotate(12)');
+  const sock=group('','translate(449 472) rotate(12)');
   node('path',{d:'M-9 -7 H11 V14 Q11 24 0 26 L-12 32 Q-22 34 -26 24 Q-28 17 -19 14 L-9 10Z',fill:'#bf3046',stroke:'#f3a1a0','stroke-width':1.5},sock);
   node('rect',{x:-12,y:-12,width:26,height:9,rx:3,fill:'#f5f3e8',stroke:'#d8e5e5','stroke-width':1.2},sock);
   node('path',{d:'M-19 14 Q-11 15 -9 24 L-14 28 Q-24 30 -26 24 Q-28 17 -19 14Z',fill:'#f4f0e8'},sock);
