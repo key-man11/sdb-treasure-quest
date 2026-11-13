@@ -622,7 +622,7 @@ $('loginForm').onsubmit=async e=>{
 $('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>openGreeting(false);$('cancel').onclick=()=>screen('square');
 $('tabs').onclick=e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;messagePage=0;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()};
 let employeeSearchSeq=0;
-$('search').oninput=async()=>{const q=$('search').value.trim(),seq=++employeeSearchSeq,results=$('results');results.replaceChildren();selected=null;if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}results.textContent='직원 검색 중…';try{const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};if(seq!==employeeSearchSeq)return;results.replaceChildren();(result.people||[]).forEach(p=>{const b=document.createElement('button');b.className='btn secondary';b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');b.onclick=()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site};results.append(b)});if(!results.children.length)results.textContent='검색 결과가 없습니다.';}catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}};
+$('search').oninput=async()=>{const q=$('search').value.trim(),seq=++employeeSearchSeq,results=$('results');results.replaceChildren();selected=null;if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}results.textContent='직원 검색 중…';try{const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};if(seq!==employeeSearchSeq)return;results.replaceChildren();(result.people||[]).forEach(p=>{const b=document.createElement('button');b.className='btn secondary';b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');b.onclick=async()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site;const recipientId=p.id;try{const r=await api('checkRecipient',{toId:recipientId});if(selected?.id!==recipientId)return;if(r.alreadySent){selected=null;$('chosen').textContent='이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.';}}catch(e){console.warn('Recipient check unavailable',e);}};results.append(b)});if(!results.children.length)results.textContent='검색 결과가 없습니다.';}catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}};
 function updateMessageCounter(){const input=$('message');$('messageCounter').textContent=input.value.length+' / 100자 (공백 포함)';}
 $('message').addEventListener('input',updateMessageCounter);
 $('greetingPreset').onchange=()=>{if($('greetingPreset').value)$('message').value=$('greetingPreset').value.slice(0,100);updateMessageCounter()};
@@ -645,30 +645,61 @@ const SEND_PENDING_KEY='sdb_christmas_pending_send_v18';
 let sending=false;
 function pendingSend(){try{return JSON.parse(localStorage.getItem(SEND_PENDING_KEY)||'null')}catch{return null}}
 function sendOverlay(show,message){$('sendOverlay').classList.toggle('hidden',!show);if(message)$('sendOverlayMessage').textContent=message;}
+async function checkStoredSend(request){
+ try {const result=await api('checkSendStatus',{requestId:request.requestId});return result.status==='SENT'?'SENT':result.status==='NOT_FOUND'?'NOT_FOUND':'UNKNOWN';}
+ catch(err){console.warn('Send status lookup unavailable',err);return 'UNKNOWN';}
+}
+async function finishConfirmedSend(){
+ localStorage.removeItem(SEND_PENDING_KEY);
+ greetingPending=false;localStorage.removeItem(greetingPendingKey);
+ $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
+ lastTreeAt=0;lastGreetingsAt=0;screen('square');backgroundRefresh();
+ alert('인사말이 정상적으로 전달되었습니다!');
+}
 $('send').onclick=async()=>{
  if(sending)return;
  const message=$('message').value.trim();
  if(!selected)return alert('받는 동료를 선택하세요.');
  if(!message||$('message').value.length>100)return alert('인사말은 공백 포함 1~100자로 작성하세요.');
- const existing=pendingSend();
- if(existing&&existing.employeeId===session?.id&&(existing.toId!==selected.id||existing.message!==message)){
-  alert('이전 발송 결과가 확인되지 않았습니다. 중복 발송을 방지하기 위해 같은 내용을 다시 시도하거나, 구글시트 기록을 확인한 후 재접속해 주세요.');return;
- }
- const request=existing&&existing.employeeId===session?.id?existing:{employeeId:session.id,toId:selected.id,message,requestId:crypto.randomUUID()};
- localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(request));
- sending=true;$('send').disabled=true;sendOverlay(true,'인사말 저장과 별 적립을 확인 중입니다. 잠시만 기다려 주세요.');
- const slow=setTimeout(()=>sendOverlay(true,'서버 응답이 지연되고 있습니다. 버튼을 다시 누르지 말고 잠시 기다려 주세요.'),4500);
+ sending=true;$('send').disabled=true;
+ sendOverlay(true,'인사말 발송 상태를 확인하고 있습니다.');
+ let slow;
  try{
-  await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});
-  localStorage.removeItem(SEND_PENDING_KEY);
-  greetingPending=false;localStorage.removeItem(greetingPendingKey);
-  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
-  lastTreeAt=0;lastGreetingsAt=0;screen('square');backgroundRefresh();
-  alert('인사말 발송이 확인되었습니다! 크리스마스 광장에서 현황을 확인하세요.');
+  let previous=pendingSend();
+  if(previous&&previous.employeeId===session.id){
+   const status=await checkStoredSend(previous);
+   if(status==='SENT'){
+    localStorage.removeItem(SEND_PENDING_KEY);
+    if(previous.toId===selected.id){await finishConfirmedSend();return;}
+    previous=null;
+   }else if(status==='UNKNOWN'){
+    alert('이전 발송 결과를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요.');return;
+   }else if(previous.toId!==selected.id||previous.message!==message){
+    // A previous request is not recorded; avoid switching identities until confirmed.
+    alert('이전 인사말 발송 결과를 아직 확인하지 못했습니다. 동일 내용으로 다시 시도해 주세요.');return;
+   }
+  }
+  const recipient=await api('checkRecipient',{toId:selected.id});
+  if(recipient.alreadySent){
+   localStorage.removeItem(SEND_PENDING_KEY);
+   selected=null;$('chosen').textContent='이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.';
+   alert('이미 인사를 전한 동료입니다. 다른 동료를 선택해 주세요.');return;
+  }
+  const request=previous&&previous.employeeId===session.id?previous:{employeeId:session.id,toId:selected.id,message,requestId:crypto.randomUUID()};
+  localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(request));
+  sendOverlay(true,'인사말 저장과 별 적립을 확인 중입니다. 잠시만 기다려 주세요.');
+  slow=setTimeout(()=>sendOverlay(true,'서버 응답이 지연되고 있습니다. 발송 상태를 확인 중입니다.'),4500);
+  try{await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});await finishConfirmedSend();}
+  catch(err){
+   const status=await checkStoredSend(request);
+   if(status==='SENT'){await finishConfirmedSend();return;}
+   console.warn('Send unconfirmed',err);
+   alert(status==='NOT_FOUND'?'인사말 발송을 완료하지 못했습니다. 잠시 후 같은 내용으로 다시 시도해 주세요.':'서버 응답을 확인하지 못했습니다. 잠시 후 같은 내용으로 다시 시도해 주세요.');
+  }
  }catch(err){
-  console.error('Greeting send status unknown:',err);
-  alert('발송 결과를 확인하지 못했습니다. 저장되었을 수도 있습니다. 구글시트의 Greetings를 확인하거나 같은 내용으로 재시도해 주세요. 재시도 시 동일 요청번호를 사용합니다.\n'+err.message);
- }finally{clearTimeout(slow);sendOverlay(false);sending=false;$('send').disabled=false}
+  console.warn('Send preflight failed',err);
+  alert('발송 준비 중 통신 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+ }finally{clearTimeout(slow);sendOverlay(false);sending=false;$('send').disabled=false;}
 };
 
 let mindarLoader;async function loadMindAR(){if(!mindarLoader)mindarLoader=import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js').then(m=>m.MindARThree);return mindarLoader}
