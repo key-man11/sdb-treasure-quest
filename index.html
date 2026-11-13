@@ -324,13 +324,41 @@ function drawTree(lit,participantCount){
  }
  // Background: subdued snowy village. Animated snow begins at 130 participants.
  for(let i=0;i<35;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?1.7:1,fill:'#e4f2ff',opacity:.35+(i%3)*.1});
- for(const [x,y,windowAt] of [[20,355,100],[383,350,250],[445,375,200]]){
-  node('rect',{x,y,width:53,height:65,rx:4,fill:'#855e64'});
-  node('path',{d:`M${x-9} ${y+4} L${x+26} ${y-28} L${x+62} ${y+4} Z`,fill:'#e4eff4'});
-  node('rect',{x:x+9,y:y+15,width:12,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
-  node('rect',{x:x+31,y:y+15,width:12,height:17,fill:count>=windowAt?'#ffdd7e':'#607480'});
- }
+ // Snow lies behind the cottages, so their foundations visibly rest on the ground.
  node('ellipse',{cx:250,cy:476,rx:350,ry:60,fill:'#e3f2f6'});
+ function cottage(x,y,w,h,threshold,opts={}){
+  const roofOverhang=opts.wideRoof?17:10;
+  const roofTop=opts.wideRoof?y-35:y-31;
+  // Small ground shadow anchors the house to the snow.
+  node('ellipse',{cx:x+w/2,cy:y+h+2,rx:w*.61,ry:7,fill:'#b8d1dc',opacity:.72});
+  node('rect',{x,y,width:w,height:h,rx:4,fill:opts.wideRoof?'#96666b':'#855e64',stroke:'#b88b8e','stroke-width':1});
+  // Wide trapezoid-like snowy gable, with broad horizontal eaves.
+  if(opts.wideRoof){
+   node('path',{d:`M${x-17} ${y+4} L${x+9} ${roofTop+13} L${x+w-9} ${roofTop+13} L${x+w+17} ${y+4} Z`,fill:'#eaf4f7',stroke:'#c7dfe8','stroke-width':2});
+   node('path',{d:`M${x+9} ${roofTop+13} L${x+w-9} ${roofTop+13}`,stroke:'#fff','stroke-width':5,'stroke-linecap':'round'});
+  }else{
+   node('path',{d:`M${x-roofOverhang} ${y+4} L${x+w/2} ${roofTop} L${x+w+roofOverhang} ${y+4} Z`,fill:'#eaf4f7',stroke:'#c7dfe8','stroke-width':1.5});
+  }
+  if(opts.chimney){
+   const cx=x+w*.73;
+   // Chimney rises above the right roof; snow cap rests on its top.
+   node('rect',{x:cx,y:roofTop-9,width:15,height:26,rx:2,fill:'#98605b',stroke:'#c58c83','stroke-width':1});
+   node('rect',{x:cx-3,y:roofTop-12,width:21,height:7,rx:3,fill:'#f4fbff'});
+  }
+  const winW=opts.wideRoof?16:12,winH=18;
+  for(const wx of [x+w*.23-winW/2,x+w*.73-winW/2]){
+   node('rect',{x:wx,y:y+16,width:winW,height:winH,rx:1.5,fill:count>=threshold?'#ffdd7e':'#607480',stroke:count>=threshold?'#fff0ad':'#91a8b2','stroke-width':1});
+   node('path',{d:`M${wx+winW/2} ${y+16} V${y+16+winH}`,stroke:'#9a7775','stroke-width':1});
+  }
+  if(opts.wideRoof){
+   node('rect',{x:x+w*.43,y:y+h-24,width:w*.19,height:24,rx:2,fill:'#6d494b'});
+  }
+ }
+ // Left cottage: lowered. Large middle-right cottage: wide roof and chimney.
+ // Far-right cottage: moved forward onto the snow, clear of the middle house.
+ cottage(24,397,56,70,100);
+ cottage(358,382,80,83,250,{wideRoof:true,chimney:true});
+ cottage(450,418,45,61,200);
  node('rect',{x:238,y:383,width:25,height:81,rx:4,fill:'#6e4531'});
  for(let i=0;i<7;i++){
   const y=90+i*43,w=35+i*24;
@@ -484,7 +512,7 @@ function drawTree(lit,participantCount){
  }
  if(count>=300){
   // Santa illustration, standing on the snowy roof without a chimney.
-  artImage('santa',389,293,72,73);
+  artImage('santa',376,303,68,73);
   // Extra gifts arrive alongside Santa at 300 participants.
   present(305,394,31,27,'#c75a6b');
   present(343,399,26,23,'#4d9b89');
