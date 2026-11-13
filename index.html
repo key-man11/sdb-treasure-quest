@@ -422,10 +422,15 @@ function drawTree(lit,participantCount){
   [113,431,36,31,'#bb4954'],[152,417,34,30,'#d9a44e'],
   [189,433,32,29,'#478c78'],[136,458,29,23,'#bd6779'],
   [172,462,32,22,'#e3ac51'],[209,449,30,25,'#cf6658'],
-  [279,435,31,28,'#438b78'],[315,417,39,34,'#c75a6b'],
-  [359,428,36,32,'#498b8c'],[397,450,29,24,'#b95564'],
-  [300,464,31,22,'#d3a24f'],[337,464,31,22,'#4d9b89'],
-  [240,455,27,22,'#bd6a78'],[373,465,27,20,'#b88d43']
+  // Right-side gift cluster shifted inward toward the tree trunk,
+  // retaining the relative arrangement and original sizes/colors.
+  [251,435,31,28,'#438b78'],[287,417,39,34,'#c75a6b'],
+  [331,428,36,32,'#498b8c'],[369,450,29,24,'#b95564'],
+  [272,464,31,22,'#d3a24f'],[309,464,31,22,'#4d9b89'],
+  [240,455,27,22,'#bd6a78'],[345,465,27,20,'#b88d43'],
+  // Final small foreground gifts enrich the base without covering houses.
+  [217,475,24,18,'#d6a14e'],[249,480,25,18,'#bf5366'],
+  [280,485,24,17,'#438b78']
  ];
  // Later calls still execute but do not add overlapping gifts at the 500 milestone.
  function present(x,y,w,h,c){if(count<500)paintPresent(x,y,w,h,c)}
@@ -486,7 +491,7 @@ function drawTree(lit,participantCount){
   node('ellipse',{cx:0,cy:6,rx:9,ry:8,fill:'#f14b62',stroke:'#ffd0cb','stroke-width':2},bow);
   node('path',{d:'M-3 1 Q3 4 3 11',stroke:'#ffb7b7','stroke-width':2,fill:'none'},bow);
  }
- if(count>=80)ribbon(208,318,.5);
+ if(count>=80)ribbon(208,353,.5);
  if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
  if(count>=130){
   // Snowflakes fade as they approach the ground.
@@ -520,17 +525,17 @@ function drawTree(lit,participantCount){
   // Santa illustration, standing on the snowy roof without a chimney.
   artImage('santa',376,303,68,73);
   // Extra gifts arrive alongside Santa at 300 participants.
-  present(305,394,31,27,'#c75a6b');
-  present(343,399,26,23,'#4d9b89');
+  present(276,414,31,27,'#c75a6b');
+  present(312,421,26,23,'#4d9b89');
  }
- if(count>=400){deer(45,455,.58);bell(165,367,.72);ribbon(345,366,.5);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
+ if(count>=400){deer(45,455,.58);bell(165,367,.72);ribbon(345,366,.5);present(102,447,30,24,'#d3a24f');present(344,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
  // 500-person finale: the topper lights first; gold lettering fades in after one second.
  // Keep the lettering on the tree, without a banner or a solid background.
  if(count>=500){
   const lettering=node('g',{class:'christmas-lettering','aria-label':'Merry Christmas'});
-  const first=node('text',{x:250,y:239,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':24,'letter-spacing':'.5',fill:'#ffe7a6'},lettering);
+  const first=node('text',{x:250,y:254,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':24,'letter-spacing':'.5',fill:'#ffe7a6'},lettering);
   first.textContent='Merry';
-  const second=node('text',{x:250,y:268,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':27,'letter-spacing':'-.5',fill:'#ffe7a6'},lettering);
+  const second=node('text',{x:250,y:283,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':27,'letter-spacing':'-.5',fill:'#ffe7a6'},lettering);
   second.textContent='Christmas';
  }
 
