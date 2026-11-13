@@ -136,6 +136,12 @@
 .send-overlay-card{max-width:360px;width:100%;border:1px solid #d8bd7b;background:#193b4b;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 18px 55px #0008}
 .send-overlay-card strong{display:block;color:#ffe29d;font-size:18px;margin:10px 0}
 .send-overlay-card p{color:#d1e0e5;font-size:13px;line-height:1.6}
+
+/* V20: milestone lettering appears only at 500 participants. */
+.tree-art .christmas-lettering{opacity:0;animation:christmas-letter-reveal 2.6s ease-out 1s forwards;pointer-events:none}
+.tree-art .christmas-lettering text{paint-order:stroke fill;stroke:#2b533f;stroke-width:1.4px;stroke-linejoin:round;filter:drop-shadow(0 0 3px #ffdb80) drop-shadow(0 0 7px #f3bd58)}
+@keyframes christmas-letter-reveal{0%{opacity:0;filter:brightness(.5)}100%{opacity:1;filter:brightness(1)}}
+@media(prefers-reduced-motion:reduce){.tree-art .christmas-lettering{animation:none;opacity:1}}
 </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
 <section id="welcome" class="card"><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
 <section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
@@ -518,6 +524,16 @@ function drawTree(lit,participantCount){
   present(343,399,26,23,'#4d9b89');
  }
  if(count>=400){deer(45,455,.58);bell(165,367,.72);ribbon(345,366,.5);present(102,447,30,24,'#d3a24f');present(379,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
+ // 500-person finale: the topper lights first; gold lettering fades in after one second.
+ // Keep the lettering on the tree, without a banner or a solid background.
+ if(count>=500){
+  const lettering=node('g',{class:'christmas-lettering','aria-label':'Merry Christmas'});
+  const first=node('text',{x:250,y:239,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':24,'letter-spacing':'.5',fill:'#ffe7a6'},lettering);
+  first.textContent='Merry';
+  const second=node('text',{x:250,y:268,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':27,'letter-spacing':'-.5',fill:'#ffe7a6'},lettering);
+  second.textContent='Christmas';
+ }
+
 
 
 
