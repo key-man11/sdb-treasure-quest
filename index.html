@@ -208,7 +208,7 @@ $('logoutBtn').onclick=async()=>{
  if(!confirm('로그아웃하고 다른 계정으로 접속하시겠습니까? 구글시트에 저장된 참여 기록은 유지됩니다.'))return;
  if(!$('arScreen').classList.contains('hidden'))await stopAR();
  localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);
- session=null;greetingPending=false;selected=null;tab='all';previewCount=0;baseSnapshot=null;snapshot={people:[],messages:[],stars:0};
+ session=null;greetingPending=false;selected=null;tab='all';previewCount=0;baseSnapshot=null;lastTreeAt=0;lastGreetingsAt=0;snapshot={people:[],messages:[],stars:0};
  $('loginForm').reset();$('search').value='';$('message').value='';$('results').replaceChildren();
  $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
  $('messageList').replaceChildren();$('messageList').removeAttribute('data-signature');
@@ -218,24 +218,53 @@ async function api(action,data={},options={}){
  if(!API_URL){const d=demo(),id=session?.id;
   if(action==='login'){const p=d.people.find(p=>p.id===data.id);if(p&&p.name!==data.name)throw Error('등록된 사번과 이름이 일치하지 않습니다.');if(!p)d.people.push({id:data.id,name:data.name,site:data.site,arDone:false,created:Date.now()});saveDemo(d);return {ok:true}}
   if(action==='snapshot'){const stars=d.people.filter(p=>p.missionDone).length+d.people.filter(p=>p.bonus).length;return {people:d.people,messages:d.messages,stars,myStarsById:Object.fromEntries(d.people.map(p=>[p.id,Number(!!p.missionDone)+Number(!!p.bonus)]))}}
+  if(action==='treeSummary'){const r=await api('snapshot');return {people:r.people,stars:r.stars,messageCount:r.messages.length,myStarsById:r.myStarsById}}
+  if(action==='greetingsFeed'){const r=await api('snapshot');return {messages:r.messages,messageCount:r.messages.length}}
   if(action==='complete'){const p=d.people.find(p=>p.id===id);if(!p)throw Error('참여자 정보가 없습니다.');p.arDone=true;saveDemo(d);return {ok:true}}
   if(action==='send'){if(!d.people.some(p=>p.id===data.toId))throw Error('수신자를 찾을 수 없습니다.');if(id===data.toId)throw Error('본인에게는 발송할 수 없습니다.');const p=d.people.find(p=>p.id===id);if(!p?.arDone)throw Error('AR 미션을 먼저 완료하세요.');if(d.messages.some(m=>m.fromId===id&&m.toId===data.toId))throw Error('이미 인사말을 보낸 동료입니다.');d.messages.push({id:crypto.randomUUID(),fromId:id,fromName:p.name,fromSite:p.site,toId:data.toId,toName:d.people.find(x=>x.id===data.toId).name,message:data.message,created:Date.now()});p.missionDone=true;const target=d.people.find(x=>x.id===data.toId);if(target.missionDone)p.bonus=true;d.messages.filter(m=>m.toId===id).forEach(m=>{const sender=d.people.find(x=>x.id===m.fromId);if(sender?.missionDone)sender.bonus=true});saveDemo(d);return {ok:true}}
   throw Error('지원하지 않는 요청입니다.');
  }
- const requestId=options.requestId||((action==='send'||action==='complete')?crypto.randomUUID():undefined);const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,data,requestId}),redirect:'follow'});if(!res.ok)throw Error('서버 응답 오류: '+res.status);const result=await res.json();if(!result.ok)throw Error(result.error||'서버 오류');return result;
+ const requestId=options.requestId||((action==='send'||action==='complete')?crypto.randomUUID():undefined);const started=Date.now();let res;
+ try{res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,data,requestId}),redirect:'follow'});}
+ catch(err){console.warn('[SDB API]',{action,elapsedMs:Date.now()-started,errorType:'NETWORK_OR_CORS',online:navigator.onLine});throw Error('서버 통신에 실패했습니다. 네트워크·브라우저 보안 설정 또는 GAS 배포 권한을 확인하세요. (Failed to fetch)');}
+ if(!res.ok)throw Error('서버 응답 오류: '+res.status);
+ let result;try{result=await res.json()}catch(err){throw Error('서버 응답 형식이 올바르지 않습니다. GAS 배포 URL 및 접근 권한을 확인하세요.');}
+ if(!result.ok)throw Error(result.error||'서버 오류');return result;
 }
 let refreshPromise=null,refreshOwner=null,syncSeq=0;
+let treePromise=null,greetingsPromise=null,lastTreeAt=0,lastGreetingsAt=0;
+const REFRESH_MIN_MS=12000;
 function syncMessage(message='',error=false){const el=$('syncStatus');el.textContent=message;el.classList.toggle('hidden',!message);el.classList.toggle('error',error);}
+function mergeRemote(part){
+ baseSnapshot={...(baseSnapshot||{people:[],messages:[],stars:0}),...part};
+ snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(baseSnapshot,previewCount):baseSnapshot;
+ render();
+}
+async function refreshTree(force=false){
+ if(treePromise)return treePromise;
+ if(!force&&Date.now()-lastTreeAt<REFRESH_MIN_MS)return;
+ const owner=session?.id;
+ const p=(async()=>{const r=await api('treeSummary');if(owner!==session?.id)return;mergeRemote(r);lastTreeAt=Date.now();})();
+ treePromise=p;try{return await p}finally{if(treePromise===p)treePromise=null}
+}
+async function refreshGreetings(force=false){
+ if(greetingsPromise)return greetingsPromise;
+ if(!force&&Date.now()-lastGreetingsAt<REFRESH_MIN_MS)return;
+ const owner=session?.id;
+ const p=(async()=>{const r=await api('greetingsFeed');if(owner!==session?.id)return;mergeRemote(r);lastGreetingsAt=Date.now();})();
+ greetingsPromise=p;try{return await p}finally{if(greetingsPromise===p)greetingsPromise=null}
+}
 async function refresh(){
  if(refreshPromise&&refreshOwner===session?.id)return refreshPromise;
  const owner=session?.id;
- const promise=(async()=>{const r=await api('snapshot');if(owner!==session?.id)return; baseSnapshot=r;snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(r,previewCount):r;render();})();
- refreshOwner=owner;refreshPromise=promise;
- try{return await promise}finally{if(refreshPromise===promise){refreshPromise=null;refreshOwner=null}}
+ const p=Promise.all([refreshTree(true),refreshGreetings(true)]);
+ refreshOwner=owner;refreshPromise=p;
+ try{return await p}finally{if(refreshPromise===p){refreshPromise=null;refreshOwner=null}}
 }
 function backgroundRefresh(){
  const seq=++syncSeq;syncMessage('최신 참여 현황을 불러오는 중입니다…');
- refresh().then(()=>{if(seq!==syncSeq)return;syncMessage('최신 데이터가 반영되었습니다.');setTimeout(()=>{if(seq===syncSeq)syncMessage('')},1700)})
+ const p=$('greetings').classList.contains('hidden')?refreshTree():refreshGreetings();
+ Promise.resolve(p).then(()=>{if(seq!==syncSeq)return;syncMessage('최신 데이터가 반영되었습니다.');setTimeout(()=>{if(seq===syncSeq)syncMessage('')},1700)})
  .catch(err=>{if(seq!==syncSeq)return;console.warn('Background refresh failed:',err);syncMessage('새 데이터 조회에 실패했습니다. 이전 현황을 표시 중입니다.',true)});
 }
 function navigateSquare(id){screen(id);backgroundRefresh();}
@@ -254,7 +283,7 @@ function celebrateMilestone(stars){
 }
 function render(){if(!session)return;
  const stars=Number(snapshot.stars)||0;
- $('totalStars').textContent=stars.toLocaleString('ko-KR');$('totalPeople').textContent=snapshot.people.filter(p=>p.missionDone&&!p.sample).length+'명';$('totalMessages').textContent=snapshot.messages.filter(m=>!m.sample).length+'건';$('myStars').textContent=myStarCount()+'개';
+ $('totalStars').textContent=stars.toLocaleString('ko-KR');$('totalPeople').textContent=snapshot.people.filter(p=>p.missionDone&&!p.sample).length+'명';$('totalMessages').textContent=(snapshot.preview?snapshot.messages.filter(m=>!m.sample).length:(snapshot.messageCount??snapshot.messages.length))+'건';$('myStars').textContent=myStarCount()+'개';
  $('treeLabel').textContent='별 '+stars.toLocaleString('ko-KR')+'개 누적 · '+Math.min(50,Math.floor(stars/10))+'단계 점등';
  $('giftLabel').textContent='별 '+stars.toLocaleString('ko-KR')+'개 / 목표 500개'+(stars>500?' · '+(stars-500).toLocaleString('ko-KR')+'개 초과 달성':'');
  $('goalBar').style.width=Math.min(100,stars/500*100)+'%';
@@ -634,7 +663,7 @@ $('send').onclick=async()=>{
   localStorage.removeItem(SEND_PENDING_KEY);
   greetingPending=false;localStorage.removeItem(greetingPendingKey);
   $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
-  screen('square');backgroundRefresh();
+  lastTreeAt=0;lastGreetingsAt=0;screen('square');backgroundRefresh();
   alert('인사말 발송이 확인되었습니다! 크리스마스 광장에서 현황을 확인하세요.');
  }catch(err){
   console.error('Greeting send status unknown:',err);
@@ -656,7 +685,7 @@ $('gift').onclick=async()=>{
  try{
   await stopAR();
   await api('complete');
-  await refresh();
+  await refreshTree(true);
   openGreeting(true);
  }catch(err){
   console.error('Gift completion failed:',err);
@@ -669,5 +698,5 @@ $('gift').onclick=async()=>{
  }
 };
 if(session){const pending=pendingSend();if(pending&&pending.employeeId===session.id)console.warn('Unconfirmed greeting send request remains; retry with identical request ID.');$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else {const me=snapshot.people.find(p=>p.id===session.id);if(me?.missionDone)screen('square');else if(me?.arDone)openGreeting(true);else screen('guide')}}).catch(()=>screen('login'))}
-setInterval(()=>{if(session&&(!$('square').classList.contains('hidden')||!$('greetings').classList.contains('hidden')))refresh().catch(console.warn)},20000);
+setInterval(()=>{if(!session||document.hidden)return;if(!$('square').classList.contains('hidden'))refreshTree().catch(console.warn);else if(!$('greetings').classList.contains('hidden'))refreshGreetings().catch(console.warn)},30000);
 </script></body></html>
