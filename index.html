@@ -69,7 +69,7 @@
 .greeting-scroll-group .entry p{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;white-space:pre-wrap!important;line-height:1.55}
 .greeting-view.is-paused .greeting-scroll-track{animation-play-state:paused}
 .greeting-empty{text-align:center;padding:35px 10px}
-@keyframes greeting-credits{from{transform:translateY(var(--greeting-start,400px))}to{transform:translateY(var(--greeting-end,-600px))}}
+@keyframes greeting-credits{from{transform:translateY(var(--greeting-start,0px))}to{transform:translateY(var(--greeting-end,600px))}}
 @media(max-width:480px){.greeting-view{height:min(65vh,550px);min-height:370px}.greeting-scroll-group .entry{margin:5px 0;padding:10px 11px}}
 @media(prefers-reduced-motion:reduce){.greeting-scroll-track{animation:none!important}.greeting-page{overflow-y:auto!important}.greeting-scroll-group[aria-hidden=true]{display:none}}
 /* AR completion -> greeting first */
@@ -304,7 +304,7 @@ function renderGreetingPage(){
  }).slice().reverse();
  const signature=tab+'|'+messages.map(m=>String(m.id??m.GreetingID)+'@'+String(m.message)).join('~');
  view.classList.toggle('static-list',tab!=='all');
- $('greetingHelp').textContent=tab==='all'?'전사 인사말은 아래에서 위로 흐릅니다. 마우스를 올리거나 누르고 있는 동안 멈추며, 떼면 바로 재생됩니다.':'보낸·받은 인사말을 시간순으로 모두 확인할 수 있습니다.';
+ $('greetingHelp').textContent=tab==='all'?'전사 인사말은 위에서 아래로 흐릅니다. 한 번 터치하거나 클릭하면 멈추고, 다시 누르면 재생됩니다.':'보낸·받은 인사말을 시간순으로 모두 확인할 수 있습니다.';
  if(list.dataset.signature===signature)return;
  list.dataset.signature=signature;list.replaceChildren();
  if(!messages.length){const e=document.createElement('p');e.className='muted greeting-empty';e.textContent='아직 등록된 인사말이 없습니다.';list.append(e);return;}
@@ -322,7 +322,8 @@ function renderGreetingPage(){
   if(!track.isConnected)return;
   const height=group.getBoundingClientRect().height;
   const viewport=list.getBoundingClientRect().height;
-  track.style.setProperty('--greeting-distance',height+'px');
+  track.style.setProperty('--greeting-start','0px');
+  track.style.setProperty('--greeting-end',viewport+'px');
   track.style.setProperty('--greeting-duration',Math.max(18/1.69,(height+viewport)/40.56)+'s');
  });
 }
