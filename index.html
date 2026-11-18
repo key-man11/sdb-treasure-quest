@@ -193,6 +193,7 @@ const greetingPendingKey='sdb_christmas_greeting_pending_v1';
 let greetingPending=localStorage.getItem(greetingPendingKey)===session?.id;
 function openGreeting(afterAR=false){
  if(afterAR){greetingPending=true;localStorage.setItem(greetingPendingKey,session.id)}
+ ++employeeSearchSeq;clearTimeout(employeeSearchTimer);
  selected=null;$('chosen').textContent='받는 동료를 선택해 주세요.';
  $('search').value='';$('message').value='';updateMessageCounter();$('greetingPreset').value='';$('results').replaceChildren();
  $('arGreetingPrompt').classList.toggle('hidden',!greetingPending);
@@ -627,18 +628,63 @@ $('loginForm').onsubmit=async e=>{
   alert('임직원 정보 확인 실패: '+err.message);
  }finally{setLoginBusy(false)}
 };
-$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>void openGreetingWithARCheck();$('cancel').onclick=()=>screen('square');
-async function openGreetingWithARCheck(){
- try{
-  const status=await api('checkARStatus');
-  if(!status.arDone){alert('먼저 AR 선물 찾기를 완료해 주세요. 선물을 찾은 뒤 인사말을 보내면 미션이 완료됩니다.');screen('guide');return;}
-  openGreeting(false);
- }catch(err){alert('AR 완료 여부를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.\n'+err.message);}
+$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>void openGreetingImmediately();$('cancel').onclick=()=>screen('square');
+// Open the compose screen immediately; server remains authoritative at send time.
+let composeCheckToken=0;
+function openGreetingImmediately(){
+ const token=++composeCheckToken;
+ const owner=session?.id;
+ openGreeting(false);
+ // Do not block navigation on GAS; validate the AR state asynchronously.
+ void (async()=>{
+  try{
+   const status=await api('checkARStatus');
+   if(token!==composeCheckToken||owner!==session?.id||$('compose').classList.contains('hidden'))return;
+   if(!status.arDone){
+    alert('먼저 AR 선물 찾기를 완료해 주세요. 선물을 찾은 뒤 인사말을 보내면 미션이 완료됩니다.');
+    screen('guide');
+   }
+  }catch(err){
+   // A transient status-read failure should not block composing.
+   // The send endpoint checks AR completion again before storing.
+   console.warn('Background AR status check failed:',err);
+  }
+ })();
 }
 
 $('tabs').onclick=e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;messagePage=0;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()};
 let employeeSearchSeq=0;
-$('search').oninput=async()=>{const q=$('search').value.trim(),seq=++employeeSearchSeq,results=$('results');results.replaceChildren();selected=null;if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}results.textContent='직원 검색 중…';try{const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};if(seq!==employeeSearchSeq)return;results.replaceChildren();(result.people||[]).forEach(p=>{const b=document.createElement('button');b.className='btn secondary';b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');b.onclick=async()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site;};results.append(b)});if(!results.children.length)results.textContent='검색 결과가 없습니다.';}catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}};
+let employeeSearchTimer=null;
+$('search').oninput=()=>{
+ const q=$('search').value.trim();
+ const seq=++employeeSearchSeq;
+ const results=$('results');
+ clearTimeout(employeeSearchTimer);
+ results.replaceChildren();
+ selected=null;
+ $('chosen').textContent='받는 동료를 선택해 주세요.';
+ if(q.length<2){results.textContent='이름 또는 사업장·부서를 2글자 이상 입력하세요.';return;}
+ results.textContent='직원 검색 준비 중…';
+ employeeSearchTimer=setTimeout(async()=>{
+  if(seq!==employeeSearchSeq)return;
+  results.textContent='직원 검색 중…';
+  try{
+   const result=API_URL?await api('searchEmployees',{query:q}):{people:snapshot.people.filter(p=>p.id!==session.id&&(p.name.includes(q)||p.site.includes(q))).slice(0,15)};
+   if(seq!==employeeSearchSeq||$('search').value.trim()!==q)return;
+   results.replaceChildren();
+   (result.people||[]).forEach(p=>{
+    const b=document.createElement('button');
+    b.className='btn secondary';
+    b.textContent=p.name+' · '+p.site+(p.department?' · '+p.department:'');
+    b.onclick=()=>{selected=p;$('chosen').textContent='받는 동료: '+p.name+' · '+p.site;};
+    results.append(b);
+   });
+   if(!results.children.length)results.textContent='검색 결과가 없습니다.';
+  }catch(err){
+   if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;
+  }
+ },300);
+};
 function updateMessageCounter(){const input=$('message');$('messageCounter').textContent=input.value.length+' / 100자 (공백 포함)';}
 $('message').addEventListener('input',updateMessageCounter);
 $('greetingPreset').onchange=()=>{if($('greetingPreset').value)$('message').value=$('greetingPreset').value.slice(0,100);updateMessageCounter()};
