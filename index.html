@@ -233,7 +233,7 @@ async function api(action,data={},options={}){
  catch(err){console.warn('[SDB API]',{action,elapsedMs:Date.now()-started,errorType:'NETWORK_OR_CORS',online:navigator.onLine});throw Error('서버 통신에 실패했습니다. 네트워크·브라우저 보안 설정 또는 GAS 배포 권한을 확인하세요. (Failed to fetch)');}
  if(!res.ok)throw Error('서버 응답 오류: '+res.status);
  let result;try{result=await res.json()}catch(err){throw Error('서버 응답 형식이 올바르지 않습니다. GAS 배포 URL 및 접근 권한을 확인하세요.');}
- if(!result.ok)throw Error(result.error||'서버 오류');return result;
+ if(!result.ok)throw Error(result.error||'서버 오류');console.info('[SDB API timing]',action,Date.now()-started+'ms');return result;
 }
 let refreshPromise=null,refreshOwner=null,syncSeq=0;
 let treePromise=null,greetingsPromise=null,lastTreeAt=0,lastGreetingsAt=0;
@@ -613,10 +613,12 @@ $('loginForm').onsubmit=async e=>{
  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
  session=s;
  try{
-  await api('login',s);
-  await refresh();
+  const loginResult=await api('login',s);
   localStorage.setItem(KEY,JSON.stringify(s));
-  {const me=snapshot.people.find(p=>p.id===s.id);if(me?.missionDone)screen('square');else if(me?.arDone)openGreeting(true);else screen('guide');}
+  lastTreeAt=0;lastGreetingsAt=0;
+  if(loginResult.missionDone){screen('square');backgroundRefresh();}
+  else if(loginResult.arDone){openGreeting(true);backgroundRefresh();}
+  else {screen('guide');refreshTree().catch(console.warn);}
  }catch(err){
   session=prior;
   $('loginStatus').textContent='정보 확인에 실패했습니다. 다시 시도해 주세요.';
@@ -752,6 +754,14 @@ $('gift').onclick=async()=>{
   giftSavingBusy=false;
  }
 };
-if(session){localStorage.removeItem(LEGACY_SEND_PENDING_KEY);$('name').value=session.name;$('emp').value=session.id;refresh().then(()=>{if(greetingPending)openGreeting(false);else {const me=snapshot.people.find(p=>p.id===session.id);if(me?.missionDone)screen('square');else if(me?.arDone)openGreeting(true);else screen('guide')}}).catch(()=>screen('login'))}
-setInterval(()=>{if(!session||document.hidden)return;if(!$('square').classList.contains('hidden'))refreshTree().catch(console.warn);else if(!$('greetings').classList.contains('hidden'))refreshGreetings().catch(console.warn)},30000);
+if(session){localStorage.removeItem(LEGACY_SEND_PENDING_KEY);$('name').value=session.name;$('emp').value=session.id;api('checkARStatus').then(r=>{if(r.missionDone){screen('square');backgroundRefresh();}else if(r.arDone){openGreeting(true);backgroundRefresh();}else{screen('guide');refreshTree().catch(console.warn);}}).catch(()=>screen('login'))}
+// Stagger polls so clients do not all hit GAS at the same instant.
+const POLL_TREE_MS=30000,POLL_GREETINGS_MS=50000;
+let nextPollAt=Date.now()+Math.random()*10000;
+setInterval(()=>{
+ if(!session||document.hidden||Date.now()<nextPollAt)return;
+ if(!$('square').classList.contains('hidden')){nextPollAt=Date.now()+POLL_TREE_MS+Math.random()*9000;refreshTree().catch(console.warn);}
+ else if(!$('greetings').classList.contains('hidden')){nextPollAt=Date.now()+POLL_GREETINGS_MS+Math.random()*9000;refreshGreetings().catch(console.warn);}
+},5000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&session){nextPollAt=Date.now()+5000;}});
 </script></body></html>
