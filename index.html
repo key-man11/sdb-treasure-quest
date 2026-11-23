@@ -340,7 +340,8 @@ function renderGreetingPage(){
   if(!track.isConnected)return;
   const height=group.getBoundingClientRect().height;
   const viewport=list.getBoundingClientRect().height;
-  track.style.setProperty('--greeting-start','0px');
+  // Scroll the entire credits list from above the viewport to below it.
+  track.style.setProperty('--greeting-start',(-height)+'px');
   track.style.setProperty('--greeting-end',viewport+'px');
   track.style.setProperty('--greeting-duration',Math.max(18/1.69,(height+viewport)/40.56)+'s');
  });
