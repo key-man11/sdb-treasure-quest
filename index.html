@@ -93,7 +93,7 @@
 .greeting-view.static-list{height:auto!important;min-height:0!important;max-height:none!important;mask-image:none!important;-webkit-mask-image:none!important;overflow:visible!important}
 .greeting-view.static-list .greeting-page{height:auto!important;overflow:visible!important;padding:0}
 .greeting-view.static-list .entry{margin:8px 0}
-.greeting-view:not(.static-list){touch-action:pan-y}
+.greeting-view:not(.static-list),.greeting-view:not(.static-list) .greeting-page,.greeting-view:not(.static-list) .greeting-scroll-track,.greeting-view:not(.static-list) .entry{touch-action:pan-y}
 .admin-preview{border:1px solid #d9b95b;background:#203f4c}
 /* AR gift confirmation: visible immediately while Sheets records are saved */
 .gift-saving{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,19,29,.88);backdrop-filter:blur(5px)}
@@ -197,11 +197,26 @@ function updateAdminPreview(){
 }
 function setupTapToTogglePause(id){
  const view=$(id);
+ let touchStart=null,ignoreClickUntil=0;
+ // Let the browser handle vertical page scrolling. Never preventDefault on touch.
+ view.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1){touchStart=null;return;}
+  const t=e.touches[0];touchStart={x:t.clientX,y:t.clientY,moved:false};
+ },{passive:true});
+ view.addEventListener('touchmove',e=>{
+  if(!touchStart||e.touches.length!==1)return;
+  const t=e.touches[0];
+  if(Math.abs(t.clientY-touchStart.y)>8||Math.abs(t.clientX-touchStart.x)>8){
+   touchStart.moved=true;ignoreClickUntil=Date.now()+650;
+  }
+ },{passive:true});
+ view.addEventListener('touchend',()=>{if(touchStart?.moved)ignoreClickUntil=Date.now()+650;touchStart=null;},{passive:true});
+ view.addEventListener('touchcancel',()=>{touchStart=null;ignoreClickUntil=Date.now()+650;},{passive:true});
  view.addEventListener('click',e=>{
-   // A click/tap toggles playback. No hover, hold, or timeout behavior.
-   if(e.target.closest('button,a,input,select,textarea'))return;
-   view.classList.toggle('is-paused');
-   view.setAttribute('aria-pressed',String(view.classList.contains('is-paused')));
+  if(Date.now()<ignoreClickUntil)return;
+  if(e.target.closest('button,a,input,select,textarea'))return;
+  view.classList.toggle('is-paused');
+  view.setAttribute('aria-pressed',String(view.classList.contains('is-paused')));
  });
 }
 
