@@ -854,17 +854,17 @@ function adminShowPanel(panel){
 }
 function adminDrawSites(people){
  const sites=new Map();
- const starMap=adminOverviewData?.myStarsById;
- const canShowStars=starMap&&typeof starMap==='object'&&!Array.isArray(starMap);
+ const siteTotals=adminOverviewData?.siteStars;
+
  for(const p of people){
   if(p.sample)continue;
   const site=String(p.site||'미분류');
   const row=sites.get(site)||{site,people:0,ar:0,mission:0,stars:0,starsKnown:true};
   row.people++;if(p.arDone)row.ar++;if(p.missionDone)row.mission++;
-  if(canShowStars&&Object.prototype.hasOwnProperty.call(starMap,String(p.id))){
-   const value=Number(starMap[String(p.id)]);
-   if(Number.isFinite(value)&&value>=0)row.stars+=value;else row.starsKnown=false;
-  }else row.starsKnown=false;
+  // The backend returns site-level aggregates only; no other employee's star totals.
+  row.starsKnown=!!siteTotals&&Object.prototype.hasOwnProperty.call(siteTotals,site)
+    &&Number.isFinite(Number(siteTotals[site]));
+  row.stars=row.starsKnown?Number(siteTotals[site]):0;
   sites.set(site,row);
  }
  const tbody=$('adminSitesBody');tbody.replaceChildren();
