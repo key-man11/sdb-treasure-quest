@@ -413,7 +413,7 @@ function drawTree(lit,participantCount){
  // Santa is the only raster illustration; all other characters use SVG.
  function artImage(name,x,y,w,h){
   const image=node('image',{x,y,width:w,height:h,preserveAspectRatio:'xMidYMid meet',class:'illustrated-asset'});
-  image.setAttribute('href','./images/'+name+'.webp');
+  image.setAttribute('href','../images/'+name+'.webp');
   return image;
  }
  // Background: subdued snowy village. Animated snow begins at 130 participants.
