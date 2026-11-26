@@ -1,0 +1,964 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SDB 함께 밝히는 크리스마스</title><style>
+:root{font-family:'Malgun Gothic',system-ui,sans-serif;color:#f9f6ee;background:#0e2330}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#30546b,#0d2330 65%);min-height:100vh}.app{max-width:1000px;margin:auto;padding:20px 14px 50px}header{text-align:center;padding:12px}h1{font-size:clamp(27px,5vw,42px);margin:8px 0}h2{margin:5px 0 15px}p{line-height:1.7}.gold{color:#ffe29d}.muted{color:#bed1d8;font-size:13px}.card{background:#193b4b;border:1px solid #466578;border-radius:20px;padding:22px;margin:14px 0;box-shadow:0 8px 24px #07141b33}.hidden{display:none!important}.btn{border:0;border-radius:12px;padding:13px 18px;background:#f5cf75;color:#183342;font-size:15px;font-weight:800;cursor:pointer}.btn.secondary{background:#2d5666;color:white;border:1px solid #73929d}.btn:disabled{opacity:.5;cursor:not-allowed}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}label{display:block;margin:12px 0 6px;font-weight:700}input,select,textarea{width:100%;padding:13px;border:1px solid #7896a2;background:#0f2d3c;color:white;border-radius:10px;font:inherit}textarea{min-height:95px;resize:vertical}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.stat{background:#294e5e;border-radius:14px;padding:16px}.stat b{display:block;font-size:27px;color:#ffe29d;margin-top:6px}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:16px 0}.tabs button{padding:10px 13px;border:1px solid #74919e;background:#244758;color:#fff;border-radius:10px;cursor:pointer}.tabs button.active{background:#f5cf75;color:#17313f}.entry{background:#254a5b;border-radius:12px;padding:14px;margin:9px 0;overflow-wrap:anywhere}.entry small{color:#c5d5df} .tree{position:relative;overflow:hidden;border-radius:20px;background:radial-gradient(ellipse at 50% 52%,#315779 0%,#132d4e 65%,#0d1f3c 100%);height:470px;isolation:isolate}.tree-art{position:absolute;inset:0;width:100%;height:100%;display:block}.tree-art .bulb{transition:fill .3s,opacity .3s,filter .3s}.tree-art .bulb.on{fill:#ffdf72;filter:drop-shadow(0 0 6px #ffd455) drop-shadow(0 0 12px #ffba44)}.tree-art .bulb.off{fill:#557a70;opacity:.55}.people{position:absolute;inset:0;pointer-events:none}.person{position:absolute;display:flex;align-items:center;justify-content:center;border:1px solid #ffebbc;border-radius:50%;background:#ad494c;color:white;width:26px;height:26px;font-size:16px;cursor:pointer;box-shadow:0 2px 7px #081725aa;pointer-events:auto}.person:nth-child(3n){background:#347e67}.person:nth-child(4n){background:#c79a3c}.progress{height:12px;background:#375768;border-radius:10px;overflow:hidden;margin:10px 0}.progress>div{height:100%;background:#f5d27c;transition:width .3s}.tree-caption{position:absolute;bottom:8px;left:8px;right:8px;background:#0c293be8;border:1px solid #577889;border-radius:9px;padding:9px 12px;font-size:12px;text-align:center;overflow-wrap:anywhere;z-index:3}.demo-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.demo-note{font-size:12px;color:#ffe4a4}.entry{line-height:1.65}.entry p{margin:8px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}.entry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap}.entry-head b{font-size:14px}.entry small{font-size:11px}.app header p{max-width:32rem;margin:8px auto}.card h2{line-height:1.35;overflow-wrap:break-word}.card>p{overflow-wrap:break-word}.btn{line-height:1.35;white-space:normal;min-height:43px}.tabs button{line-height:1.35;flex:1;min-width:95px}.notice{line-height:1.65}.row h2{margin:0;flex:1;min-width:180px}.search-results button{display:block;white-space:normal}.stat{line-height:1.5;text-align:center}.stat b{text-align:center}.tree-progress{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px}.gift{position:absolute;z-index:5;top:48%;left:50%;transform:translate(-50%,-50%);font-size:100px;background:none;border:0;cursor:pointer;filter:drop-shadow(0 0 18px #ffe08e)}.notice{padding:12px;border-radius:12px;background:#2a5260;margin:10px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.search-results button{width:100%;text-align:left;margin:4px 0}.disclaimer{font-size:12px;color:#c9d4dc}.person:focus-visible{outline:3px solid #ffe29d}@media(min-width:700px){.tree{height:590px}.person{width:30px;height:30px;font-size:18px}}@media(max-width:480px){.app{padding:12px 10px 35px}.card{padding:16px;margin:10px 0;border-radius:16px}.card h2{font-size:19px}.app header h1{font-size:27px}.app header p{font-size:14px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:12px;font-size:12px}.stat b{font-size:22px}.tree{height:420px}.person{width:22px;height:22px;font-size:13px}.tabs{gap:5px}.tabs button{font-size:12px;padding:10px 5px;min-width:0}.buttons>.btn{flex:1 1 130px}.tree-progress{font-size:12px}.tree-caption{font-size:11px}}.ar{position:fixed;inset:0;z-index:100;background:#102638}.arhost{position:absolute;inset:0}.arhost video{position:absolute!important;z-index:1!important;object-fit:cover!important}.arhost canvas{position:absolute!important;z-index:2!important;pointer-events:none;background:transparent!important}.ar-top,.ar-bottom{position:absolute;z-index:4;left:12px;right:12px;background:#0a2534dd;padding:16px;border-radius:14px}.ar-top{top:18px}.ar-bottom{bottom:25px;text-align:center}
+
+/* Short participant lists: show each employee once, moving across the lane. */
+.ticker-lane{position:relative}
+.ticker-track.ticker-single{position:absolute;left:100%;top:50%;transform:translateY(-50%);animation:ticker-single-pass 20s linear infinite;width:max-content}
+@keyframes ticker-single-pass{0%{transform:translate(0,-50%)}100%{transform:translate(calc(-100% - var(--ticker-lane-width, 100vw)),-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker-track.ticker-single{position:static;transform:none;animation:none!important}}
+/* Three-lane, seamless participant credits beneath the Christmas tree */
+.name-board{margin:14px 0 18px;padding:15px 0 12px;background:linear-gradient(145deg,#123b4d,#1c4958);border:1px solid #638494;border-radius:16px;overflow:hidden}
+.name-board-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 14px 12px;font-size:15px;line-height:1.4;flex-wrap:wrap}
+.name-board-head span{color:#ffe29d;font-weight:800;font-variant-numeric:tabular-nums}
+.name-ticker{display:flex;flex-direction:column;gap:7px;overflow:hidden;mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}
+.ticker-lane{height:36px;overflow:hidden;display:flex;align-items:center}
+.ticker-track{display:flex;width:max-content;will-change:transform;animation:credits-left var(--ticker-duration,45s) linear infinite}
+.ticker-group{display:flex;align-items:center;flex:none;gap:10px;padding-right:10px}
+.ticker-name{flex:none;display:inline-flex;align-items:center;min-height:29px;padding:5px 12px;border-radius:999px;background:#2b5968;border:1px solid #5a7e8a;color:#f7f5e9;font-size:13px;font-weight:600;white-space:nowrap;line-height:1.25}
+.ticker-self{background:#725e32;border-color:#f3d47f;color:#fff5d2}
+.name-board-note{margin:10px 14px 0!important;color:#bdd2d8;font-size:11px;line-height:1.5;text-align:center}
+.name-empty{text-align:center;color:#d3e2e6;padding:18px 10px;margin:0}
+@keyframes credits-left{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.name-ticker.is-paused .ticker-track{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none!important}.ticker-lane{overflow-x:auto}.name-ticker{mask-image:none;-webkit-mask-image:none}}
+@media(max-width:480px){.name-board{margin:12px 0 16px}.name-board-head{font-size:13px}.ticker-lane{height:34px}.ticker-name{font-size:12px;padding:5px 10px}.name-board-note{font-size:10px}}
+
+/* Greeting pages: phone-height viewport, swipe, numbered pagination */
+.greeting-view{overflow:hidden;touch-action:pan-y;border-radius:14px;min-height:330px}
+.greeting-page{height:350px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.greeting-page .entry{margin:8px 0;padding:13px}
+.greeting-page .entry p{font-size:14px;line-height:1.55}
+.greeting-pages{display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0}
+.greeting-pages button{min-width:35px;min-height:36px;border-radius:9px;border:1px solid #7595a0;background:#254a5b;color:white;font-weight:700;cursor:pointer}
+.greeting-pages button.active{background:#f5cf75;color:#17313f}
+.greeting-pages button:disabled{opacity:.35}
+.greeting-help{text-align:center;font-size:12px;color:#c1d4dd;margin:8px 0}
+.tree-art .twinkle{animation:twinkle-glow 4.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes twinkle-glow{0%,100%{opacity:.65;filter:drop-shadow(0 0 2px #ffd455)}50%{opacity:1;filter:drop-shadow(0 0 9px #ffe57b) drop-shadow(0 0 15px #ffbb57)}}
+
+
+@media(prefers-reduced-motion:reduce){.tree-art .twinkle{animation:none!important}}
+@media(max-width:480px){.greeting-page{height:330px}.greeting-view{min-height:310px}}
+ .demo-label{margin:0;font-size:13px;align-self:center}.demo-tools select{width:auto;min-width:155px;flex:1}.demo-tools button{flex:1 1 145px}@media(max-width:480px){.demo-tools select{width:100%}} 
+/* V5.2: bulbs shimmer from the first 10-person milestone. */
+.tree-art .bulb.on.twinkle{animation:twinkle-glow 5.8s ease-in-out infinite}
+.tree-art .bulb-halo.twinkle{animation:halo-breathe 5.8s ease-in-out infinite}
+@keyframes halo-breathe{0%,100%{opacity:.06}50%{opacity:.25}}
+.tree-art .topper-lit{filter:drop-shadow(0 0 7px #ffe27a) drop-shadow(0 0 13px #ffd15d);animation:topper-shine 4.8s ease-in-out infinite}
+@keyframes topper-shine{0%,100%{opacity:.85}50%{opacity:1;filter:drop-shadow(0 0 13px #ffe27a) drop-shadow(0 0 21px #ffcd55)}}
+.tree-art .falling-flake{animation:snow-fall var(--flake-duration,12s) linear infinite;animation-delay:var(--flake-delay,0s);opacity:0;fill:#fff;paint-order:stroke fill}
+@keyframes snow-fall{0%{transform:translate(0px,-25px);opacity:0}12%{opacity:.95}72%{opacity:.9}100%{transform:translate(var(--flake-drift,0px),420px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.tree-art .bulb.on.twinkle,.tree-art .bulb-halo.twinkle,.tree-art .topper-lit,.tree-art .falling-flake{animation:none!important}.tree-art .falling-flake{opacity:.65;transform:translateY(220px)}}
+/* V5.4: compact greeting cards and clear unlit bulb sockets */
+.tree-art .bulb.off{fill:#31584e;opacity:1;filter:none}
+.greeting-view{min-height:0}
+.greeting-page{height:min(66vh,610px);min-height:445px;overflow-y:auto}
+.greeting-page .entry{margin:6px 0;padding:10px 12px;border-radius:10px;line-height:1.4}
+.greeting-page .entry-head b{font-size:13px;line-height:1.4}
+.greeting-page .entry p{margin:4px 0 0;font-size:13px;line-height:1.48;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;white-space:normal}
+#square .buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#square .buttons>.btn{min-width:0;flex:none;padding:11px 7px;font-size:13px;white-space:nowrap}
+@media(max-width:480px){.greeting-page{height:min(68vh,570px);min-height:435px}.greeting-page .entry{padding:9px 10px;margin:5px 0}.greeting-page .entry p{font-size:12px}.greeting-page .entry-head b{font-size:12px}#square .buttons>.btn{font-size:12px}}
+
+/* V5.6: continuous upward movie-credit greetings */
+.greeting-view{position:relative;height:min(66vh,610px);min-height:400px;overflow:hidden;border-radius:14px;background:#153545;mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 91%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 9%,black 91%,transparent 100%)}
+.greeting-page{height:100%!important;min-height:0!important;overflow:hidden!important;padding:0 6px;position:relative}
+.greeting-scroll-track{display:flex;flex-direction:column;animation:greeting-credits var(--greeting-duration,60s) linear infinite;will-change:transform}
+.greeting-scroll-group{display:flex;flex-direction:column;flex:none}
+.greeting-scroll-group .entry{flex:none;margin:5px 0;padding:10px 12px}
+.greeting-scroll-group .entry p{display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;white-space:pre-wrap!important;line-height:1.55}
+.greeting-view.is-paused .greeting-scroll-track{animation-play-state:paused}
+.greeting-empty{text-align:center;padding:35px 10px}
+@keyframes greeting-credits{from{transform:translateY(var(--greeting-start,0px))}to{transform:translateY(var(--greeting-end,600px))}}
+@media(max-width:480px){.greeting-view{height:min(65vh,550px);min-height:370px}.greeting-scroll-group .entry{margin:5px 0;padding:10px 11px}}
+@media(prefers-reduced-motion:reduce){.greeting-scroll-track{animation:none!important}.greeting-page{overflow-y:auto!important}.greeting-scroll-group[aria-hidden=true]{display:none}}
+/* AR completion -> greeting first */
+.compose-prompt{background:linear-gradient(135deg,#285a60,#21445d);border:1px solid #e5c57b;border-radius:14px;padding:15px;margin:0 0 16px;text-align:center}
+.compose-prompt strong{display:block;color:#ffe6a2;font-size:18px;margin-bottom:6px}
+.compose-prompt p{margin:0;font-size:13px;line-height:1.6}
+/* Navigation controls for returning to start and switching accounts */
+.header-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.header-actions .btn{font-size:13px;padding:9px 14px;min-height:38px}
+@media(max-width:480px){.header-actions .btn{flex:1 1 120px;max-width:190px}}
+/* Login verification feedback */
+.login-loading{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,19,29,.78);backdrop-filter:blur(5px)}
+.login-loading-card{width:min(100%,350px);padding:30px 22px;text-align:center;background:#193b4b;border:1px solid #8ba6af;border-radius:20px;box-shadow:0 20px 55px #0008}
+.login-spinner{width:46px;height:46px;border-radius:50%;border:4px solid #567684;border-top-color:#ffe29d;animation:login-spin .85s linear infinite;margin:0 auto 18px}
+.login-loading-card strong{display:block;font-size:18px;color:#ffe29d;line-height:1.5}
+.login-loading-card p{font-size:13px;color:#d1e0e5;margin:10px 0 0}
+@keyframes login-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.login-spinner{animation-duration:2s}}
+.message-counter{text-align:right;color:#c5d8de;font-size:12px;margin-top:5px;font-variant-numeric:tabular-nums}
+/* Private message lists are static; only the company-wide feed scrolls. */
+.greeting-view.static-list{height:auto!important;min-height:0!important;max-height:none!important;mask-image:none!important;-webkit-mask-image:none!important;overflow:visible!important}
+.greeting-view.static-list .greeting-page{height:auto!important;overflow:visible!important;padding:0}
+.greeting-view.static-list .entry{margin:8px 0}
+.greeting-view:not(.static-list),.greeting-view:not(.static-list) .greeting-page,.greeting-view:not(.static-list) .greeting-scroll-track,.greeting-view:not(.static-list) .entry{touch-action:pan-y}
+.admin-preview{border:1px solid #d9b95b;background:#203f4c}
+/* AR gift confirmation: visible immediately while Sheets records are saved */
+.gift-saving{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(4,19,29,.88);backdrop-filter:blur(5px)}
+.gift-saving-card{width:min(100%,360px);padding:30px 22px;text-align:center;background:#193b4b;border:1px solid #e5c57b;border-radius:20px;box-shadow:0 20px 55px #0008}
+.gift-saving-card strong{display:block;color:#ffe29d;font-size:19px;line-height:1.5}
+.gift-saving-card p{font-size:14px;color:#d1e0e5;margin:10px 0 0;line-height:1.7}
+.admin-preview-slot:has(.hidden){display:none}.admin-preview-slot .admin-preview{margin:12px 0 0}.admin-preview-slot .demo-tools{align-items:end}@media(max-width:480px){.admin-preview-slot .demo-tools{display:grid;grid-template-columns:1fr 1fr}.admin-preview-slot .demo-label,.admin-preview-slot .demo-tools select{grid-column:1/-1}.admin-preview-slot .demo-tools button{min-width:0;font-size:12px;padding:11px 6px}}
+
+/* V11: SVG village with selected illustrated Rudolph and Santa */
+.tree-art .village-deer{transform-box:fill-box;transform-origin:center bottom;animation:deer-stroll 13s ease-in-out infinite}
+.tree-art .deer-leg-front{transform-box:view-box;transform-origin:0px 0px;animation:deer-step 1.4s ease-in-out infinite alternate}
+.tree-art .deer-leg-back{transform-box:view-box;transform-origin:0px 0px;animation:deer-step 1.4s ease-in-out -.7s infinite alternate-reverse}
+.tree-art .deer-head{transform-box:fill-box;transform-origin:bottom center;animation:deer-nod 4s ease-in-out infinite}
+.tree-art .bell-swing{transform-box:fill-box;transform-origin:top center;animation:bell-swing 3.4s ease-in-out infinite}
+.tree-art .roof-santa{transform-box:fill-box;transform-origin:bottom center;animation:santa-wave 3.2s ease-in-out infinite}
+.tree-art .village-twinkle{animation:village-glow 4s ease-in-out infinite alternate}
+.tree-art .gift-bow{transform-box:fill-box;transform-origin:center;animation:gift-shimmer 5s ease-in-out infinite}
+@keyframes deer-stroll{0%,8%{transform:translateX(-8px)}40%,55%{transform:translateX(17px)}85%,100%{transform:translateX(-8px)}}
+@keyframes deer-step{from{transform:rotate(-9deg)}to{transform:rotate(10deg)}}
+@keyframes deer-nod{0%,75%,100%{transform:rotate(0)}83%{transform:rotate(6deg)}}
+@keyframes bell-swing{0%,55%,100%{transform:rotate(0)}65%{transform:rotate(10deg)}78%{transform:rotate(-8deg)}90%{transform:rotate(4deg)}}
+@keyframes santa-wave{0%,65%,100%{transform:rotate(0)}73%,88%{transform:rotate(7deg)}}
+.tree-art .flight-bob{animation:flight-bob 2.8s ease-in-out infinite}
+@keyframes flight-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.tree-art .flight-deer-leg{transform-box:view-box;transform-origin:0px 0px;animation:flight-gallop .72s ease-in-out infinite alternate}
+.tree-art .flight-deer-leg:nth-child(even){animation-delay:-.36s}
+@keyframes flight-gallop{from{transform:rotate(-9deg)}to{transform:rotate(12deg)}}
+@keyframes village-glow{from{opacity:.55}to{opacity:1}}
+@keyframes gift-shimmer{0%,85%,100%{opacity:.7}90%{opacity:1}}
+
+.tree-art .illustrated-asset{pointer-events:none;filter:drop-shadow(0 3px 4px #071c2b99)}
+/* V16: centered entry actions; no sky fireworks */
+#welcome #begin{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
+#login #loginSubmit{display:block;margin:18px auto 0;min-width:190px;max-width:100%}
+/* Removed incomplete legacy firework reduced-motion rule. */
+/* V18: non-blocking navigation and confirmed send feedback */
+.sync-status{position:sticky;top:8px;z-index:20;margin:8px 0;padding:9px 13px;border-radius:10px;background:#244a5a;border:1px solid #648495;color:#e5f2f4;font-size:12px;text-align:center}
+.sync-status.error{border-color:#d8a27a;color:#ffe1bd}
+.send-overlay{position:fixed;inset:0;z-index:1000;background:rgba(4,19,29,.87);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:18px;overscroll-behavior:contain}
+.send-overlay-card{max-width:360px;width:100%;border:1px solid #d8bd7b;background:#193b4b;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 18px 55px #0008}
+.send-overlay-card strong{display:block;color:#ffe29d;font-size:18px;margin:10px 0}
+.send-overlay-card p{color:#d1e0e5;font-size:13px;line-height:1.6}
+
+/* V20: milestone lettering appears only at 500 participants. */
+.tree-art .christmas-lettering{opacity:0;animation:christmas-letter-reveal 2.6s ease-out 1s forwards;pointer-events:none}
+.tree-art .christmas-lettering text{paint-order:stroke fill;stroke:#fffdf1;stroke-width:2.2px;stroke-linejoin:round;filter:drop-shadow(0 1px 2px #173b35) drop-shadow(0 0 4px #fff4d0)}
+@keyframes christmas-letter-reveal{0%{opacity:0;filter:brightness(.5)}100%{opacity:1;filter:brightness(1)}}
+@media(prefers-reduced-motion:reduce){.tree-art .christmas-lettering{animation:none;opacity:1}}
+.milestone-toast{position:fixed;z-index:260;left:50%;top:22%;transform:translateX(-50%);width:min(90vw,390px);padding:22px 18px;text-align:center;background:#193b4bf2;border:2px solid #f5cf75;border-radius:18px;box-shadow:0 16px 45px #0009;color:#ffe8a4;font-size:18px;font-weight:800;pointer-events:none;animation:milestone-pop 3.3s ease both}@keyframes milestone-pop{0%{opacity:0;transform:translate(-50%,15px)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-12px)}}
+
+/* Integrated read-only operations view */
+.admin-menu{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.admin-goal{background:linear-gradient(135deg,#244e59,#173645);border:1px solid #b89b5e;border-radius:16px;padding:18px}
+.admin-goal .big{font-size:clamp(27px,5vw,42px);font-weight:900;color:#ffe29d}
+.admin-stat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.admin-stat{padding:14px;border-radius:12px;background:#284e5d}
+.admin-stat strong{display:block;font-size:23px;color:#ffe29d;margin-top:5px}
+.admin-nav{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}
+.admin-nav button{flex:1 1 125px}
+.admin-table{width:100%;border-collapse:collapse;font-size:13px}
+.admin-table th,.admin-table td{padding:10px 7px;text-align:left;border-bottom:1px solid #426575}
+.admin-table th{color:#ffe29d}.admin-table-wrap{overflow-x:auto}
+.admin-msg{padding:10px 12px;border-bottom:1px solid #456779;overflow-wrap:anywhere}
+.admin-msg small{display:block;color:#b9cfd7;margin-top:4px}
+@media(max-width:480px){.admin-stat strong{font-size:19px}.admin-table{font-size:12px}}
+.admin-pages{display:flex;align-items:center;justify-content:center;gap:12px;margin:14px 0}.admin-pages .btn{padding:9px 15px}.admin-nav button.active{background:#f5cf75;color:#183342} .recipient-search-row{display:flex;gap:8px;align-items:stretch}.recipient-search-row input{flex:1;min-width:0}.recipient-search-row button{flex:none;min-width:82px}.search-results button{margin:6px 0}.search-results .recipient-selected{border-color:#ffe29d;background:#44616a}@media(max-width:480px){.recipient-search-row button{min-width:72px;padding:10px}} </style></head><body><div class="app"><header><div class="gold">✦ SDB CHRISTMAS QUEST ✦</div><h1>🎄 함께 밝히는 크리스마스</h1><p>산타의 선물을 찾고, 동료에게 따뜻한 인사를 전해주세요.</p><div class="header-actions"><button type="button" class="btn secondary" id="homeBtn">⌂ 처음으로</button><button type="button" class="btn secondary hidden" id="adminBtn">⚙ 관리자 현황</button><button type="button" class="btn secondary hidden" id="logoutBtn">↪ 로그아웃</button></div></header>
+<section id="admin" class="card hidden"><div class="row"><h2>⚙ 이벤트 운영 현황</h2><button type="button" class="btn secondary" id="adminBack">이벤트로 돌아가기</button></div><p class="muted">별 500개 달성이 목표입니다. 참여자 수는 참고 지표입니다. 이 화면은 조회 전용입니다.</p><div id="adminError" class="notice hidden" role="status"></div><div class="admin-goal"><div>⭐ 누적 별 목표</div><div class="big"><span id="adminStars">—</span> / 500개</div><div class="progress"><div id="adminGoalBar" style="width:0"></div></div><div id="adminGoalText" class="muted">데이터 조회 전</div></div><div class="admin-stat-grid" style="margin-top:12px"><div class="admin-stat">🎁 예상 기부 선물<strong id="adminGifts">—</strong></div><div class="admin-stat">👥 참여 인원 (참고)<strong id="adminPeople">—</strong></div><div class="admin-stat">📷 AR 완료 (참고)<strong id="adminAr">—</strong></div><div class="admin-stat">💌 인사말 (참고)<strong id="adminGreetingCount">—</strong></div></div><p class="muted" id="adminUpdated">집계 시각: 조회 전</p><div class="admin-nav"><button type="button" class="btn secondary" id="adminRefresh">현황 새로고침</button><button type="button" class="btn secondary" id="adminOverviewTab">운영 현황</button><button type="button" class="btn secondary" id="adminSiteTab">사업장별 현황</button><button type="button" class="btn secondary" id="adminGreetingTab">인사말 조회</button><button type="button" class="btn secondary" id="adminPreviewTab">트리 미리보기</button></div><div id="adminOverviewPanel"><h2>운영 현황 안내</h2><p class="muted">상단에서 누적 별 500개 목표와 참고 통계, 마지막 집계 시각을 확인할 수 있습니다.</p></div><div id="adminSitesPanel" class="hidden"><h2>사업장별 참여 현황</h2><p class="muted">집계된 참여자 기준입니다. 사업장별 전체 대상자 수와 참여율은 제공하지 않습니다.</p><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>사업장</th><th>참여</th><th>AR 완료</th><th>미션 완료</th><th>획득 별</th></tr></thead><tbody id="adminSitesBody"></tbody></table></div></div><div id="adminGreetingsPanel" class="hidden"><h2>인사말 조회</h2><p class="muted">기존 직원 화면에 공개되는 최신 인사말만 표시합니다. 삭제·수정은 지원하지 않습니다.</p><label>인사말 검색<input id="adminGreetingSearch" placeholder="발신자·수신자·인사말 내용"></label><label>발신 사업장<select id="adminGreetingSite"><option value="">전체 사업장</option></select></label><p id="adminGreetingInfo" class="muted"></p><div id="adminGreetingList"></div><div id="adminGreetingPages" class="admin-pages"></div></div><div id="adminPreviewPanel" class="hidden"><h2>트리 단계 미리보기</h2><p class="muted">기존 관리자 미리보기 기능을 사용합니다. 실제 데이터는 변경되지 않습니다.</p><button type="button" class="btn secondary" id="adminOpenTree">트리 화면에서 미리보기</button></div></section><section id="welcome" class="card"><p class="notice">V41 통합 배포 후보 · 실제 운영 전 전체 흐름 검증 필요</p><h2>🎁 사라진 산타의 선물을 찾아라!</h2><p>우리의 참여가 모여 크리스마스 트리를 밝히고, 아이들에게 전할 선물을 채워갑니다.</p><button class="btn" id="begin">이벤트 참여하기</button></section>
+<section id="login" class="card hidden"><h2>참여 정보 입력</h2><form id="loginForm"><label>이름<input id="name" maxlength="20" required autocomplete="name"></label><label>사번<input id="emp" maxlength="30" required autocomplete="off"></label><p class="muted">사업장과 부서는 임직원 명부에서 자동으로 확인합니다.</p><p class="disclaimer">시범 운영에서는 이름·사번 입력만으로 실제 본인 확인이 되지 않습니다. 운영 전 사내 인증 연동이 필요합니다.</p><button class="btn" type="submit" id="loginSubmit">입장하기</button><p id="loginStatus" class="muted" role="status" aria-live="polite"></p></form></section>
+<section id="guide" class="card hidden"><h2>⭐Mission! 산타의 잃어버린 선물 찾기!</h2><p>사업장 내 <b>크리스마스 트리에서 </b>선물상자를 획득할 수 있습니다.</p><div class="notice">① 크리스마스 트리 찾기 → ② 카메라로 인식 → ③ 선물상자 터치 → ④ 동료에게 인사말 보내기</div><p class="muted">카메라 권한을 허용하고 Chrome 일반 모드를 사용하세요. 카메라 기능은 HTTPS 환경에서 작동합니다.</p><div class="buttons"><button class="btn" id="launchAr">📷 AR 모드 실행</button><button class="btn secondary" id="goSquare">크리스마스 광장</button></div><p id="arStatus" class="muted"></p></section>
+<div id="syncStatus" class="sync-status hidden" role="status" aria-live="polite"></div><section id="square" class="hidden"><div class="grid"><div class="stat">⭐ 전사 누적 별<b id="totalStars">0</b></div><div class="stat">👥 참여 임직원<b id="totalPeople">0명</b></div><div class="stat">💌 전사 인사말<b id="totalMessages">0건</b></div><div class="stat">✨ 내 별<b id="myStars">0개</b></div></div><div class="card"><div class="row"><h2>🎄 크리스마스 트리 함께 완성하기</h2></div><p class="muted">누적 별 10개마다 트리 조명이 하나씩 켜지고, 더 따뜻하고 빛나는 크리스마스 트리로 완성됩니다.</p><div class="tree" id="tree"><svg class="tree-art" id="treeArt" viewBox="0 0 500 520" preserveAspectRatio="xMidYMid meet" role="img" aria-label="눈 내리는 크리스마스 마을과 선물상자로 장식된 트리"><defs><linearGradient id="foliage" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4aa67b"/><stop offset=".55" stop-color="#216d54"/><stop offset="1" stop-color="#124638"/></linearGradient><linearGradient id="snow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#cfe3ed"/></linearGradient></defs><g id="treeDecor"></g></svg></div><div class="name-board" aria-label="참여자 명단"><div class="name-board-head"><b>✨ 함께하는 참여자</b><span id="nameCount">0명</span></div><div class="name-ticker" id="nameTicker"><p class="name-empty">아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!</p></div><p class="name-board-note">한 번 터치하거나 클릭하면 멈추고, 다시 터치하거나 클릭하면 움직입니다.</p></div><div class="tree-progress"><span id="treeLabel">별 0개 누적 · 0단계 점등</span><span id="giftLabel">별 0 / 500개</span></div><div class="progress"><div id="goalBar"></div></div><p class="muted" id="batchUpdatedAt">별 현황은 약 5분 간격으로 갱신됩니다.</p><p class="muted" id="donationCount" aria-live="polite">🎁 예상 기부 선물 0개 (별 5개당 1개)</p><p class="muted">500개 별은 기부 공동 목표 이며, 참여할수록 아이들의 크리스마스가 더욱 풍성해 집니다! (별 5개당 선물 1개)</p></div><div id="adminPreviewSlot" class="admin-preview-slot"><div id="demoPanel" class="notice admin-preview hidden"><b>화면 미리보기</b><p class="muted">관리자 전용 로컬 미리보기입니다. 실제 구글시트에는 기록되지 않으며 다른 직원 화면에는 반영되지 않습니다.</p><div class="demo-tools"><label class="demo-label" for="demoCount">테스트 누적 별 선택</label><select id="demoCount" aria-label="테스트 누적 별"><option value="10">10개 · 첫 조명</option><option value="30">30개 · 루돌프</option><option value="50">50개 · 종</option><option value="80">80개 · 크리스마스 리본</option><option value="100">100개 · 선물상자</option><option value="130">130개 · 눈사람·눈꽃</option><option value="150">150개 · 별 장식</option><option value="200">200개 · 오른쪽 집 조명·선물</option><option value="250">250개 · 가운데 집 조명·양말</option><option value="300">300개 · 산타 등장</option><option value="400">400개 · 추가 장식</option><option value="500">500개 · 별 점등·Merry Christmas</option></select><button class="btn secondary" id="loadDemo">선택 별 수량으로 미리보기</button><button class="btn secondary" id="clearDemo">예시 데이터 삭제</button></div><div class="demo-note" id="demoState"></div></div></div><div class="card"><button type="button" class="btn" id="openGreetings" style="width:100%">💌 인사말 광장으로 이동</button></div></section>
+<section id="greetings" class="hidden"><div class="card"><button type="button" class="btn secondary" id="returnTree" style="width:100%">🎄 크리스마스 트리로 돌아가기</button></div><div class="card"><h2>💌 크리스마스 인사 광장</h2><div class="buttons"><button class="btn" id="newGreeting">인사 보내기</button></div><div class="tabs" id="tabs"><button class="active" data-tab="all">전사 인사말</button><button data-tab="sent">내가 보낸 인사</button><button data-tab="received">내가 받은 인사</button></div><div class="greeting-view" id="greetingView"><div id="messageList" class="greeting-page" aria-live="off"></div></div><p class="greeting-help" id="greetingHelp">동료에게 한 해의 수고와 감사의 마음을 담아 따뜻한 인사를 주고 받아보세요. (한 번 터치·클릭하면 정지, 다시 터치·클릭하면 재생)</p></div></section>
+<section id="compose" class="card hidden"><div id="arGreetingPrompt" class="compose-prompt hidden"><strong>🎁 선물 찾기 성공!</strong><p>동료에게 따뜻한 크리스마스 인사를 전해 주세요.<br>인사말을 보내면 크리스마스 광장에서 함께 모은 별과 트리를 확인할 수 있어요.</p></div><h2>💌 크리스마스·연말 인사 보내기</h2><p class="muted">여러 동료에게 따뜻한 크리스마스 인사를 전해보세요. AR 선물 찾기와 첫 인사말 발송 완료 시 별 1개, 내가 인사한 동료가 미션을 완료하면 추가 별 1개가 지급됩니다. 이미 완료한 동료에게 보내도 추가 별을 받을 수 있습니다. (개인 최대 2개)</p><label for="search">받을 동료 이름</label><div class="recipient-search-row"><input id="search" placeholder="이름 2글자 이상 입력" autocomplete="off" enterkeyhint="search"><button type="button" class="btn secondary" id="searchButton">조회</button></div><p class="muted">이름 입력 후 조회를 누르면 직원 목록이 표시됩니다. 사업장 검색은 지원하지 않습니다.</p><div id="results" class="search-results" role="status" aria-live="polite"></div><p id="chosen" class="gold">받을 동료를 선택해 주세요.</p><label>인사말 예시 선택<select id="greetingPreset"><option value="">직접 작성하기</option><option value="올 한 해도 정말 수고 많으셨습니다. 따뜻한 크리스마스 보내세요!">한 해의 수고에 감사</option><option value="함께 일할 수 있어 든든했습니다. 내년에도 좋은 일 가득하시길 바랍니다!">동료에게 감사</option><option value="멀리 떨어져 있어도 마음만은 가까이! 행복한 연말 보내세요.">다른 사업장 동료에게</option></select></label><label>인사말<textarea id="message" maxlength="100" placeholder="직접 작성한 따뜻한 인사를 전해주세요."></textarea><div id="messageCounter" class="message-counter" aria-live="polite">0 / 100자 (공백 포함)</div></label><div class="buttons"><button class="btn" id="send">인사 보내기</button><button class="btn secondary" id="cancel">광장으로 돌아가기</button></div></section></div>
+<div id="sendOverlay" class="send-overlay hidden" role="status" aria-live="polite"><div class="send-overlay-card"><div class="login-spinner" aria-hidden="true"></div><strong>💌 따뜻한 인사를 전달하고 있습니다</strong><p id="sendOverlayMessage">인사말을 저장하고 있습니다. 별은 약 5분 간격으로 반영됩니다.<br>잠시만 기다려 주세요.</p></div></div><div id="giftSaving" class="gift-saving hidden" role="status" aria-live="polite" aria-label="선물 획득 기록 저장 중"><div class="gift-saving-card"><div class="login-spinner" aria-hidden="true"></div><strong>🎁 선물을 찾았습니다!</strong><p>AR 완료 기록을 저장하고 있습니다.<br>잠시만 기다려 주세요.</p></div></div>
+<div id="loginLoading" class="login-loading hidden" role="status" aria-live="polite" aria-label="임직원 정보 확인 중"><div class="login-loading-card"><div class="login-spinner" aria-hidden="true"></div><strong>임직원 정보를 확인하고 있습니다</strong><p>명부와 참여 기록을 조회 중입니다.<br>잠시만 기다려 주세요.</p></div></div>
+<section id="arScreen" class="ar hidden"><div id="arHost" class="arhost"></div><div class="ar-top"><div class="row"><b>🎁 크리스마스 트리 선물 찾기</b><button class="btn secondary" id="closeAr">닫기</button></div><p>트리 주변을 살펴보세요.</p></div><button id="gift" class="gift hidden" aria-label="선물 획득">🎁</button><div class="ar-bottom" id="arHint">포스터를 카메라 중앙에 비춰주세요.</div></section>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/"}}</script><script>
+'use strict';
+// Set to the deployed Google Apps Script Web App URL to enable shared data.
+const API_URL='https://script.google.com/macros/s/AKfycbw8r6pUIxfhPVILDScreZmZpaspjZcUY4o1bKYiIiy7Ll_Q3f2jrVZpSwjGoadE9FTtjQ/exec'; // 테스트용 GAS 웹앱 /exec 주소를 따옴표 안에 입력하세요.
+const $=id=>document.getElementById(id), SCREENS=['welcome','login','guide','square','greetings','compose','admin'];
+const KEY='sdb_christmas_2026_v41_candidate';
+let session=JSON.parse(localStorage.getItem(KEY)||'null'),snapshot={people:[],messages:[],stars:0},selected=null,tab='all',messagePage=0,ar=null,arFound=false,arStarting=false;
+const localKey='sdb_christmas_demo_shared_v2';
+// TEST-ONLY administrator preview: replace ADMIN_TEST with a dedicated test employee ID
+// present in Employees. This is a UI convenience, NOT secure authorization.
+const ADMIN_PREVIEW_IDS=['999'];
+let baseSnapshot=null,previewCount=0;
+function isPreviewAdmin(){return !!session&&ADMIN_PREVIEW_IDS.includes(String(session.id))}
+function previewSnapshot(base,count){
+ // Preview the STAR milestone without changing the real participation count.
+ const people=[...(base.people||[])],messages=[...(base.messages||[])];
+ const n=Math.max(0,Math.min(12,count));
+ for(let i=0;i<n;i++)people.push({id:'PREVIEW'+i,name:'예시직원 '+(i+1),site:DEMO_SITES[i%DEMO_SITES.length],arDone:true,missionDone:true,sample:true});
+ const mock=people.filter(p=>String(p.id).startsWith('PREVIEW'));
+ for(let i=0;i<mock.length;i++){const a=mock[i],b=mock[(i+3)%mock.length];if(a&&b&&a!==b)messages.push({id:'PREVIEW_MSG_'+i,fromId:a.id,toId:b.id,fromName:a.name,toName:b.name,message:DEMO_TEXTS[i%DEMO_TEXTS.length],sample:true});}
+ return {...base,people,messages,stars:count,preview:true};
+}
+function updateAdminPreview(){
+ $('demoPanel').classList.toggle('hidden',!isPreviewAdmin());
+ $('demoState').textContent=previewCount?'관리자 미리보기 '+previewCount+'개 별 · 실제 시트 미반영':'실제 데이터 표시 중 · 미리보기 미적용';
+}
+function setupTapToTogglePause(id){
+ const view=$(id);
+ let touchStart=null,ignoreClickUntil=0;
+ // Let the browser handle vertical page scrolling. Never preventDefault on touch.
+ view.addEventListener('touchstart',e=>{
+  if(e.touches.length!==1){touchStart=null;return;}
+  const t=e.touches[0];touchStart={x:t.clientX,y:t.clientY,moved:false};
+ },{passive:true});
+ view.addEventListener('touchmove',e=>{
+  if(!touchStart||e.touches.length!==1)return;
+  const t=e.touches[0];
+  if(Math.abs(t.clientY-touchStart.y)>8||Math.abs(t.clientX-touchStart.x)>8){
+   touchStart.moved=true;ignoreClickUntil=Date.now()+650;
+  }
+ },{passive:true});
+ view.addEventListener('touchend',()=>{if(touchStart?.moved)ignoreClickUntil=Date.now()+650;touchStart=null;},{passive:true});
+ view.addEventListener('touchcancel',()=>{touchStart=null;ignoreClickUntil=Date.now()+650;},{passive:true});
+ view.addEventListener('click',e=>{
+  if(Date.now()<ignoreClickUntil)return;
+  if(e.target.closest('button,a,input,select,textarea'))return;
+  view.classList.toggle('is-paused');
+  view.setAttribute('aria-pressed',String(view.classList.contains('is-paused')));
+ });
+}
+
+const greetingPendingKey='sdb_christmas_greeting_pending_v1';
+let greetingPending=localStorage.getItem(greetingPendingKey)===session?.id;
+function openGreeting(afterAR=false){
+ if(afterAR){greetingPending=true;localStorage.setItem(greetingPendingKey,session.id)}
+ ++employeeSearchSeq;
+ selected=null;$('chosen').textContent='받는 동료를 선택해 주세요.';
+ $('search').value='';$('message').value='';updateMessageCounter();$('greetingPreset').value='';$('results').replaceChildren();
+ $('arGreetingPrompt').classList.toggle('hidden',!greetingPending);
+ $('cancel').classList.toggle('hidden',greetingPending);
+ screen('compose');
+}
+
+function demo(){try{return JSON.parse(localStorage.getItem(localKey))||{people:[],messages:[]}}catch{return {people:[],messages:[]}}}
+function saveDemo(d){localStorage.setItem(localKey,JSON.stringify(d))}
+function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function updateNav(){ $('logoutBtn').classList.toggle('hidden',!session); $('adminBtn').classList.toggle('hidden',!isPreviewAdmin()); }
+function screen(id){SCREENS.forEach(s=>$(s).classList.toggle('hidden',s!==id));updateNav();window.scrollTo(0,0)}
+// Home only changes the screen; logout clears local login/progress state, not Sheets records.
+$('homeBtn').onclick=async()=>{if(!$('arScreen').classList.contains('hidden'))await stopAR();screen('welcome')};
+$('logoutBtn').onclick=async()=>{
+ if(!confirm('로그아웃하고 다른 계정으로 접속하시겠습니까? 구글시트에 저장된 참여 기록은 유지됩니다.'))return;
+ if(!$('arScreen').classList.contains('hidden'))await stopAR();
+ localStorage.removeItem(KEY);localStorage.removeItem(greetingPendingKey);localStorage.removeItem(LEGACY_SEND_PENDING_KEY);
+ session=null;greetingPending=false;selected=null;tab='all';previewCount=0;baseSnapshot=null;lastTreeAt=0;lastGreetingsAt=0;snapshot={people:[],messages:[],stars:0};
+ $('loginForm').reset();$('search').value='';$('message').value='';$('results').replaceChildren();
+ $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
+ $('messageList').replaceChildren();$('messageList').removeAttribute('data-signature');
+ screen('welcome');
+};
+const V41_ENDPOINTS={login:"https://script.google.com/macros/s/AKfycbwrSVUYMaAPl8ZAK55PGSdbGDEdQfcRJuFGB62ylDBg9yluTzsOr9vRNJWKByrXMptJPw/exec",complete:"https://script.google.com/macros/s/AKfycbwlxW6XDNZzBz34OuqUeFOVZoAVyb1UW3Focb8H1cf93HkfvHcq3hlWuzvCOJZvgbTw/exec",send:"https://script.google.com/macros/s/AKfycbwvsJSkgUGSSvipUQuLLNTL5GZVYm8sFRCJrV4r7QjU_R3ofG9QkIdYcmebu-N45xq1gw/exec"};
+const V41_READ_URL="https://script.google.com/macros/s/AKfycbwvsJSkgUGSSvipUQuLLNTL5GZVYm8sFRCJrV4r7QjU_R3ofG9QkIdYcmebu-N45xq1gw/exec";
+async function v41Post(url,payload){
+ const response=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload),redirect:'follow'});
+ if(!response.ok)throw Error('HTTP '+response.status);
+ const body=await response.json();
+ if(!body.ok)throw Error(body.error||'API 요청 실패');
+ return body;
+}
+async function api(action,data={},options={}){
+ const id=String(session?.id||'');
+ const requestId=options.requestId||((action==='send'||action==='complete')?crypto.randomUUID():undefined);
+ if(action==='login'){
+   const result=await v41Post(V41_ENDPOINTS.login,{action:'login',data:{id:data.id,name:data.name},requestId});
+   // V41 login checks employee name. Never accept an arbitrary ID from the client.
+   if(String(result.employee?.id||'')!==String(data.id)||String(result.employee?.name||'')!==String(data.name))throw Error('로그인 명부 응답 불일치');
+   return {...result,arDone:false,missionDone:false};
+ }
+ if(action==='complete')return v41Post(V41_ENDPOINTS.complete,{action:'complete',data:{id},requestId});
+ if(action==='send')return v41Post(V41_ENDPOINTS.send,{action:'send',data:{id,toId:data.toId,message:data.message},requestId});
+ return v41Post(V41_READ_URL,{action,data,session:{id},requestId});
+}
+let refreshPromise=null,refreshOwner=null,syncSeq=0;
+let treePromise=null,greetingsPromise=null,lastTreeAt=0,lastGreetingsAt=0;
+const REFRESH_MIN_MS=12000;
+function syncMessage(message='',error=false){const el=$('syncStatus');el.textContent=message;el.classList.toggle('hidden',!message);el.classList.toggle('error',error);}
+function mergeRemote(part){
+ baseSnapshot={...(baseSnapshot||{people:[],messages:[],stars:0}),...part};
+ snapshot=(previewCount&&isPreviewAdmin())?previewSnapshot(baseSnapshot,previewCount):baseSnapshot;
+ render();
+}
+async function refreshTree(force=false){
+ if(treePromise)return treePromise;
+ if(!force&&Date.now()-lastTreeAt<REFRESH_MIN_MS)return;
+ const owner=session?.id;
+ const p=(async()=>{const r=await api('treeSummary');if(owner!==session?.id)return;mergeRemote(r);lastTreeAt=Date.now();})();
+ treePromise=p;try{return await p}finally{if(treePromise===p)treePromise=null}
+}
+async function refreshGreetings(force=false){
+ if(greetingsPromise)return greetingsPromise;
+ if(!force&&Date.now()-lastGreetingsAt<REFRESH_MIN_MS)return;
+ const owner=session?.id;
+ const p=(async()=>{const r=await api('greetingsFeed');if(owner!==session?.id)return;mergeRemote(r);lastGreetingsAt=Date.now();})();
+ greetingsPromise=p;try{return await p}finally{if(greetingsPromise===p)greetingsPromise=null}
+}
+async function refresh(){
+ if(refreshPromise&&refreshOwner===session?.id)return refreshPromise;
+ const owner=session?.id;
+ const p=Promise.all([refreshTree(true),refreshGreetings(true)]);
+ refreshOwner=owner;refreshPromise=p;
+ try{return await p}finally{if(refreshPromise===p){refreshPromise=null;refreshOwner=null}}
+}
+function backgroundRefresh(){
+ const seq=++syncSeq;syncMessage('최신 참여 현황을 불러오는 중입니다…');
+ const p=$('greetings').classList.contains('hidden')?refreshTree():refreshGreetings();
+ Promise.resolve(p).then(()=>{if(seq!==syncSeq)return;syncMessage('최신 데이터가 반영되었습니다.');setTimeout(()=>{if(seq===syncSeq)syncMessage('')},1700)})
+ .catch(err=>{if(seq!==syncSeq)return;console.warn('Background refresh failed:',err);syncMessage('새 데이터 조회에 실패했습니다. 이전 현황을 표시 중입니다.',true)});
+}
+function navigateSquare(id){screen(id);backgroundRefresh();}
+
+function myStarCount(){return Math.min(2,Number(snapshot.myStarsById?.[session?.id]||0))}
+const milestoneLabels={100:'100개의 별이 모였습니다!',200:'200개의 별이 크리스마스를 밝힙니다!',300:'300개의 따뜻한 마음이 모였습니다!',500:'500개의 별로 크리스마스 트리가 완성되었습니다!'};
+let lastMilestoneCheck=null;
+function celebrateMilestone(stars){
+ if(!session||snapshot.preview)return;
+ const level=[100,200,300,500].filter(n=>stars>=n).pop()||0;
+ const key='sdb_quest_milestone_seen_v24';const seen=Number(localStorage.getItem(key)||0);
+ if(lastMilestoneCheck===null){lastMilestoneCheck=level;localStorage.setItem(key,String(Math.max(seen,level)));return;}
+ if(level<=Math.max(seen,lastMilestoneCheck))return;
+ lastMilestoneCheck=level;localStorage.setItem(key,String(level));
+ const el=document.createElement('div');el.className='milestone-toast';el.textContent='✨ '+milestoneLabels[level];document.body.append(el);setTimeout(()=>el.remove(),3400);
+}
+function render(){if(!session)return;
+ const stars=Number(snapshot.stars)||0;
+ $('totalStars').textContent=stars.toLocaleString('ko-KR');$('totalPeople').textContent=snapshot.people.filter(p=>p.missionDone&&!p.sample).length+'명';$('totalMessages').textContent=(snapshot.preview?snapshot.messages.filter(m=>!m.sample).length:(snapshot.messageCount??snapshot.messages.length))+'건';$('myStars').textContent=myStarCount()+'개';
+ $('treeLabel').textContent='별 '+stars.toLocaleString('ko-KR')+'개 누적 · '+Math.min(50,Math.floor(stars/10))+'단계 점등';
+ $('giftLabel').textContent='별 '+stars.toLocaleString('ko-KR')+'개 / 목표 500개'+(stars>500?' · '+(stars-500).toLocaleString('ko-KR')+'개 초과 달성':'');
+ $('goalBar').style.width=Math.min(100,stars/500*100)+'%';
+ $('donationCount').textContent='🎁 예상 기부 선물 '+Math.floor(stars/5).toLocaleString('ko-KR')+'개 (별 5개당 1개)';
+ $('batchUpdatedAt').textContent='별 집계: '+(snapshot.lastUpdatedAt?new Date(snapshot.lastUpdatedAt).toLocaleString('ko-KR')+' 기준':'집계 준비 중')+' · 약 5분 간격 반영';
+ drawTree(Math.min(50,Math.floor(stars/10)),stars);
+ renderNameTicker(snapshot.people.filter(p=>p.missionDone||p.sample));
+ updateAdminPreview();renderGreetingPage();celebrateMilestone(stars);
+}
+function renderGreetingPage(){
+ const list=$('messageList'),view=$('greetingView');
+ const seen=new Set();
+ const messages=(snapshot.messages||[]).filter(m=>tab==='all'||(tab==='sent'?m.fromId===session.id:m.toId===session.id)).filter(m=>{
+  const id=String(m.id??m.GreetingID??'');if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;
+ }).slice().reverse();
+ const signature=tab+'|'+messages.map(m=>String(m.id??m.GreetingID)+'@'+String(m.message)).join('~');
+ view.classList.toggle('static-list',tab!=='all');
+ $('greetingHelp').textContent=tab==='all'?'전사 인사말은 위에서 아래로 흐릅니다. 한 번 터치하거나 클릭하면 멈추고, 다시 누르면 재생됩니다.':'보낸·받은 인사말을 시간순으로 모두 확인할 수 있습니다.';
+ if(list.dataset.signature===signature)return;
+ list.dataset.signature=signature;list.replaceChildren();
+ if(!messages.length){const e=document.createElement('p');e.className='muted greeting-empty';e.textContent='아직 등록된 인사말이 없습니다.';list.append(e);return;}
+ function makeEntry(m){
+  const e=document.createElement('article');e.className='entry';
+  const name=tab==='all'?m.fromName+' → '+m.toName:tab==='sent'?'받는 사람: '+m.toName:'보낸 사람: '+m.fromName;
+  e.innerHTML='<div class="entry-head"><b>'+esc(name)+'</b></div><p>'+esc(m.message)+'</p>';return e;
+ }
+ if(tab!=='all'){messages.forEach(m=>list.append(makeEntry(m)));return;}
+ const track=document.createElement('div');track.className='greeting-scroll-track';
+ const group=document.createElement('div');group.className='greeting-scroll-group';
+ messages.forEach(m=>group.append(makeEntry(m)));
+ track.append(group);list.append(track);
+ requestAnimationFrame(()=>{
+  if(!track.isConnected)return;
+  const height=group.getBoundingClientRect().height;
+  const viewport=list.getBoundingClientRect().height;
+  // Scroll the entire credits list from above the viewport to below it.
+  track.style.setProperty('--greeting-start',(-height)+'px');
+  track.style.setProperty('--greeting-end',viewport+'px');
+  track.style.setProperty('--greeting-duration',Math.max(18/1.69,(height+viewport)/40.56)+'s');
+ });
+}
+setupTapToTogglePause('greetingView');
+setupTapToTogglePause('nameTicker');
+ function laneWidthForTicker(){return Math.max(200,Math.min(window.innerWidth-40,970));}
+ // Names are split into three lanes; short lanes show each name only once.
+ function renderNameTicker(people){
+  const ticker=$('nameTicker');
+  const signature=people.map(p=>String(p.id)+'|'+String(p.name)+'|'+String(p.site)).join('~');
+  if(ticker.dataset.signature===signature)return;
+  ticker.dataset.signature=signature;
+  ticker.replaceChildren();
+  $('nameCount').textContent=people.length+'명';
+  if(!people.length){const p=document.createElement('p');p.className='name-empty';p.textContent='아직 등록된 참여자가 없습니다. 첫 번째 주인공이 되어주세요!';ticker.append(p);return;}
+  const lanes=[[],[],[]];
+  people.forEach((p,i)=>lanes[i%3].push(p));
+  lanes.forEach((members,row)=>{
+   const lane=document.createElement('div');lane.className='ticker-lane';
+   if(members.length===0){lane.classList.add('ticker-lane-empty');ticker.append(lane);return;}
+   const track=document.createElement('div');track.className='ticker-track';
+   const group=document.createElement('div');group.className='ticker-group';
+   // For small groups, render each name only once per pass.
+   // A cloned/repeated list made one participant appear many times at once.
+   members.forEach(p=>{
+    const chip=document.createElement('span');chip.className='ticker-name';
+    chip.textContent=p.name+(p.site?' · '+p.site:'');
+    if(p.id===session?.id)chip.classList.add('ticker-self');
+    group.append(chip);
+   });
+   track.append(group);
+   if(members.length<4){
+    track.classList.add('ticker-single');
+    track.style.setProperty('--ticker-lane-width',laneWidthForTicker()+'px');
+    track.style.setProperty('--ticker-duration','20s');
+   }else{
+    const clone=group.cloneNode(true);clone.setAttribute('aria-hidden','true');track.append(clone);
+    track.style.setProperty('--ticker-duration',Math.max(48,Math.min(240,members.length*4.5))+'s');
+    track.style.animationDelay=(-row*8)+'s';
+   }
+   lane.append(track);ticker.append(lane);
+  });
+ }
+const NS='http://www.w3.org/2000/svg';
+function node(tag,attrs={},parent=$('treeDecor')){const el=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));parent.appendChild(el);return el}
+function drawTree(lit,participantCount){
+ const root=$('treeDecor');root.replaceChildren();
+ const count=Math.max(0,Number(participantCount)||0);
+ // Santa is the only raster illustration; all other characters use SVG.
+ function artImage(name,x,y,w,h){
+  const image=node('image',{x,y,width:w,height:h,preserveAspectRatio:'xMidYMid meet',class:'illustrated-asset'});
+  image.setAttribute('href','../images/'+name+'.webp');
+  return image;
+ }
+ // Background: subdued snowy village. Animated snow begins at 130 participants.
+ for(let i=0;i<35;i++)node('circle',{cx:12+(i*83)%477,cy:12+(i*47)%350,r:i%4===0?1.7:1,fill:'#e4f2ff',opacity:.35+(i%3)*.1});
+ // Snow lies behind the cottages, so their foundations visibly rest on the ground.
+ node('ellipse',{cx:250,cy:476,rx:350,ry:60,fill:'#e3f2f6'});
+ function cottage(x,y,w,h,threshold,opts={}){
+  const roofOverhang=opts.wideRoof?17:10;
+  const roofTop=opts.wideRoof?y-35:y-31;
+  // Small ground shadow anchors the house to the snow.
+  node('ellipse',{cx:x+w/2,cy:y+h+2,rx:w*.61,ry:7,fill:'#b8d1dc',opacity:.72});
+  node('rect',{x,y,width:w,height:h,rx:4,fill:opts.wideRoof?'#96666b':'#855e64',stroke:'#b88b8e','stroke-width':1});
+  // Wide trapezoid-like snowy gable, with broad horizontal eaves.
+  if(opts.wideRoof){
+   node('path',{d:`M${x-17} ${y+4} L${x+9} ${roofTop+13} L${x+w-9} ${roofTop+13} L${x+w+17} ${y+4} Z`,fill:'#eaf4f7',stroke:'#c7dfe8','stroke-width':2});
+   node('path',{d:`M${x+9} ${roofTop+13} L${x+w-9} ${roofTop+13}`,stroke:'#fff','stroke-width':5,'stroke-linecap':'round'});
+  }else{
+   node('path',{d:`M${x-roofOverhang} ${y+4} L${x+w/2} ${roofTop} L${x+w+roofOverhang} ${y+4} Z`,fill:'#eaf4f7',stroke:'#c7dfe8','stroke-width':1.5});
+  }
+  if(opts.chimney){
+   const cx=x+w*.73;
+   // Chimney rises above the right roof; snow cap rests on its top.
+   node('rect',{x:cx,y:roofTop-9,width:15,height:26,rx:2,fill:'#98605b',stroke:'#c58c83','stroke-width':1});
+   node('rect',{x:cx-3,y:roofTop-12,width:21,height:7,rx:3,fill:'#f4fbff'});
+  }
+  const winW=opts.wideRoof?16:12,winH=18;
+  for(const wx of [x+w*.23-winW/2,x+w*.73-winW/2]){
+   node('rect',{x:wx,y:y+16,width:winW,height:winH,rx:1.5,fill:count>=threshold?'#ffdd7e':'#607480',stroke:count>=threshold?'#fff0ad':'#91a8b2','stroke-width':1});
+   node('path',{d:`M${wx+winW/2} ${y+16} V${y+16+winH}`,stroke:'#9a7775','stroke-width':1});
+  }
+  if(opts.wideRoof){
+   node('rect',{x:x+w*.43,y:y+h-24,width:w*.19,height:24,rx:2,fill:'#6d494b'});
+  }
+ }
+ // Left cottage: lowered. Large middle-right cottage: wide roof and chimney.
+ // Far-right cottage: moved forward onto the snow, clear of the middle house.
+ cottage(24,397,56,70,100);
+ cottage(358,382,80,83,250,{wideRoof:true,chimney:true});
+ cottage(450,418,45,61,200);
+ node('rect',{x:238,y:383,width:25,height:81,rx:4,fill:'#6e4531'});
+ for(let i=0;i<7;i++){
+  const y=90+i*43,w=35+i*24;
+  node('path',{d:`M250 ${y-51} C${250-w*.3} ${y+3} ${250-w*.75} ${y+10} ${250-w} ${y+24} Q250 ${y+45} ${250+w} ${y+24} C${250+w*.75} ${y+10} ${250+w*.3} ${y+3} 250 ${y-51}Z`,fill:i%2?'#246f53':'url(#foliage)',stroke:'#13513f','stroke-width':2});
+  node('path',{d:`M${250-w} ${y+24} Q250 ${y+42} ${250+w} ${y+24}`,fill:'none',stroke:'#b8e5d9','stroke-width':5,'stroke-linecap':'round',opacity:.65});
+ }
+ for(let i=0;i<5;i++){
+  const y=188+i*45,w=63+i*21;
+  node('path',{d:`M${250-w} ${y} Q250 ${y+46} ${250+w} ${y}`,fill:'none',stroke:count>=80?'#dfbc72':'#527e70','stroke-width':2.5,'stroke-dasharray':'5 6',opacity:count>=80?1:.48});
+ }
+ for(let i=0;i<24;i++){
+  const row=Math.floor(i/5),x=250+Math.sin(i*2.37)*(48+row*27),y=157+row*47+(i%5)*6;
+  node('circle',{cx:x,cy:y,r:5.3,fill:count>=200?['#c95c65','#d8b85b','#9bbbd3','#d49bbb'][i%4]:'#426d60',opacity:count>=200?.95:.6});
+ }
+ // All 50 unlit bulbs are visible from the start. Lights travel from the
+ // bottom-left to the top, finishing immediately below the five-point star.
+ // Row widths follow the silhouette of the fir tree, preventing a top gap.
+ const rowCounts=[2,4,6,7,8,8,8,7]; // top to bottom, 50 bulbs total
+ const rowYs=[105,140,179,219,261,302,343,383];
+ const rowHalfWidths=[12,27,46,66,85,107,129,150];
+ const spots=[];
+ rowCounts.forEach((n,row)=>{
+  for(let col=0;col<n;col++){
+   const x=250+(n===1?0:(col/(n-1)*2-1)*rowHalfWidths[row]);
+   const y=rowYs[row]+((col%2)===0?-3:3);
+   spots.push({x,y});
+  }
+ });
+ // Left-to-right on each row, beginning with the lowest row.
+ const order=spots.map((_,i)=>i).reverse();
+ // Reversing alone would start on the right. Reverse each row's traversal instead.
+ order.length=0;
+ for(let row=rowCounts.length-1;row>=0;row--){
+  const start=rowCounts.slice(0,row).reduce((a,b)=>a+b,0);
+  for(let col=0;col<rowCounts[row];col++)order.push(start+col);
+ }
+ order.forEach((idx,i)=>{
+  const pos=spots[idx],on=i<lit;
+  if(!on)node('circle',{cx:pos.x,cy:pos.y,r:7.3,fill:'none',stroke:'#a5c8bb','stroke-width':.65,opacity:.7});
+  if(on)node('circle',{cx:pos.x,cy:pos.y,r:10,fill:'#ffe18b',opacity:.12,class:'bulb-halo twinkle',style:`animation-delay:${-(i%9)*.47}s`});
+  node('circle',{cx:pos.x,cy:pos.y,r:on?5.2:4.7,class:'bulb '+(on?'on twinkle':'off'),style:on?`animation-delay:${-(i%9)*.47}s`:'',stroke:on?'#fff4c2':'#b8d5cc','stroke-width':on?1.5:1.5});
+ });
+ // Existing five-point topper stays dark until the 500-person milestone.
+ node('path',{d:'M250 31 L258 50 L279 51 L263 65 L268 86 L250 75 L232 86 L237 65 L221 51 L242 50Z',class:count>=500?'topper-lit':'topper-unlit',fill:count>=500?'#ffe48d':'#877f69',stroke:count>=500?'#fff1ba':'#9c947c','stroke-width':2});
+ function paintPresent(x,y,w,h,c){
+  node('rect',{x,y,width:w,height:h,rx:4,fill:c,stroke:'#f5d9a8','stroke-width':1});
+  node('rect',{x:x+w*.43,y,width:w*.14,height:h,fill:'#f5d57e'});
+  node('rect',{x,y:y+h*.32,width:w,height:5,fill:'#f5d57e'});
+  node('path',{d:`M${x+w/2} ${y} q-13 -15 -13 -3 q8 6 13 3 q13 -15 13 -3 q-8 6 -13 3`,fill:'none',stroke:'#ffe6aa','stroke-width':2.5});
+ }
+ // Gift progression: empty at first; add two on the right at 30,
+ // three on the left at 80, and preserve later milestones.
+ // At 500, use one deliberate arrangement instead of stacking overlapping boxes.
+ const finalGiftLayout=[
+  [113,431,36,31,'#bb4954'],[152,417,34,30,'#d9a44e'],
+  [189,433,32,29,'#478c78'],[136,458,29,23,'#bd6779'],
+  [172,462,32,22,'#e3ac51'],[209,449,30,25,'#cf6658'],
+  // Right-side gift cluster shifted inward toward the tree trunk,
+  // retaining the relative arrangement and original sizes/colors.
+  [251,435,31,28,'#438b78'],[287,417,39,34,'#c75a6b'],
+  [331,428,36,32,'#498b8c'],[369,450,29,24,'#b95564'],
+  [272,464,31,22,'#d3a24f'],[309,464,31,22,'#4d9b89'],
+  [240,455,27,22,'#bd6a78'],[345,465,27,20,'#b88d43'],
+  // Final small foreground gifts enrich the base without covering houses.
+  [217,475,24,18,'#d6a14e'],[249,480,25,18,'#bf5366'],
+  [280,485,24,17,'#438b78']
+ ];
+ // Later calls still execute but do not add overlapping gifts at the 500 milestone.
+ function present(x,y,w,h,c){if(count<500)paintPresent(x,y,w,h,c)}
+ if(count>=500)finalGiftLayout.forEach(v=>paintPresent(...v));
+ if(count>=30){present(326,435,38,33,'#bb4954');present(367,448,32,27,'#408b75');}
+ if(count>=80){present(121,436,35,30,'#d9a44e');present(159,449,31,27,'#cf6658');present(194,440,30,28,'#498b8c');}
+ // Premium SVG scene elements. Every character is vector artwork, not an OS-dependent emoji.
+ function group(cls,transform='',parent=root){return node('g',{class:cls,transform},parent)}
+ function deer(x,y,scale=1){
+  // Static single-piece Rudolph emoji, matching the original non-animated version.
+  const g=group('',`translate(${x} ${y}) scale(${scale})`);
+  const t=node('text',{x:0,y:0,'font-size':64,'text-anchor':'middle','dominant-baseline':'central',style:'font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif'},g);
+  t.textContent='🦌';
+  return g;
+ }
+ function bell(x,y,scale=1){
+  const outer=group('',`translate(${x} ${y}) scale(${scale})`);const g=group('bell-swing','',outer);
+  node('path',{d:'M0 0 V9',stroke:'#d9b26c','stroke-width':3},g);
+  node('path',{d:'M-13 28 Q-10 24 -10 16 Q-10 7 0 7 Q10 7 10 16 Q10 24 13 28Z',fill:'#e9b849',stroke:'#fff0ad','stroke-width':1.5},g);
+  node('path',{d:'M-15 29 Q0 34 15 29',stroke:'#b7812d','stroke-width':4,fill:'none'},g);
+  node('circle',{cx:0,cy:34,r:4,fill:'#f6d279'},g);
+  node('path',{d:'M-3 6 Q-13 -5 -17 3 Q-17 12 -3 9 M3 6 Q13 -5 17 3 Q17 12 3 9',fill:'#c64f56'},g);
+ }
+ function candy(x,y,scale=1){
+  // Wrapped Christmas candy ornament instead of a candy cane.
+  const g=group('',`translate(${x} ${y}) rotate(-12) scale(${scale})`);
+  node('path',{d:'M-20 -9 L-35 -18 L-32 -2 L-35 15 L-19 9Z',fill:'#f3d6aa',stroke:'#c84f58','stroke-width':2},g);
+  node('path',{d:'M20 -9 L35 -18 L32 -2 L35 15 L19 9Z',fill:'#f3d6aa',stroke:'#c84f58','stroke-width':2},g);
+  node('rect',{x:-22,y:-13,width:44,height:26,rx:11,fill:'#f8e9d7',stroke:'#d6535c','stroke-width':2},g);
+  node('path',{d:'M-13 -12 L-2 12 M1 -12 L12 12',stroke:'#d6535c','stroke-width':7},g);
+  node('path',{d:'M-21 -10 L-21 10 M21 -10 L21 10',stroke:'#e5ad55','stroke-width':3},g);
+  return g;
+ }
+ function santa(x,y,scale=1){const outer=group('',`translate(${x} ${y}) scale(${scale})`);const g=group('roof-santa','',outer);
+  node('ellipse',{cx:0,cy:0,rx:17,ry:4,fill:'#162b40',opacity:.4},g);
+  node('path',{d:'M-16 -3 L-17 -30 Q-14 -43 0 -43 Q14 -43 17 -30 L16 -3Z',fill:'#c9444d',stroke:'#f4c3b4','stroke-width':1},g);
+  node('path',{d:'M-17 -28 H17 M-16 -4 H16',stroke:'#f7f0e5','stroke-width':7},g);
+  node('ellipse',{cx:0,cy:-48,rx:14,ry:14,fill:'#f2c3a4'},g);
+  node('path',{d:'M-14 -52 Q-15 -69 0 -70 Q13 -70 15 -52Z',fill:'#d3484d'},g);
+  node('path',{d:'M-15 -53 Q0 -57 15 -53',stroke:'#fff7ef','stroke-width':6},g);
+  node('circle',{cx:16,cy:-69,r:5,fill:'#fff7ef'},g);
+  node('path',{d:'M-12 -43 Q0 -26 12 -43 Q0 -33 -12 -43Z',fill:'#fff5ec'},g);
+  node('circle',{cx:-5,cy:-49,r:1.5,fill:'#3e3a3a'},g);node('circle',{cx:5,cy:-49,r:1.5,fill:'#3e3a3a'},g);
+  node('path',{d:'M15 -30 L26 -44',stroke:'#d3484d','stroke-width':7,'stroke-linecap':'round'},g);
+  node('circle',{cx:28,cy:-47,r:5,fill:'#fff1df'},g);
+  return g;
+ }
+ if(count>=30)deer(88,438,.9); // Static, single-piece Rudolph
+ if(count>=50)bell(313,184,.95);
+ function ribbon(x,y,scale=1){
+  // Satin Christmas bow, sized and positioned independently.
+  const bow=group('',`translate(${x} ${y}) rotate(-10) scale(${scale})`);
+  node('path',{d:'M-3 6 C-18 18 -24 30 -26 44 L-12 39 L-6 47 Q-3 27 5 12Z',fill:'#a91e39',stroke:'#f78d9b','stroke-width':1.3},bow);
+  node('path',{d:'M5 7 C16 20 26 28 27 43 L15 39 L9 47 Q5 29 -2 12Z',fill:'#cb2945',stroke:'#ff9da9','stroke-width':1.3},bow);
+  node('path',{d:'M-2 1 C-18 -17 -42 -18 -37 2 Q-32 19 -7 11 L-1 5Z',fill:'#d82e4b',stroke:'#ffb3bd','stroke-width':2},bow);
+  node('path',{d:'M2 1 C18 -17 42 -18 37 2 Q32 19 7 11 L1 5Z',fill:'#d82e4b',stroke:'#ffb3bd','stroke-width':2},bow);
+  node('path',{d:'M-30 -1 Q-22 -10 -9 3 M30 -1 Q22 -10 9 3',stroke:'#ffabb4','stroke-width':3,fill:'none','stroke-linecap':'round',opacity:.85},bow);
+  node('ellipse',{cx:0,cy:6,rx:9,ry:8,fill:'#f14b62',stroke:'#ffd0cb','stroke-width':2},bow);
+  node('path',{d:'M-3 1 Q3 4 3 11',stroke:'#ffb7b7','stroke-width':2,fill:'none'},bow);
+ }
+ if(count>=80)ribbon(205,315,.5);
+ if(count>=100){present(276,440,30,28,'#438b78');present(187,417,29,27,'#bd6a78');}
+ if(count>=130){
+  // Snowflakes fade as they approach the ground.
+  const flakes=node('g',{'class':'falling-snow-layer','aria-hidden':'true'});
+  for(let i=0;i<18;i++){
+   const x=24+(i*73)%455;
+   const f=node('text',{x,y:0,'font-size':15+(i%4)*3,fill:'#ffffff',stroke:'#e6f5ff','stroke-width':'.35','text-anchor':'middle',class:'falling-flake',style:`--flake-delay:${-((i*1.37)%12).toFixed(2)}s;--flake-duration:${(10+(i%5)*1.5).toFixed(1)}s;--flake-drift:${((i%5)-2)*11}px`},flakes);
+   f.textContent='❄';
+  }
+  // Snowman drawn as layered snow with scarf and hat.
+  const snowman=group('','translate(405 488)');
+  node('ellipse',{cx:0,cy:0,rx:19,ry:6,fill:'#1c4054',opacity:.3},snowman);
+  node('circle',{cx:0,cy:-14,r:17,fill:'#f2f9fa',stroke:'#c4dce5','stroke-width':2},snowman);
+  node('circle',{cx:0,cy:-39,r:12,fill:'#fff',stroke:'#c4dce5','stroke-width':1.5},snowman);
+  node('path',{d:'M-15 -49 H15 M-10 -49 V-64 H10 V-49',fill:'#293b50',stroke:'#293b50','stroke-width':4},snowman);
+  node('path',{d:'M-12 -27 Q0 -20 12 -27',stroke:'#c94b50','stroke-width':6,fill:'none'},snowman);
+  node('path',{d:'M0 -39 L12 -36 L0 -35Z',fill:'#e6a64e'},snowman);
+  node('circle',{cx:-4,cy:-43,r:1.5,fill:'#27343c'},snowman);node('circle',{cx:4,cy:-43,r:1.5,fill:'#27343c'},snowman);
+ }
+ if(count>=150){for(const [x,y] of [[185,172],[341,300],[286,110],[150,340]]){const st=node('text',{x,y,'font-size':19,'text-anchor':'middle',fill:'#ffe6a0',class:'village-twinkle'});st.textContent='✦';}}
+ if(count>=200){present(132,390,34,29,'#498b8c');present(359,412,35,31,'#b95564');present(239,430,32,29,'#b88d43');}
+ if(count>=250){
+  // Christmas stocking beside the snowman on the right-hand snowy ground.
+  const sock=group('','translate(449 472) rotate(12)');
+  node('path',{d:'M-9 -7 H11 V14 Q11 24 0 26 L-12 32 Q-22 34 -26 24 Q-28 17 -19 14 L-9 10Z',fill:'#bf3046',stroke:'#f3a1a0','stroke-width':1.5},sock);
+  node('rect',{x:-12,y:-12,width:26,height:9,rx:3,fill:'#f5f3e8',stroke:'#d8e5e5','stroke-width':1.2},sock);
+  node('path',{d:'M-19 14 Q-11 15 -9 24 L-14 28 Q-24 30 -26 24 Q-28 17 -19 14Z',fill:'#f4f0e8'},sock);
+  node('path',{d:'M10 -11 Q18 -18 19 -8',fill:'none',stroke:'#f7e1ac','stroke-width':2},sock);
+ }
+ if(count>=300){
+  // Santa illustration, standing on the snowy roof without a chimney.
+  artImage('santa',376,303,68,73);
+  // Extra gifts arrive alongside Santa at 300 participants.
+  present(276,414,31,27,'#c75a6b');
+  present(312,421,26,23,'#4d9b89');
+ }
+ if(count>=400){deer(45,455,.58);bell(165,367,.72);ribbon(345,366,.5);present(102,447,30,24,'#d3a24f');present(344,450,28,23,'#bd6779');present(268,401,29,24,'#4b947f');}
+ // 500-person finale: the topper lights first; gold lettering fades in after one second.
+ // Keep the lettering on the tree, without a banner or a solid background.
+ if(count>=500){
+  const lettering=node('g',{class:'christmas-lettering','aria-label':'Merry Christmas'});
+  const first=node('text',{x:250,y:254,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':24,'letter-spacing':'.5',fill:'#ffe7a6'},lettering);
+  first.textContent='Merry';
+  const second=node('text',{x:250,y:283,'text-anchor':'middle','font-family':'Georgia, Times New Roman, serif','font-style':'italic','font-weight':'bold','font-size':27,'letter-spacing':'-.5',fill:'#ffe7a6'},lettering);
+  second.textContent='Christmas';
+ }
+
+
+
+
+
+}
+let loginBusy=false;
+function setLoginBusy(busy){
+ loginBusy=busy;
+ $('loginSubmit').disabled=busy;
+ $('loginSubmit').textContent=busy?'확인 중…':'입장하기';
+ $('loginLoading').classList.toggle('hidden',!busy);
+ $('loginStatus').textContent=busy?'임직원 명부 및 참여 정보를 확인 중입니다. 잠시만 기다려 주세요.':'';
+}
+$('begin').onclick=()=>screen('login');
+$('loginForm').onsubmit=async e=>{
+ e.preventDefault();
+ if(loginBusy)return;
+ const s={id:$('emp').value.trim(),name:$('name').value.trim(),site:''};
+ if(!s.id||!s.name)return;
+ const prior=session;
+ setLoginBusy(true);
+ // Let the browser paint the loading overlay before starting network requests.
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ session=s;
+ try{
+  const loginResult=await api('login',s);
+  localStorage.setItem(KEY,JSON.stringify(s));
+  lastTreeAt=0;lastGreetingsAt=0;
+  if(loginResult.missionDone){screen('square');backgroundRefresh();}
+  else if(loginResult.arDone){openGreeting(true);backgroundRefresh();}
+  else {screen('guide');refreshTree().catch(console.warn);}
+ }catch(err){
+  session=prior;
+  $('loginStatus').textContent='정보 확인에 실패했습니다. 다시 시도해 주세요.';
+  alert('임직원 정보 확인 실패: '+err.message);
+ }finally{setLoginBusy(false)}
+};
+$('goSquare').onclick=()=>navigateSquare('square');$('openGreetings').onclick=()=>navigateSquare('greetings');$('returnTree').onclick=()=>navigateSquare('square');$('newGreeting').onclick=()=>void openGreetingImmediately();$('cancel').onclick=()=>screen('square');
+// Open the compose screen immediately; server remains authoritative at send time.
+let composeCheckToken=0;
+function openGreetingImmediately(){
+ const token=++composeCheckToken;
+ const owner=session?.id;
+ openGreeting(false);
+ // Do not block navigation on GAS; validate the AR state asynchronously.
+ void (async()=>{
+  try{
+   const status=await api('checkARStatus');
+   if(token!==composeCheckToken||owner!==session?.id||$('compose').classList.contains('hidden'))return;
+   if(!status.arDone){
+    alert('먼저 AR 선물 찾기를 완료해 주세요. 선물을 찾은 뒤 인사말을 보내면 미션이 완료됩니다.');
+    screen('guide');
+   }
+  }catch(err){
+   // A transient status-read failure should not block composing.
+   // The send endpoint checks AR completion again before storing.
+   console.warn('Background AR status check failed:',err);
+  }
+ })();
+}
+
+$('tabs').onclick=e=>{const b=e.target.closest('[data-tab]');if(!b)return;tab=b.dataset.tab;messagePage=0;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));render()};
+let employeeSearchSeq=0;
+function resetRecipientSearch(){
+  ++employeeSearchSeq;
+  selected=null;
+  $('chosen').textContent='받는 동료를 선택해 주세요.';
+  $('results').replaceChildren();
+}
+$('search').addEventListener('input',resetRecipientSearch);
+$('search').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();void searchRecipientByName();}
+});
+$('searchButton').addEventListener('click',()=>void searchRecipientByName());
+async function searchRecipientByName(){
+  const query=$('search').value.trim();
+  const seq=++employeeSearchSeq;
+  const results=$('results');
+  selected=null;
+  $('chosen').textContent='받는 동료를 선택해 주세요.';
+  results.replaceChildren();
+  if([...query].length<2){results.textContent='직원 이름을 2글자 이상 입력한 뒤 조회해 주세요.';return;}
+  const btn=$('searchButton');btn.disabled=true;btn.textContent='조회 중';
+  results.textContent='직원 이름으로 조회하고 있습니다…';
+  try{
+    const result=await api('searchEmployees',{query});
+    if(seq!==employeeSearchSeq||$('search').value.trim()!==query)return;
+    const people=(result.people||[]).slice().sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ko')||String(a.site||'').localeCompare(String(b.site||''),'ko'));
+    results.replaceChildren();
+    if(!people.length){results.textContent='해당 이름의 직원이 없습니다.';return;}
+    const info=document.createElement('p');info.className='muted';info.textContent='조회 결과 '+people.length+'명 · 받을 직원을 선택하세요.';results.append(info);
+    for(const p of people){
+      const item=document.createElement('button');item.type='button';item.className='btn secondary';
+      item.textContent=String(p.name||'')+' · '+String(p.site||'')+(p.department?' · '+p.department:'');
+      item.onclick=()=>{selected=p;results.querySelectorAll('button').forEach(b=>b.classList.remove('recipient-selected'));item.classList.add('recipient-selected');$('chosen').textContent='받는 동료: '+p.name+' · '+p.site;};
+      results.append(item);
+    }
+  }catch(err){if(seq===employeeSearchSeq)results.textContent='직원 검색 오류: '+err.message;}
+  finally{btn.disabled=false;btn.textContent='조회';}
+}
+function updateMessageCounter(){const input=$('message');$('messageCounter').textContent=input.value.length+' / 100자 (공백 포함)';}
+$('message').addEventListener('input',updateMessageCounter);
+$('greetingPreset').onchange=()=>{if($('greetingPreset').value)$('message').value=$('greetingPreset').value.slice(0,100);updateMessageCounter()};
+const DEMO_NAMES=['김하늘','박지민','이서연','최도윤','정유진','오지훈','한수빈','윤서준','강민서','임도현','서지우','신유정','조하린','문태윤','배하준','유다은','남예린','권소윤','백서아','홍지훈'];
+const DEMO_SITES=['기흥','수원','서울','오창','오송','증평','평택'];
+const DEMO_TEXTS=['올 한 해 함께해 주셔서 감사합니다. 행복한 크리스마스 보내세요!','멀리 있어도 늘 응원하고 있습니다. 따뜻한 연말 되세요.','올해도 정말 고생 많으셨어요. 새해에는 좋은 일만 가득하시길 바랍니다!','함께 일할 수 있어 든든했습니다. 내년에도 잘 부탁드려요.','우리의 작은 인사가 더 따뜻한 크리스마스를 만들기를 바랍니다.'];
+$('loadDemo').onclick=()=>{
+ if(!isPreviewAdmin())return;
+ previewCount=Number($('demoCount').value)||0;
+ snapshot=previewSnapshot(baseSnapshot||snapshot,previewCount);
+ render();
+};
+$('clearDemo').onclick=()=>{
+ if(!isPreviewAdmin())return;
+ previewCount=0;
+ snapshot=baseSnapshot||snapshot;
+ render();
+};
+const SEND_PENDING_KEY='sdb_christmas_pending_send_v27';
+const LEGACY_SEND_PENDING_KEY='sdb_christmas_pending_send_v18';
+// Old V18/V26 pending state is not trusted to block unrelated recipients.
+const pendingByRecipient=()=>{try{return JSON.parse(localStorage.getItem(SEND_PENDING_KEY)||'{}')}catch{return {}}};
+function pendingKey(toId){return String(session?.id||'')+'|'+String(toId||'')}
+function savePendingFor(toId,request){const all=pendingByRecipient();all[pendingKey(toId)]=request;localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(all));}
+function clearPendingFor(toId){const all=pendingByRecipient();delete all[pendingKey(toId)];localStorage.setItem(SEND_PENDING_KEY,JSON.stringify(all));}
+
+let sending=false;
+function nextPaint(){return new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));}
+function pendingSend(toId){return pendingByRecipient()[pendingKey(toId)]||null}
+function sendOverlay(show,message){const el=$('sendOverlay');if(message)$('sendOverlayMessage').textContent=message;el.classList.toggle('hidden',!show);el.setAttribute('aria-busy',show?'true':'false');}
+async function checkStoredSend(request){
+ try {const result=await api('checkSendStatus',{requestId:request.requestId,toId:request.toId,message:request.message});return result.status==='PENDING'||result.status==='SENT'?'SENT':result.status==='NOT_FOUND'?'NOT_FOUND':'UNKNOWN';}
+ catch(err){console.warn('Send status lookup unavailable',err);return 'UNKNOWN';}
+}
+async function finishConfirmedSend(toId){
+ clearPendingFor(toId);
+ greetingPending=false;localStorage.removeItem(greetingPendingKey);
+ $('arGreetingPrompt').classList.add('hidden');$('cancel').classList.remove('hidden');
+ lastTreeAt=0;lastGreetingsAt=0;screen('square');backgroundRefresh();
+ alert('인사말이 접수됐습니다. 중복 여부와 별 적립은 약 5분 간격으로 반영됩니다.');
+}
+$('send').onclick=async()=>{
+ if(sending)return;
+ const message=$('message').value.trim();
+ if(!selected)return alert('받는 동료를 선택하세요.');
+ if(!message||$('message').value.length>100)return alert('인사말은 공백 포함 1~100자로 작성하세요.');
+ const toId=String(selected.id);
+ sending=true;$('send').disabled=true;
+ sendOverlay(true,'수신자와 미션 완료 여부를 확인하고 있습니다. 잠시만 기다려 주세요.');
+ // Paint the blocking overlay before starting potentially slow GAS requests.
+ await nextPaint();
+ let slow;
+ try{
+  let previous=pendingSend(toId);
+  if(previous){
+   const status=await checkStoredSend(previous);
+   if(status==='SENT')clearPendingFor(toId);
+   // New content is an intentional replacement, never blocked by an older request.
+   if(previous.message!==message||status==='SENT')previous=null;
+  }
+  // Validate AR completion on the server before attempting a send.
+  const arStatus=await api('checkARStatus');
+  if(!arStatus.arDone){
+   alert('AR 선물 찾기가 아직 완료되지 않았습니다. 먼저 AR 미션을 진행해 주세요.');
+   screen('guide');return;
+  }
+  const request=previous||{employeeId:session.id,toId,message,requestId:crypto.randomUUID()};
+  savePendingFor(toId,request);
+  sendOverlay(true,'인사말을 저장하고 있습니다. 별은 약 5분 간격으로 반영됩니다.');
+  await nextPaint();
+  slow=setTimeout(()=>sendOverlay(true,'서버 응답이 지연되고 있습니다. 발송 상태를 확인 중입니다.'),4500);
+  try{
+   await api('send',{toId:request.toId,message:request.message},{requestId:request.requestId});
+   await finishConfirmedSend(toId);
+  }catch(err){
+   const status=await checkStoredSend(request);
+   if(status==='SENT'){await finishConfirmedSend(toId);return;}
+   console.warn('Send unconfirmed',err);
+   alert(status==='NOT_FOUND'?'인사말 저장을 확인하지 못했습니다. 잠시 후 같은 동료에게 동일한 내용으로 재시도해 주세요.':'서버 응답을 확인하지 못했습니다. 같은 동료에게 동일한 내용으로 다시 확인해 주세요.');
+  }
+ }catch(err){
+  console.warn('Send preflight failed',err);
+  alert('발송 전 확인 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.\n'+err.message);
+ }finally{clearTimeout(slow);sendOverlay(false);sending=false;$('send').disabled=false;}
+};
+
+let mindarLoader;async function loadMindAR(){if(!mindarLoader)mindarLoader=import('https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js').then(m=>m.MindARThree);return mindarLoader}
+async function stopAR(){arStarting=false;$('arScreen').classList.add('hidden');$('gift').classList.add('hidden');arFound=false;const old=ar;ar=null;if(old){try{old.renderer.setAnimationLoop(null);await old.stop();old.renderer.dispose()}catch(e){console.warn(e)}}$('arHost').replaceChildren()}
+$('closeAr').onclick=()=>void stopAR();$('launchAr').onclick=async()=>{if(arStarting)return;if(!window.isSecureContext)return alert('AR 카메라는 HTTPS 환경에서만 작동합니다.');arStarting=true;$('arScreen').classList.remove('hidden');$('arHint').textContent='선물을 찾고 있습니다…';try{const MindARThree=await loadMindAR();if(!arStarting)return;const m=new MindARThree({container:$('arHost'),imageTargetSrc:'../mission05-target.mind?v=41r1',maxTrack:1,uiLoading:'yes',uiScanning:'no',uiError:'yes'});ar=m;const anchor=m.addAnchor(0);anchor.onTargetFound=()=>{arFound=true;$('gift').classList.remove('hidden');$('arHint').textContent='선물을 찾았습니다! 선물상자를 터치하세요.'};anchor.onTargetLost=()=>{arFound=false;$('gift').classList.add('hidden');$('arHint').textContent='선물을 다시 비춰주세요.'};await m.start();if(ar!==m){await m.stop();return}m.renderer.setClearColor(0x000000,0);m.renderer.setAnimationLoop(()=>m.renderer.render(m.scene,m.camera))}catch(err){console.error(err);await stopAR();alert('AR 실행 실패: 카메라 권한, HTTPS, 포스터 및 .mind 파일을 확인하세요.')}finally{arStarting=false}};
+let giftSavingBusy=false;
+$('gift').onclick=async()=>{
+ if(giftSavingBusy||!arFound||!ar)return;
+ giftSavingBusy=true;
+ $('gift').disabled=true;
+ $('giftSaving').classList.remove('hidden');
+ // Allow the waiting message to paint before stopping the camera and calling GAS.
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ try{
+  await stopAR();
+  await api('complete');
+  await refreshTree(true);
+  openGreeting(true);
+ }catch(err){
+  console.error('Gift completion failed:',err);
+  screen('guide');
+  alert('선물 획득 처리 중 문제가 발생했습니다. 참여 기록을 확인한 뒤 다시 시도해 주세요.\n'+err.message);
+ }finally{
+  $('giftSaving').classList.add('hidden');
+  $('gift').disabled=false;
+  giftSavingBusy=false;
+ }
+};
+if(session){localStorage.removeItem(LEGACY_SEND_PENDING_KEY);$('name').value=session.name;$('emp').value=session.id;api('checkARStatus').then(r=>{if(r.missionDone){screen('square');backgroundRefresh();}else if(r.arDone){openGreeting(true);backgroundRefresh();}else{screen('guide');refreshTree().catch(console.warn);}}).catch(()=>screen('login'))}
+// Stagger polls so clients do not all hit GAS at the same instant.
+const POLL_TREE_MS=60000,POLL_GREETINGS_MS=30000;
+let nextPollAt=Date.now()+Math.random()*10000;
+setInterval(()=>{
+ if(!session||document.hidden||Date.now()<nextPollAt)return;
+ if(!$('square').classList.contains('hidden')){nextPollAt=Date.now()+POLL_TREE_MS+Math.random()*9000;refreshTree().catch(console.warn);}
+ else if(!$('greetings').classList.contains('hidden')){nextPollAt=Date.now()+POLL_GREETINGS_MS+Math.random()*9000;refreshGreetings().catch(console.warn);}
+},5000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&session){nextPollAt=Date.now()+5000;}});
+
+// Read-only admin view uses the existing employee-facing summary and greeting feed.
+// ID-based visibility is a convenience, NOT authentication. No new privileged API is exposed.
+let adminOverviewData=null,adminFeedData=null,adminActivePanel='overview',adminLoading=false,adminMessagePage=0;
+function adminSetText(id,v){$(id).textContent=String(v)}
+function adminShowPanel(panel){
+ adminActivePanel=panel;
+ for(const name of ['Overview','Sites','Greetings','Preview']){
+  $('admin'+name+'Panel').classList.toggle('hidden',name.toLowerCase()!==panel);
+  const btn=$('admin'+name+'Tab');
+  if(btn){btn.classList.toggle('active',name.toLowerCase()===panel);btn.setAttribute('aria-pressed',String(name.toLowerCase()===panel));}
+ }
+}
+function adminDrawSites(people){
+ const sites=new Map();
+ const siteTotals=adminOverviewData?.siteStars;
+
+ for(const p of people){
+  if(p.sample)continue;
+  const site=String(p.site||'미분류');
+  const row=sites.get(site)||{site,people:0,ar:0,mission:0,stars:0,starsKnown:true};
+  row.people++;if(p.arDone)row.ar++;if(p.missionDone)row.mission++;
+  // The backend returns site-level aggregates only; no other employee's star totals.
+  row.starsKnown=!!siteTotals&&Object.prototype.hasOwnProperty.call(siteTotals,site)
+    &&Number.isFinite(Number(siteTotals[site]));
+  row.stars=row.starsKnown?Number(siteTotals[site]):0;
+  sites.set(site,row);
+ }
+ const tbody=$('adminSitesBody');tbody.replaceChildren();
+ for(const r of [...sites.values()].sort((a,b)=>b.people-a.people||a.site.localeCompare(b.site,'ko'))){
+  const tr=document.createElement('tr');
+  for(const value of [r.site,r.people,r.ar,r.mission,r.starsKnown?r.stars.toLocaleString('ko-KR'):'집계 불가']){
+   const td=document.createElement('td');td.textContent=String(value);tr.append(td);
+  }
+  tbody.append(tr);
+ }
+ if(!sites.size){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.textContent='참여 기록이 없습니다.';tr.append(td);tbody.append(tr);}
+}
+function adminDate(v){
+ if(v===null||v===undefined||v==='')return '시간 미확인';
+ const n=Number(v);
+ const date=typeof v==='number'||(/^\\d{10,13}$/.test(String(v).trim()))
+  ?new Date(n<1e11?n*1000:n):new Date(v);
+ return Number.isFinite(date.getTime())?date.toLocaleString('ko-KR',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}):'시간 미확인';
+}
+function adminUpdateSiteOptions(){
+ const select=$('adminGreetingSite'),prev=select.value;
+ const sites=[...new Set((adminOverviewData?.people||[]).filter(p=>!p.sample).map(p=>String(p.site||'미분류')))].sort((a,b)=>a.localeCompare(b,'ko'));
+ select.replaceChildren(new Option('전체 사업장',''));
+ for(const site of sites)select.add(new Option(site,site));
+ select.value=sites.includes(prev)?prev:'';
+}
+function adminDrawGreetings(){
+ const q=$('adminGreetingSearch').value.trim().toLowerCase();
+ const site=$('adminGreetingSite').value;
+ const messages=adminFeedData?.messages||[];
+ const byId=new Map((adminOverviewData?.people||[]).map(p=>[String(p.id),String(p.site||'미분류')]));
+ const filtered=messages.filter(m=>(!site||byId.get(String(m.fromId))===site)&&[m.fromName,m.toName,m.message].some(v=>String(v||'').toLowerCase().includes(q)));
+ const size=20,totalPages=Math.max(1,Math.ceil(filtered.length/size));
+ adminMessagePage=Math.max(0,Math.min(adminMessagePage,totalPages-1));
+ adminSetText('adminGreetingInfo',`조회 가능한 인사말 ${messages.length}건 중 검색 결과 ${filtered.length}건 · ${adminMessagePage+1}/${totalPages}페이지`);
+ const box=$('adminGreetingList');box.replaceChildren();
+ for(const m of filtered.slice().reverse().slice(adminMessagePage*size,(adminMessagePage+1)*size)){
+  const item=document.createElement('div');item.className='admin-msg';
+  const strong=document.createElement('strong');strong.textContent=String(m.fromName||'참여자')+' → '+String(m.toName||'참여자');
+  const msg=document.createElement('div');msg.textContent=String(m.message||'');
+  const small=document.createElement('small');small.textContent=adminDate(m.created??m.createdAt??m.SentAt);
+  item.append(strong,msg,small);box.append(item);
+ }
+ if(!filtered.length)box.textContent='표시할 인사말이 없습니다.';
+ const pages=$('adminGreetingPages');pages.replaceChildren();
+ if(totalPages>1){
+  const prev=document.createElement('button');prev.className='btn secondary';prev.textContent='이전';prev.disabled=adminMessagePage===0;prev.onclick=()=>{adminMessagePage--;adminDrawGreetings()};
+  const label=document.createElement('span');label.textContent=`${adminMessagePage+1} / ${totalPages}`;
+  const next=document.createElement('button');next.className='btn secondary';next.textContent='다음';next.disabled=adminMessagePage>=totalPages-1;next.onclick=()=>{adminMessagePage++;adminDrawGreetings()};
+  pages.append(prev,label,next);
+ }
+}
+async function adminRefreshView(){
+ if(!isPreviewAdmin()||adminLoading)return;
+ adminLoading=true;$('adminRefresh').disabled=true;$('adminError').classList.add('hidden');
+ try{
+  const r=await api('dashboard');
+  const s=r.summary||{};
+  adminSetText('adminStars',Number(s.totalStars||0).toLocaleString('ko-KR'));
+  adminSetText('adminGifts',Number(s.giftCount||0).toLocaleString('ko-KR')+'개');
+  adminSetText('adminPeople',Number(s.participationCount||0)+'명');
+  adminSetText('adminAr','별도 집계');adminSetText('adminGreetingCount','별도 집계');
+  $('adminGoalBar').style.width=Math.min(100,Number(s.totalStars||0)/500*100)+'%';
+  adminSetText('adminGoalText','목표 달성률 '+Number(s.achievementRate||0).toFixed(1)+'% · '+Number(s.remainingStars||0)+'개 남음');
+  adminSetText('adminUpdated','마지막 집계: '+adminDate(r.updatedAt));
+  const tbody=$('adminSitesBody');tbody.replaceChildren();
+  for(const site of (r.sites||[])){
+    const tr=document.createElement('tr');
+    for(const v of [site.site,site.participants,'—','—',site.totalStars]){
+      const td=document.createElement('td');td.textContent=String(v);tr.append(td);
+    }
+    tbody.append(tr);
+  }
+  adminFeedData={messages:[]};$('adminGreetingList').textContent='개인정보 보호를 위해 관리자용 인사말 원문 조회는 제공하지 않습니다.';
+ }catch(err){$('adminError').textContent='관리자 현황 조회 실패: '+err.message;$('adminError').classList.remove('hidden')}
+ finally{adminLoading=false;$('adminRefresh').disabled=false}
+}$('adminBtn').onclick=()=>{if(!isPreviewAdmin())return;screen('admin');adminShowPanel('overview');void adminRefreshView()};
+$('adminBack').onclick=()=>navigateSquare('square');
+$('adminRefresh').onclick=()=>void adminRefreshView();
+$('adminOverviewTab').onclick=()=>adminShowPanel('overview');
+$('adminSiteTab').onclick=()=>adminShowPanel('sites');
+$('adminGreetingTab').onclick=()=>adminShowPanel('greetings');
+$('adminPreviewTab').onclick=()=>adminShowPanel('preview');
+$('adminGreetingSearch').oninput=()=>{adminMessagePage=0;adminDrawGreetings()};
+$('adminGreetingSite').onchange=()=>{adminMessagePage=0;adminDrawGreetings()};
+$('adminOpenTree').onclick=()=>{screen('square');updateAdminPreview()};
+</script></body></html>
